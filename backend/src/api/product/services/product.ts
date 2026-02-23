@@ -1,5 +1,5 @@
 /**
- * product-category service
+ * product service
  */
 
 import { factories } from '@strapi/strapi';
@@ -14,7 +14,7 @@ function generateSlug(text: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-export default factories.createCoreService('api::product-category.product-category', ({ strapi }) => ({
+export default factories.createCoreService('api::product.product', ({ strapi }) => ({
   async beforeCreate(params: any) {
     if (params.data.name && !params.data.slug) {
       params.data.slug = generateSlug(params.data.name);

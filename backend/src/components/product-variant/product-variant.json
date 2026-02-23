@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_product_variants",
+  "info": {
+    "displayName": "ProductVariant",
+    "description": "Component para variantes de productos (color e imagen)",
+    "icon": "palette"
+  },
+  "options": {},
+  "attributes": {
+    "color": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

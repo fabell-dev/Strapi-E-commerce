@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "product_categories",
+  "collectionName": "sub_categories",
   "info": {
-    "singularName": "product-category",
-    "pluralName": "product-categories",
-    "displayName": "Category"
+    "singularName": "sub-category",
+    "pluralName": "sub-categories",
+    "displayName": "SubCategory"
   },
   "options": {
     "draftAndPublish": true
@@ -15,16 +15,6 @@
     }
   },
   "attributes": {
-    "slug": {
-      "type": "uid",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "targetField": "name",
-      "required": true
-    },
     "name": {
       "type": "string",
       "pluginOptions": {
@@ -40,14 +30,29 @@
         "i18n": {
           "localized": true
         }
+      }
+    },
+    "slug": {
+      "type": "uid",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
       },
+      "targetField": "name",
       "required": true
     },
-    "subCategories": {
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product-category.product-category",
+      "inversedBy": "subCategories"
+    },
+    "products": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::sub-category.sub-category",
-      "mappedBy": "category"
+      "target": "api::product.product",
+      "mappedBy": "subCategory"
     }
   }
 }
