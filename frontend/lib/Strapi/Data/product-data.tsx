@@ -13,7 +13,7 @@ export const fetchProductInfo = unstable_cache(
     });
   },
   ["product"],
-  { revalidate: 3600 },
+  { revalidate: 60 },
 );
 
 export async function getProductCategories() {

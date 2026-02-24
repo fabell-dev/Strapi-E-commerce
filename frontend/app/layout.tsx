@@ -24,11 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="text-background">
-        <ThemeProvider>
-          <Navbar categories={categories} />
-          {children}
-        </ThemeProvider>
+      <body className="text-black">
+        <Navbar categories={categories} />
+        {children}
       </body>
     </html>
   );
