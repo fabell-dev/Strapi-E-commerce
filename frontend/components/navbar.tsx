@@ -18,7 +18,7 @@ export default function Navbar({ categories }: Props) {
 
         <Icons className="flex  md:hidden" />
       </div>
-      <SearchBar className="flex md:hidden px-10 max-w-80 w-full" />
+      <SearchBar className="flex md:hidden px-5 max-w-72 w-full" />
 
       <div className=" hidden md:flex gap-5  flex-2 items-center justify-center">
         {categories.map((item, index) => (
@@ -36,14 +36,16 @@ export default function Navbar({ categories }: Props) {
 function SearchBar({ className }: { className: string }) {
   return (
     <>
-      <form className={`${className}`}>
+      <form
+        className={`${className} bg-gray-200 border border-black px-2 py-1 rounded-sm transition-all duration-200 focus-within:ring-2 focus-within:ring-gray-700`}
+      >
         <input
-          className="bg-gray-200 text-xs text-foreground  pl-5 border-2 border-white w-full rounded-xs min-w-36"
+          className=" text-sm text-black text-bold w-full  min-w-36 px-2 focus:outline-0"
           type="text"
           name="search"
           placeholder="Search for Products..."
         />
-        <button type="submit" className="ml-3">
+        <button type="submit" className="ml-3 ">
           <Search />
         </button>
       </form>
