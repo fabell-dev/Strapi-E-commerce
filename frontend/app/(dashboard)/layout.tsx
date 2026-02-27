@@ -1,4 +1,4 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/layout/(1)Navbar";
 import { getProductCategories } from "@/lib/Strapi/Data/product-data";
 
 const categories = await getProductCategories();

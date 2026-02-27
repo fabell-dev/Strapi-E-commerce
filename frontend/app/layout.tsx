@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="text-black ">
+      <body className="text-black bg-amber-50">
         <LayoutWrapper categories={categories}>{children}</LayoutWrapper>
       </body>
     </html>

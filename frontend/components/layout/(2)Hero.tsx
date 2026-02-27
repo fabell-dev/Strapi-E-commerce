@@ -1,5 +1,5 @@
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
-import ButtonAnimated from "./ui/(me)ButtonAnimated";
+import ButtonAnimated from "../ui/(me)ButtonAnimated";
 
 interface PageInfo {
   title: string;
@@ -11,7 +11,10 @@ export default async function Hero({ pageInfo }: { pageInfo: PageInfo }) {
   const { title, description, imageURL } = pageInfo;
   return (
     <>
-      <section className="h-[45vh] md:h-[calc(100vh-200px)] relative my-35 md:mt-30 overflow-hidden mx-5 md:mx-20 rounded-xl">
+      <section
+        className="h-[45vh] md:h-[calc(100vh-200px)] relative my-35 md:mt-30 overflow-hidden mx-5 md:mx-40 rounded-xl"
+        id="hero"
+      >
         {/* Imagen de fondo */}
         <img
           src={imageURL}

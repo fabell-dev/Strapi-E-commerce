@@ -13,9 +13,13 @@ export default function ButtonAnimated({
   return (
     <motion.button
       className={`rounded-4xl ${classname}`}
-      whileHover={{ scale: 1.05, y: -2 }}
-      whileTap={{ scale: 0.9, y: 1 }}
-      transition={{ type: "spring", stiffness: 300, damping: 15 }}
+      whileHover={{ scale: 1.05, y: -1 }}
+      whileTap={{ scale: 0.95, y: 1 }}
+      transition={{
+        type: "spring",
+        stiffness: 300,
+        damping: 15,
+      }}
     >
       <a href="#portfolio" className="w-100% md:text-xl  text-balance">
         {text}
