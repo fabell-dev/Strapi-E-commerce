@@ -8,6 +8,7 @@ import {
 import Link from "next/link";
 import { ShoppingCart, UserRound, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { AvatarDropdown } from "../AvatarDropdown";
 
 type Props = {
   categories: string[];
@@ -60,9 +61,9 @@ function Icons({ className }: { className: string }) {
     <>
       <div className={`${className} justify-center items-center gap-x-5 `}>
         <SearchBar className="md:flex hidden mr-5" />
-        <button className="cursor-pointer">
-          <UserRound className="md:scale-125 scale-100 shrink-0" />
-        </button>
+
+        <AvatarDropdown />
+
         <button className="cursor-pointer">
           <ShoppingCart className="md:scale-125 shrink-0" />
         </button>

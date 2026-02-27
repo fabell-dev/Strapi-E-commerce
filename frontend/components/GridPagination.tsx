@@ -10,7 +10,7 @@ import {
 
 export default function GridPagination({ className }: { className?: string }) {
   return (
-    <div className={`${className} bg-red-500`}>
+    <div className={`${className} `}>
       <Pagination>
         <PaginationContent>
           <PaginationItem>
