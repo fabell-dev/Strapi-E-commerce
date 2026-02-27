@@ -1,8 +1,12 @@
 "use client";
 
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 import Link from "next/link";
 import { ShoppingCart, UserRound, Search } from "lucide-react";
-import ThemeToggle from "./ThemeToggle";
 
 type Props = {
   categories: string[];
@@ -33,26 +37,6 @@ export default function Navbar({ categories }: Props) {
   );
 }
 
-function SearchBar({ className }: { className: string }) {
-  return (
-    <>
-      <form
-        className={`${className} bg-gray-200 border border-black px-2 py-1 rounded-sm transition-all duration-200 focus-within:ring-2 focus-within:ring-gray-700`}
-      >
-        <input
-          className=" text-sm text-black text-bold w-full  min-w-36 px-2 focus:outline-0"
-          type="text"
-          name="search"
-          placeholder="Search for Products..."
-        />
-        <button type="submit" className="ml-3 ">
-          <Search />
-        </button>
-      </form>
-    </>
-  );
-}
-
 function Icons({ className }: { className: string }) {
   return (
     <>
@@ -66,5 +50,18 @@ function Icons({ className }: { className: string }) {
         </button>
       </div>
     </>
+  );
+}
+
+export function SearchBar({ className }: { className: string }) {
+  return (
+    <div className={`${className} min-w-36`}>
+      <InputGroup className="max-w-xs">
+        <InputGroupInput placeholder="Search for Products..." />
+        <InputGroupAddon>
+          <Search />
+        </InputGroupAddon>
+      </InputGroup>
+    </div>
   );
 }

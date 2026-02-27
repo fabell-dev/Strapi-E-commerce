@@ -1,5 +1,5 @@
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
-import ButtonHero from "./ui/ButtonHero";
+import ButtonAnimated from "./ui/(me)ButtonAnimated";
 
 interface PageInfo {
   title: string;
@@ -27,7 +27,10 @@ export default async function Hero({ pageInfo }: { pageInfo: PageInfo }) {
           <div className="text-sm sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl max-w-2xl text-gray-600 ">
             <BlocksRenderer content={description} />
           </div>
-          <ButtonHero />
+          <ButtonAnimated
+            text="Start Shoping"
+            classname="bg-black text-white md:mt-5 mt-3 md:h-10 md:w-50 h-8 w-43"
+          />
         </div>
       </section>
     </>

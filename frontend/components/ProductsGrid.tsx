@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import ButtonAnimated from "./ui/(me)ButtonAnimated";
+import { Heart } from "lucide-react";
 
 interface ProductImage {
   id: number;
@@ -56,7 +58,7 @@ export default function ProductsGrid({
   strapiHost = STRAPI_HOST,
 }: ProductsGridProps) {
   return (
-    <section className="p-10">
+    <section className="p-10 ">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product) => (
           <ProductCard
@@ -88,22 +90,28 @@ function ProductCard({
   const originalColor = getColorValue(product.color);
 
   return (
-    <div className="border rounded-lg overflow-hidden shadow-lg">
+    <div className="border rounded-lg overflow-hidden shadow-lg relative">
+      <Heart className="absolute top-5 right-5 cursor-pointer fill-red-500 stroke-0" />
       {currentImage && (
         <img
           src={`${strapiHost}${currentImage.url}`}
           alt={product.name}
-          className="w-full h-64 object-cover"
+          className="w-full h-64 object-cover "
         />
       )}
-      <div className="p-4">
-        <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
-        <p className="text-lg font-bold text-green-600 mb-2">
-          ${product.price}
-        </p>
+      <div className="p-4  flex flex-col items-center">
+        <h3 className=" text-gray-900 text-xl font-light mb-2">
+          {product.name}
+        </h3>
+        <p className="text-2xl font-bold">${product.price}</p>
+        <ButtonAnimated
+          text="Add to Cart"
+          classname="text-black md:mt-5 mt-3 md:h-10 md:w-50 h-8 w-43 bg-amber-300"
+        />
 
+        {/* Variants */}
         {hasVariants && (
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-2 flex-wrap mt-5 ">
             <button
               onClick={() => setSelectedVariantIndex(-1)}
               style={{
