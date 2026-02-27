@@ -8,8 +8,23 @@ export interface ProductVariantProductVariant extends Struct.ComponentSchema {
     icon: 'palette';
   };
   attributes: {
-    color: Schema.Attribute.String & Schema.Attribute.Required;
+    color: Schema.Attribute.Enumeration<
+      [
+        'red',
+        'black',
+        'white',
+        'blue',
+        'green',
+        'yellow',
+        'purple',
+        'pink',
+        'orange',
+        'gray',
+      ]
+    > &
+      Schema.Attribute.Required;
     image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    stock: Schema.Attribute.Integer;
   };
 }
 

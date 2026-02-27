@@ -643,6 +643,25 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     };
   };
   attributes: {
+    color: Schema.Attribute.Enumeration<
+      [
+        'red',
+        'black',
+        'white',
+        'blue',
+        'green',
+        'yellow',
+        'purple',
+        'pink',
+        'orange',
+        'gray',
+      ]
+    > &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

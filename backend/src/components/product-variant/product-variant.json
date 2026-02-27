@@ -8,14 +8,31 @@
   "options": {},
   "attributes": {
     "color": {
-      "type": "string",
-      "required": true
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "red",
+        "black",
+        "white",
+        "blue",
+        "green",
+        "yellow",
+        "purple",
+        "pink",
+        "orange",
+        "gray"
+      ]
     },
     "image": {
       "type": "media",
       "multiple": false,
       "required": true,
-      "allowedTypes": ["images"]
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "stock": {
+      "type": "integer"
     }
   }
 }

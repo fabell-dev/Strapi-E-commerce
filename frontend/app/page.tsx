@@ -3,6 +3,8 @@ import { fetchProductInfo } from "@/lib/Strapi/Data/product-data";
 import Hero from "@/components/Hero";
 import ProductsGrid from "@/components/ProductsGrid";
 
+const { STRAPI_HOST } = process.env;
+
 export default async function Home() {
   const pageInfo = await getHomePageInfo();
   const products = await fetchProductInfo();
@@ -12,7 +14,7 @@ export default async function Home() {
     <>
       <main className="h-screen bg-amber-50">
         <Hero pageInfo={pageInfo}></Hero>
-        <ProductsGrid products={products} />
+        <ProductsGrid products={products} strapiHost={STRAPI_HOST} />
         {/* <div>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat
           veniam pariatur vero accusamus nihil officia adipisci quod

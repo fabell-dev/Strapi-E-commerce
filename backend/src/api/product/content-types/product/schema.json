@@ -47,13 +47,35 @@
       "type": "media",
       "multiple": false,
       "required": false,
-      "allowedTypes": ["images"]
+      "allowedTypes": [
+        "images"
+      ]
     },
     "subCategory": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::sub-category.sub-category",
       "inversedBy": "products"
+    },
+    "color": {
+      "type": "enumeration",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "enum": [
+        "red",
+        "black",
+        "white",
+        "blue",
+        "green",
+        "yellow",
+        "purple",
+        "pink",
+        "orange",
+        "gray"
+      ]
     },
     "reviews": {
       "type": "relation",
@@ -63,8 +85,8 @@
     },
     "variants": {
       "type": "component",
-      "repeatable": true,
-      "component": "product-variant.product-variant"
+      "component": "product-variant.product-variant",
+      "repeatable": true
     },
     "slug": {
       "type": "uid",

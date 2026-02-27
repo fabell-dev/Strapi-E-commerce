@@ -4,7 +4,7 @@ import qs from "qs";
 const { STRAPI_HOST } = process.env;
 
 const queryProducts = qs.stringify({
-  fields: ["name", "price", "stock"],
+  fields: ["name", "price", "stock", "color"],
   populate: {
     image: {
       fields: ["url", "name"],
