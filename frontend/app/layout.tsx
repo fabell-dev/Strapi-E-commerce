@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/Navbar";
 import { getPageInfo } from "@/lib/Strapi/Data/page-info";
 import { getProductCategories } from "@/lib/Strapi/Data/product-data";
 
@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="text-black">
+      <body className="text-black ">
         <Navbar categories={categories} />
         {children}
       </body>

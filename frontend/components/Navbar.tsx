@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import ThemeToggle from "./ThemeToggle";
 import { ShoppingCart, UserRound, Search } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 type Props = {
   categories: string[];
@@ -10,9 +10,9 @@ type Props = {
 
 export default function Navbar({ categories }: Props) {
   return (
-    <nav className="fixed top-0 z-10 min-w-screen py-5 backdrop-filter backdrop-blur-sm bg-white/30 border-background border-b rounded-b-xl flex flex-col md:flex-row  items-center justify-evenly gap-y-5 md:px-5 ">
-      <div className="flex items-center justify-evenly px-10 max-w-80 w-full md:w-auto ">
-        <Link className="font-bold text-sm" href="/">
+    <nav className="fixed top-0 z-90 min-w-screen py-5 backdrop-filter backdrop-blur-sm bg-white/30 border-background border-b rounded-b-xl flex flex-col md:flex-row  items-center justify-evenly gap-y-5 md:px-20">
+      <div className="flex items-center justify-evenly  max-w-80 w-full md:w-auto ">
+        <Link className="font-bold text-sm md:text-xl" href="/">
           Your Little Store
         </Link>
 
@@ -58,8 +58,12 @@ function Icons({ className }: { className: string }) {
     <>
       <div className={`${className} justify-center items-center gap-x-5`}>
         <SearchBar className="md:flex hidden mr-5" />
-        <UserRound className="md:scale-125 scale-100 shrink-0" />
-        <ShoppingCart className="md:scale-125 shrink-0" />
+        <button className="cursor-pointer">
+          <UserRound className="md:scale-125 scale-100 shrink-0" />
+        </button>
+        <button className="cursor-pointer">
+          <ShoppingCart className="md:scale-125 shrink-0" />
+        </button>
       </div>
     </>
   );

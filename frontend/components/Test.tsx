@@ -5,7 +5,6 @@ type Props = {};
 export default function Test({}: Props) {
   return (
     <div className="text-foreground bg-red-400 flex flex-col justify-center items-center">
-      <div className="bg-yellow-400 h-40 w-40 "></div>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat veniam
       pariatur vero accusamus nihil officia adipisci quod perspiciatis, fuga
       tenetur voluptate repellendus temporibus velit perferendis ducimus,
