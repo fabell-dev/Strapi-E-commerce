@@ -11,8 +11,7 @@ type Props = {
 
 export default function LayoutWrapper({ categories, children }: Props) {
   const pathname = usePathname();
-  const isAuthRoute =
-    pathname.startsWith("/login") || pathname.startsWith("/register");
+  const isAuthRoute = pathname.startsWith("/login");
 
   return (
     <>

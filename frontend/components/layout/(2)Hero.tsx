@@ -12,7 +12,7 @@ export default async function Hero({ pageInfo }: { pageInfo: PageInfo }) {
   return (
     <>
       <section
-        className="h-[45vh] md:h-[calc(100vh-200px)] relative my-35 md:mt-30 overflow-hidden mx-5 md:mx-40 rounded-xl"
+        className="h-[45vh] md:h-[calc(100vh-200px)] relative my-35 md:mt-30 overflow-hidden mx-5 md:mx-40 rounded-xl scroll-mt-35"
         id="hero"
       >
         {/* Imagen de fondo */}

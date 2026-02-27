@@ -7,14 +7,18 @@ import {
 } from "@/components/ui/input-group";
 import Link from "next/link";
 import { ShoppingCart, UserRound, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type Props = {
   categories: string[];
 };
 
 export default function Navbar({ categories }: Props) {
+  const router = useRouter();
+
   const handleHeroClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
+    router.push("/");
     const heroSection = document.getElementById("hero");
     if (heroSection) {
       heroSection.scrollIntoView({ behavior: "smooth" });
