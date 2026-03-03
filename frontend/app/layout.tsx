@@ -4,6 +4,9 @@ import LayoutWrapper from "@/components/LayoutWrapper";
 import { getPageInfo } from "@/lib/Strapi/Data/page-info";
 import { getProductCategories } from "@/lib/Strapi/Data/product-data";
 
+import { getCurrentUser } from "@/lib/Strapi/strapi";
+import { UserProvider } from "./providers";
+
 const { Page_Title, Page_Description, logo } = await getPageInfo();
 const categories = await getProductCategories();
 
@@ -16,15 +19,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getCurrentUser();
   return (
     <html lang="en">
       <body className="text-black bg-amber-50">
-        <LayoutWrapper categories={categories}>{children}</LayoutWrapper>
+        <UserProvider user={user}>
+          <LayoutWrapper categories={categories}>{children}</LayoutWrapper>
+        </UserProvider>
       </body>
     </html>
   );

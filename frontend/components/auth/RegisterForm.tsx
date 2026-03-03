@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,8 +12,31 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { z } from "zod";
+import { useActionState, useEffect, useState } from "react";
+import {
+  SignupFormSchema,
+  type SignupFormState,
+} from "@/lib/validations/validationsAuth";
+import { registerUserAction } from "@/lib/actions/auth";
+
+const INITIAL_STATE: SignupFormState = {
+  success: false,
+  message: undefined,
+  data: {
+    username: "",
+    email: "",
+    password: "",
+    cpassword: "",
+  },
+  Errors: null,
+};
 
 export function RegisterForm() {
+  const [formState, formAction] = useActionState(
+    registerUserAction,
+    INITIAL_STATE,
+  );
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -22,20 +46,37 @@ export function RegisterForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
+        <form action={formAction}>
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
               <Label htmlFor="username">Username</Label>
-              <Input id="username" type="text" placeholder="jhondoe" required />
+              <Input
+                id="username"
+                name="username"
+                type="text"
+                placeholder="jhondoe"
+                required
+              />
+              {formState.Errors?.username && (
+                <p className="text-sm text-red-500">
+                  {formState.Errors.username[0]}
+                </p>
+              )}
             </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="m@example.com"
                 required
               />
+              {formState.Errors?.email && (
+                <p className="text-sm text-red-500">
+                  {formState.Errors.email[0]}
+                </p>
+              )}
             </div>
             <div className="grid gap-2">
               <div className="flex items-center">
@@ -43,18 +84,39 @@ export function RegisterForm() {
               </div>
               <Input
                 id="password"
+                name="password"
                 type="password"
-                placeholder="********"
+                placeholder="••••••••"
                 required
               />
+              {formState.Errors?.password && (
+                <p className="text-sm text-red-500">
+                  {formState.Errors.password[0]}
+                </p>
+              )}
+              <div className="flex items-center">
+                <Label htmlFor="cpassword">Confirm Password</Label>
+              </div>
+              <Input
+                id="cpassword"
+                name="cpassword"
+                type="password"
+                placeholder="••••••••"
+                required
+              />
+              {formState.Errors?.cpassword && (
+                <p className="text-sm text-red-500">
+                  {formState.Errors.cpassword[0]}
+                </p>
+              )}
             </div>
           </div>
+          <Button type="submit" className="mt-5 w-full">
+            Register
+          </Button>
         </form>
       </CardContent>
       <CardFooter className="flex-col gap-2">
-        <Button type="submit" className="w-full">
-          Register
-        </Button>
         <Button variant="outline" className="w-full">
           Login with Google
         </Button>

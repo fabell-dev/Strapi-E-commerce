@@ -9,8 +9,26 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { UserRound } from "lucide-react";
+import { useContext } from "react";
+import { UserContext } from "@/app/providers";
+import Link from "next/link";
+import { logoutAction } from "@/lib/actions/auth";
 
 export function AvatarDropdown() {
+  const user = useContext(UserContext);
+
+  const handleLogout = async () => {
+    await logoutAction();
+  };
+
+  if (!user) {
+    return (
+      <Link href="/register">
+        <Button>Registrarse</Button>
+      </Link>
+    );
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="scale-125 cursor-pointer " asChild>
@@ -22,8 +40,13 @@ export function AvatarDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-32 z-90">
         <DropdownMenuGroup>
+          <DropdownMenuItem className="text-sm p-2 font-semibold">
+            {user.username}
+          </DropdownMenuItem>
           <DropdownMenuItem>Whishlist</DropdownMenuItem>
-          <DropdownMenuItem variant="destructive">Logout</DropdownMenuItem>
+          <DropdownMenuItem variant="destructive" onClick={handleLogout}>
+            Logout
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuGroup></DropdownMenuGroup>
       </DropdownMenuContent>

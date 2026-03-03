@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,8 +12,29 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { useActionState } from "react";
+import {
+  SigninFormSchema,
+  type SigninFormState,
+} from "@/lib/validations/validationsAuth";
+import { loginUserAction } from "@/lib/actions/auth";
+
+const INITIAL_STATE: SigninFormState = {
+  success: false,
+  message: undefined,
+  data: {
+    identifier: "",
+    password: "",
+  },
+  Errors: null,
+};
 
 export function LoginForm() {
+  const [formState, formAction] = useActionState(
+    loginUserAction,
+    INITIAL_STATE,
+  );
+
   return (
     <Card className="w-full max-w-sm ">
       <CardHeader>
@@ -22,16 +44,22 @@ export function LoginForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
+        <form action={formAction}>
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="identifier">Email or Username</Label>
               <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
+                id="identifier"
+                name="identifier"
+                type="text"
+                placeholder="m@example.com or username"
                 required
               />
+              {formState.Errors?.identifier && (
+                <p className="text-sm text-red-500">
+                  {formState.Errors.identifier[0]}
+                </p>
+              )}
             </div>
             <div className="grid gap-2">
               <div className="flex items-center">
@@ -43,15 +71,26 @@ export function LoginForm() {
                   Forgot your password?
                 </a>
               </div>
-              <Input id="password" type="password" required />
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="••••••••"
+                required
+              />
+              {formState.Errors?.password && (
+                <p className="text-sm text-red-500">
+                  {formState.Errors.password[0]}
+                </p>
+              )}
             </div>
           </div>
+          <Button type="submit" className="w-full mt-5">
+            Login
+          </Button>
         </form>
       </CardContent>
       <CardFooter className="flex-col gap-2">
-        <Button type="submit" className="w-full">
-          Login
-        </Button>
         <Button variant="outline" className="w-full">
           Login with Google
         </Button>

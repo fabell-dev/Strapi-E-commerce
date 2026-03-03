@@ -1,7 +1,10 @@
 "use client";
 import { useState } from "react";
+import { motion } from "motion/react";
 import ButtonAnimated from "./ui/(me)ButtonAnimated";
 import { Heart } from "lucide-react";
+import { useContext } from "react";
+import { UserContext } from "@/app/providers";
 
 interface ProductImage {
   id: number;
@@ -80,6 +83,8 @@ function ProductCard({
   strapiHost?: string;
 }) {
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(-1);
+  const [isLiked, setIsLiked] = useState(false);
+  const user = useContext(UserContext);
 
   const hasVariants = product.variants && product.variants.length > 0;
   const currentImage =
@@ -89,9 +94,22 @@ function ProductCard({
 
   const originalColor = getColorValue(product.color);
 
+  const getHeartFill = () =>
+    isLiked ? "fill-red-500 stroke-0" : "fill-white/70 stroke-2";
+
   return (
     <div className="border rounded-lg overflow-hidden shadow-lg relative">
-      <Heart className="absolute top-5 right-5 cursor-pointer fill-red-500 stroke-0" />
+      {user && (
+        <motion.button
+          onClick={() => setIsLiked(!isLiked)}
+          animate={isLiked ? { scale: 1.2 } : { scale: 1 }}
+          transition={{ type: "spring", stiffness: 300, damping: 10 }}
+          whileTap={{ scale: 0.9 }}
+          className="absolute top-5 right-5"
+        >
+          <Heart className={`cursor-pointer ${getHeartFill()}`} />
+        </motion.button>
+      )}
       {currentImage && (
         <img
           src={`${strapiHost}${currentImage.url}`}
