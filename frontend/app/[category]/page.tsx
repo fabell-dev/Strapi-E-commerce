@@ -3,6 +3,11 @@ import {
   getProductsByCategory,
 } from "@/lib/Strapi/Data/product-data";
 import { notFound } from "next/navigation";
+import ProductsGrid from "@/components/ProductsGrid";
+import { SortSelector } from "@/components/SortSelector";
+import GridPagination from "@/components/GridPagination";
+
+const { STRAPI_HOST } = process.env;
 
 //Se generan los params depende de las categorias disponibles desde STRAPI
 export async function generateStaticParams() {
@@ -37,21 +42,12 @@ export default async function CategoryPage({
   const products = await getProductsByCategory(currentCategory);
 
   return (
-    <div className="container mx-auto pt-32 px-4">
-      <h1 className="text-3xl font-bold mb-8">{currentCategory}</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {products && products.length > 0 ? (
-          products.map((product: any) => (
-            <div key={product.id} className="border rounded-lg p-4">
-              <h2 className="font-bold">{product.name}</h2>
-              <p className="text-lg font-semibold">${product.price}</p>
-              <p className="text-sm text-gray-600">Stock: {product.stock}</p>
-            </div>
-          ))
-        ) : (
-          <p className="text-gray-500">No products found in this category</p>
-        )}
+    <>
+      <div className="flex flex-col mx-40 my-10 md:mt-30">
+        <SortSelector className=" self-center lg:self-end lg:mr-10 mb-5 " />
+        <ProductsGrid products={products} strapiHost={STRAPI_HOST} />
+        <GridPagination />
       </div>
-    </div>
+    </>
   );
 }

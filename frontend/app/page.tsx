@@ -8,7 +8,7 @@ export default async function Home() {
 
   return (
     <>
-      <main>
+      <main className="mt-40 md:mt-30">
         <Hero pageInfo={pageInfo}></Hero>
         <MainSection></MainSection>
       </main>

@@ -2,7 +2,7 @@ import { Cat } from "lucide-react";
 
 export const Footer = () => {
   return (
-    <footer className="w-full z-10 py-3 bg-info-content border-neutral-content/50 border-t shadow-white mt-10 bg-amber-50 fixed bottom-0">
+    <footer className="w-full z-10 py-3 bg-info-content border-neutral-content/50 border-t shadow-white mt-10 bg-amber-50 relative bottom-0">
       <div className="mx-10 flex items-center justify-center">
         <div className="flex gap-5 ">
           <p className="text-xl text-neutral-content font-bold flex items-center cursor-default">

@@ -62,7 +62,7 @@ export default function ProductsGrid({
 }: ProductsGridProps) {
   return (
     <section className="pb-10">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 lg:grid-cols-3 gap-6">
         {products.map((product) => (
           <ProductCard
             key={product.id}
@@ -75,7 +75,7 @@ export default function ProductsGrid({
   );
 }
 
-function ProductCard({
+export function ProductCard({
   product,
   strapiHost,
 }: {
@@ -98,14 +98,14 @@ function ProductCard({
     isLiked ? "fill-red-500 stroke-0" : "fill-white/70 stroke-2";
 
   return (
-    <div className="border rounded-lg overflow-hidden shadow-lg relative">
+    <div className="border rounded-lg overflow-hidden shadow-lg relative h-[43dvh] md:h-full">
       {user && (
         <motion.button
           onClick={() => setIsLiked(!isLiked)}
           animate={isLiked ? { scale: 1.2 } : { scale: 1 }}
           transition={{ type: "spring", stiffness: 300, damping: 10 }}
           whileTap={{ scale: 0.9 }}
-          className="absolute top-5 right-5"
+          className="absolute top-1 right-1 md:top-5 md:right-5"
         >
           <Heart className={`cursor-pointer ${getHeartFill()}`} />
         </motion.button>
@@ -114,22 +114,22 @@ function ProductCard({
         <img
           src={`${strapiHost}${currentImage.url}`}
           alt={product.name}
-          className="w-full h-64 object-cover "
+          className="w-full h-[15vh] md:h-64 object-cover "
         />
       )}
       <div className="p-4  flex flex-col items-center">
-        <h3 className=" text-gray-900 text-xl font-light mb-2">
+        <h3 className=" text-gray-900 text-xs md:text-xl font-light mb-2">
           {product.name}
         </h3>
-        <p className="text-2xl font-bold">${product.price}</p>
+        <p className="text-xl  md:text-2xl font-bold">${product.price}</p>
         <ButtonAnimated
           text="Add to Cart"
-          classname="text-black md:mt-5 mt-3 md:h-10 md:w-50 h-8 w-43 bg-amber-300"
+          classname="text-black md:mt-5 mt-3 mx-20 w-full md:w-50  h-[5dvh] md:h-10 bg-amber-300 text-xs"
         />
 
         {/* Variants */}
         {hasVariants && (
-          <div className="flex gap-2 flex-wrap mt-5 ">
+          <div className="flex flex-row gap-2 md:flex-wrap mt-5 ">
             <button
               onClick={() => setSelectedVariantIndex(-1)}
               style={{
@@ -138,7 +138,7 @@ function ProductCard({
                   selectedVariantIndex === -1 ? "#000000" : "transparent",
                 borderWidth: selectedVariantIndex === -1 ? "2px" : "0px",
               }}
-              className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition cursor-pointer hover:opacity-80"
+              className="w-[3dvh] h-[3dvh] md:w-10 md:h-10 rounded-full flex items-center justify-center text-sm font-medium transition cursor-pointer hover:opacity-80"
               title={product.color || "Original"}
             />
             {product.variants!.map((variant, index) => {
@@ -156,7 +156,7 @@ function ProductCard({
                         : "transparent",
                     borderWidth: selectedVariantIndex === index ? "2px" : "0px",
                   }}
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-medium transition cursor-pointer hover:opacity-80"
+                  className="w-[3dvh] h-[3dvh] md:w-10 md:h-10  rounded-full flex items-center justify-center text-xs font-medium transition cursor-pointer hover:opacity-80"
                   title={variant.color}
                 />
               );

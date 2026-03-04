@@ -11,7 +11,7 @@ export default async function MainSection() {
 
   return (
     <>
-      <div className="flex flex-col mx-40 ">
+      <div className="flex flex-col md:mx-40 mx-5">
         <SortSelector className=" self-center lg:self-end lg:mr-10 mb-5 " />
         <ProductsGrid products={products} strapiHost={STRAPI_HOST} />
         <GridPagination />
