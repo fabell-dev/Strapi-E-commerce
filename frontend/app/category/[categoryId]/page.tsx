@@ -14,7 +14,7 @@ export async function generateStaticParams() {
   const categories = await getProductCategories();
 
   return categories.map((category: string) => ({
-    category: category.toLowerCase().replace(/\s+/g, "-"),
+    categoryId: category.toLowerCase().replace(/\s+/g, "-"),
   }));
 }
 
@@ -22,16 +22,16 @@ export async function generateStaticParams() {
 export default async function CategoryPage({
   params,
 }: {
-  params: Promise<{ category: string }>;
+  params: Promise<{ categoryId: string }>;
 }) {
   //Se extrae la categoria desde los params
-  const { category } = await params;
+  const { categoryId } = await params;
   //Se hace fetch de todas las categorias
   const categories = await getProductCategories();
 
   //Se busca la categoria actual comparandolas con todas las categorias disponibles
   const currentCategory = categories.find(
-    (cat: string) => cat.toLowerCase().replace(/\s+/g, "-") === category,
+    (cat: string) => cat.toLowerCase().replace(/\s+/g, "-") === categoryId,
   );
 
   if (!currentCategory) {
@@ -43,7 +43,7 @@ export default async function CategoryPage({
 
   return (
     <>
-      <div className="flex flex-col mx-40 my-10 md:mt-30">
+      <div className="flex flex-col md:mx-40 mx-5 mt-40 md:mt-30 ">
         <SortSelector className=" self-center lg:self-end lg:mr-10 mb-5 " />
         <ProductsGrid products={products} strapiHost={STRAPI_HOST} />
         <GridPagination />

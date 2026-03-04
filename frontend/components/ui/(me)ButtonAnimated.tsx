@@ -21,9 +21,7 @@ export default function ButtonAnimated({
         damping: 15,
       }}
     >
-      <a href="#portfolio" className="w-100% md:text-xl  text-balance">
-        {text}
-      </a>
+      <span className="w-100% md:text-xl text-balance">{text}</span>
     </motion.button>
   );
 }

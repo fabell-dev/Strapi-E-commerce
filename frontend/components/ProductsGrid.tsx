@@ -5,6 +5,7 @@ import ButtonAnimated from "./ui/(me)ButtonAnimated";
 import { Heart } from "lucide-react";
 import { useContext } from "react";
 import { UserContext } from "@/app/providers";
+import Link from "next/link";
 
 interface ProductImage {
   id: number;
@@ -62,11 +63,11 @@ export default function ProductsGrid({
 }: ProductsGridProps) {
   return (
     <section className="pb-10">
-      <div className="grid grid-cols-3 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product) => (
           <ProductCard
-            key={product.id}
             product={product}
+            key={product.id}
             strapiHost={strapiHost}
           />
         ))}
@@ -98,7 +99,7 @@ export function ProductCard({
     isLiked ? "fill-red-500 stroke-0" : "fill-white/70 stroke-2";
 
   return (
-    <div className="border rounded-lg overflow-hidden shadow-lg relative h-[43dvh] md:h-full">
+    <div className="border rounded-lg overflow-hidden shadow-lg relative h-[43dvh] md:h-full hover:shadow-xl transition-shadow">
       {user && (
         <motion.button
           onClick={() => setIsLiked(!isLiked)}
@@ -111,11 +112,13 @@ export function ProductCard({
         </motion.button>
       )}
       {currentImage && (
-        <img
-          src={`${strapiHost}${currentImage.url}`}
-          alt={product.name}
-          className="w-full h-[15vh] md:h-64 object-cover "
-        />
+        <Link href={`/product/${product.documentId}`} key={product.id}>
+          <img
+            src={`${strapiHost}${currentImage.url}`}
+            alt={product.name}
+            className="w-full h-[15vh] md:h-64 object-cover "
+          />
+        </Link>
       )}
       <div className="p-4  flex flex-col items-center">
         <h3 className=" text-gray-900 text-xs md:text-xl font-light mb-2">
