@@ -45,7 +45,7 @@ export default function Navbar({ categories }: Props) {
 
       <div className=" hidden md:flex gap-5  flex-2 items-center justify-center">
         {categories.map((item, index) => (
-          <Link href={`/${item}`} key={index}>
+          <Link href={`/${item.toLowerCase().replace(/\s+/g, "-")}`} key={index}>
             {item}
           </Link>
         ))}
