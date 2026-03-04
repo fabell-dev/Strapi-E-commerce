@@ -4,6 +4,7 @@ import {
 } from "@/lib/Strapi/Data/product-data";
 import { notFound } from "next/navigation";
 
+//Se generan los params depende de las categorias disponibles desde STRAPI
 export async function generateStaticParams() {
   const categories = await getProductCategories();
 
@@ -12,27 +13,32 @@ export async function generateStaticParams() {
   }));
 }
 
+//Se renderiza la pagina dinamicamente
 export default async function CategoryPage({
   params,
 }: {
   params: Promise<{ category: string }>;
 }) {
+  //Se extrae la categoria desde los params
   const { category } = await params;
+  //Se hace fetch de todas las categorias
   const categories = await getProductCategories();
 
-  const originalCategory = categories.find(
+  //Se busca la categoria actual comparandolas con todas las categorias disponibles
+  const currentCategory = categories.find(
     (cat: string) => cat.toLowerCase().replace(/\s+/g, "-") === category,
   );
 
-  if (!originalCategory) {
+  if (!currentCategory) {
     notFound();
   }
 
-  const products = await getProductsByCategory(originalCategory);
+  //Se le pasa la categoria actual a la funcion que ejecuta la query
+  const products = await getProductsByCategory(currentCategory);
 
   return (
     <div className="container mx-auto pt-32 px-4">
-      <h1 className="text-3xl font-bold mb-8">{originalCategory}</h1>
+      <h1 className="text-3xl font-bold mb-8">{currentCategory}</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {products && products.length > 0 ? (
           products.map((product: any) => (

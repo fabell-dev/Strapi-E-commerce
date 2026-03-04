@@ -1,14 +1,12 @@
 import { unstable_cache } from "next/cache";
 import { queryRead } from "@/lib/Strapi/strapi";
 import qs from "qs";
-const { STRAPI_HOST } = process.env;
 
 //---------Categrorias
 export const fetchCategrories = unstable_cache(
   async () => {
     return queryRead("product-categories").then((res) => {
       const { Page_Title, Page_Description, Page_Logo } = res.data;
-      //   const logo = `${STRAPI_HOST}${Page_Logo.url}`;
       return res.data;
     });
   },
@@ -16,6 +14,7 @@ export const fetchCategrories = unstable_cache(
   { revalidate: 60 },
 );
 
+//--------- Función para obtener categorias
 export async function getProductCategories() {
   const data = await fetchCategrories();
   const categories = data.map((item: any) => item.name);
@@ -23,8 +22,8 @@ export async function getProductCategories() {
   return categories;
 }
 
-//---------Función para obtener productos
-export const fetchProductInfo = unstable_cache(
+//--------- Función para obtener productos
+export const fetchAllProducts = unstable_cache(
   async () => {
     const queryProducts = qs.stringify({
       fields: ["name", "price", "stock", "color"],
@@ -50,7 +49,7 @@ export const fetchProductInfo = unstable_cache(
   { revalidate: 60 },
 );
 
-// Función para obtener productos filtrados por categoría
+//--------- Función para obtener productos filtrados por categoría
 export const fetchProductsByCategory = unstable_cache(
   async (categoryName: string) => {
     const queryProductsByCategory = qs.stringify({
