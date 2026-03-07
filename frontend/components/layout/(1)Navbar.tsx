@@ -6,7 +6,7 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import Link from "next/link";
-import { ShoppingCart, UserRound, Search } from "lucide-react";
+import { ShoppingCart, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { AvatarDropdown } from "../AvatarDropdown";
 import { useState, useRef } from "react";

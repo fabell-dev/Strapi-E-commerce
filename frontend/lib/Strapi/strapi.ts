@@ -16,17 +16,11 @@ export function queryFullControl(url: string) {
   }).then((res) => res.json());
 }
 
-//Autentication
-
+//--------Autentication-------
 export async function getToken() {
   const cookieStore = await cookies();
   const token = cookieStore.get("authToken")?.value;
   return token;
-}
-
-export async function isAutenticated() {
-  const token = await getToken();
-  return !!token;
 }
 
 export async function getCurrentUser() {
@@ -65,3 +59,8 @@ export async function autenticatedRequest(url: string) {
 
   return await response.json();
 }
+
+// export async function isAutenticated() {
+//   const token = await getToken();
+//   return !!token;
+// }

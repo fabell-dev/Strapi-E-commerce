@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import LayoutWrapper from "@/components/LayoutWrapper";
-import { getPageInfo } from "@/lib/Strapi/Data/page-info";
-import { getProductCategories } from "@/lib/Strapi/Data/product-data";
+import { getPageInfo } from "@/lib/Strapi/Data/page-metadata";
+import { fetchCategories } from "@/lib/Strapi/Data/product-data";
 
 import { getCurrentUser } from "@/lib/Strapi/strapi";
 import { UserProvider } from "./providers";
 
 const { Page_Title, Page_Description, logo } = await getPageInfo();
-const categories = await getProductCategories();
+const categories = await fetchCategories();
 
 export const metadata: Metadata = {
   title: `${Page_Title}`,

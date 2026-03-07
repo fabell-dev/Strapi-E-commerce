@@ -3,27 +3,10 @@ import { useState, useMemo, useEffect } from "react";
 import { SortSelector } from "./SortSelector";
 import ProductsGrid from "./ProductsGrid";
 import GridPagination from "./GridPagination";
-
-interface ProductImage {
-  id: number;
-  documentId: string;
-  name: string;
-  url: string;
-}
-
-interface Product {
-  id: number;
-  documentId: string;
-  name: string;
-  price: number;
-  stock: number;
-  image: ProductImage;
-  color?: string;
-  slug: string;
-}
+import { ProductGridItem } from "@/types/product.types";
 
 interface MainSectionClientProps {
-  products: Product[];
+  products: ProductGridItem[];
   strapiHost?: string;
 }
 
@@ -73,7 +56,10 @@ export function MainSectionClient({
   }, [products, sortBy]);
 
   return (
-    <div className="flex flex-col md:mx-40 mx-5 mt-40 md:mt-20">
+    <section
+      className="flex flex-col md:mx-40 mx-5 mt-40 md:mt-20  scroll-mt-35"
+      id="mainGrid"
+    >
       <SortSelector
         className="self-center lg:self-end lg:mr-10 mb-5 "
         onSortChange={setSortBy}
@@ -81,6 +67,6 @@ export function MainSectionClient({
       />
       <ProductsGrid products={sortedProducts} strapiHost={strapiHost} />
       <GridPagination />
-    </div>
+    </section>
   );
 }

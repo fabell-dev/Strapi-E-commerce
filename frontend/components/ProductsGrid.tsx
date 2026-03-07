@@ -6,36 +6,7 @@ import { Heart } from "lucide-react";
 import { useContext } from "react";
 import { UserContext } from "@/app/providers";
 import Link from "next/link";
-
-interface ProductImage {
-  id: number;
-  documentId: string;
-  name: string;
-  url: string;
-}
-
-interface ProductVariant {
-  id: number;
-  color: string;
-  image: ProductImage;
-}
-
-interface Product {
-  id: number;
-  documentId: string;
-  name: string;
-  price: number;
-  stock: number;
-  image: ProductImage;
-  color?: string;
-  slug: string;
-  variants?: ProductVariant[];
-}
-
-interface ProductsGridProps {
-  products: Product[];
-  strapiHost?: string;
-}
+import { ProductsGridProps, ProductCardProps } from "@/types/product.types";
 
 const { STRAPI_HOST } = process.env;
 
@@ -79,13 +50,7 @@ export default function ProductsGrid({
   );
 }
 
-export function ProductCard({
-  product,
-  strapiHost,
-}: {
-  product: Product;
-  strapiHost?: string;
-}) {
+export function ProductCard({ product, strapiHost }: ProductCardProps) {
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(-1);
   const [isLiked, setIsLiked] = useState(false);
   const user = useContext(UserContext);
@@ -139,7 +104,7 @@ export function ProductCard({
 
         <ButtonAnimated
           text="Add to Cart"
-          classname="text-black md:mt-2 mt-3 mx-20 w-full sm:w-40 md:w-50  h-[5dvh] md:h-10 bg-amber-300 text-xs sm:text-sm "
+          classname="text-black md:mt-2 mt-3 mx-20 w-full sm:w-40 md:w-50  h-[5dvh] md:h-10 bg-amber-300 text-xs sm:text-sm cursor-pointer"
         />
 
         {/* Variants */}

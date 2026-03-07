@@ -1,31 +1,36 @@
 import { unstable_cache } from "next/cache";
 import { queryRead } from "@/lib/Strapi/strapi";
 import qs from "qs";
+import { Product, ProductGridItem } from "@/types/product.types";
 
-//---------Categrorias
-export const fetchCategrories = unstable_cache(
+//--------- Función para obtener Categorias
+export const fetchCategories = unstable_cache(
   async () => {
     return queryRead("product-categories").then((res) => {
-      const { Page_Title, Page_Description, Page_Logo } = res.data;
-      return res.data;
+      return res.data.map((item: any) => item.name);
     });
   },
   ["categories"],
   { revalidate: 60 },
 );
 
-//--------- Función para obtener categorias
-export async function getProductCategories() {
-  const data = await fetchCategrories();
-  const categories = data.map((item: any) => item.name);
+//--------- Función para obtener productos (Devuelve todos,exepto si se le pasa una categoria que solo dvuelve los de esa categoria)
+export const fetchProducts = unstable_cache(
+  async (categoryName?: string): Promise<ProductGridItem[]> => {
+    const filters = categoryName
+      ? {
+          subCategory: {
+            category: {
+              name: {
+                $eq: categoryName,
+              },
+            },
+          },
+        }
+      : {};
 
-  return categories;
-}
-
-//--------- Función para obtener productos
-export const fetchAllProducts = unstable_cache(
-  async () => {
-    const queryProducts = qs.stringify({
+    const queryOptions = qs.stringify({
+      filters,
       fields: ["name", "price", "stock", "color", "slug"],
       populate: {
         image: {
@@ -39,30 +44,36 @@ export const fetchAllProducts = unstable_cache(
             },
           },
         },
+        ...(categoryName && {
+          subCategory: {
+            populate: {
+              category: {
+                fields: ["name"],
+              },
+            },
+          },
+        }),
       },
     });
-    return queryRead(`products?${queryProducts}`).then((res) => {
+
+    return queryRead(`products?${queryOptions}`).then((res) => {
       return res.data;
     });
   },
-  ["product"],
+  ["products"],
   { revalidate: 60 },
 );
 
-//--------- Función para obtener productos filtrados por categoría
-export const fetchProductsByCategory = unstable_cache(
-  async (categoryName: string) => {
-    const queryProductsByCategory = qs.stringify({
+//--------- Función para obtener un producto por slug
+export const fetchProductBySlug = unstable_cache(
+  async (slug: string): Promise<Product | null> => {
+    const queryOptions = qs.stringify({
       filters: {
-        subCategory: {
-          category: {
-            name: {
-              $eq: categoryName,
-            },
-          },
+        slug: {
+          $eq: slug,
         },
       },
-      fields: ["name", "price", "stock", "color"],
+      fields: ["name", "price", "stock", "color", "slug", "description"],
       populate: {
         image: {
           fields: ["url", "name"],
@@ -85,15 +96,10 @@ export const fetchProductsByCategory = unstable_cache(
       },
     });
 
-    return queryRead(`products?${queryProductsByCategory}`).then((res) => {
-      return res.data;
+    return queryRead(`products?${queryOptions}`).then((res) => {
+      return res.data?.[0] || null;
     });
   },
-  ["productsByCategory"],
+  ["productBySlug"],
   { revalidate: 60 },
 );
-
-export async function getProductsByCategory(categoryName: string) {
-  const products = await fetchProductsByCategory(categoryName);
-  return products;
-}
