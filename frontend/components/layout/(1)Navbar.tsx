@@ -9,6 +9,8 @@ import Link from "next/link";
 import { ShoppingCart, UserRound, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { AvatarDropdown } from "../AvatarDropdown";
+import { useState, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 type Props = {
   categories: string[];
@@ -76,14 +78,128 @@ function Icons({ className }: { className: string }) {
 }
 
 export function SearchBar({ className }: { className: string }) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [results, setResults] = useState<any[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchTimeoutRef = useRef<NodeJS.Timeout>();
+
+  // Detectar si estamos en una página de categoría
+  const getCategoryFromPath = () => {
+    const match = pathname.match(/^\/category\/(.+)$/);
+    if (match) {
+      // Convertir kebab-case a Title Case
+      return match[1]
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+    }
+    return null;
+  };
+
+  const currentCategory = getCategoryFromPath();
+
+  const handleSearch = (value: string) => {
+    setSearchQuery(value);
+
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    if (value.trim().length < 2) {
+      setResults([]);
+      setIsOpen(false);
+      return;
+    }
+
+    setIsLoading(true);
+    searchTimeoutRef.current = setTimeout(async () => {
+      try {
+        let url = `/api/search?q=${encodeURIComponent(value)}`;
+        if (currentCategory) {
+          url += `&category=${encodeURIComponent(currentCategory)}`;
+        }
+        const response = await fetch(url);
+        const data = await response.json();
+        setResults(Array.isArray(data) ? data : []);
+        setIsOpen(true);
+      } catch (error) {
+        console.error("Search error:", error);
+        setResults([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 300);
+  };
+
+  const handleSelectProduct = (slug: string) => {
+    router.push(`/product/${slug}`);
+    setSearchQuery("");
+    setResults([]);
+    setIsOpen(false);
+  };
+
   return (
-    <div className={`${className} min-w-36`}>
+    <div className={`${className} min-w-36 relative`}>
       <InputGroup className="max-w-xs">
-        <InputGroupInput placeholder="Search for Products..." />
+        <InputGroupInput
+          placeholder="Search for Products..."
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
+          onFocus={() => searchQuery.trim().length >= 2 && setIsOpen(true)}
+          onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+        />
         <InputGroupAddon>
           <Search />
         </InputGroupAddon>
       </InputGroup>
+
+      {isOpen &&
+        (results?.length > 0 ||
+          isLoading ||
+          searchQuery.trim().length >= 2) && (
+          <div className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+            {isLoading ? (
+              <div className="p-4 text-center text-gray-500 text-sm">
+                Searching...
+              </div>
+            ) : results?.length > 0 ? (
+              <ul className="max-h-80 overflow-y-auto">
+                {results.map((product: any) => (
+                  <li
+                    key={product.id}
+                    onMouseDown={() => handleSelectProduct(product.slug)}
+                    className="px-4 py-3 hover:bg-gray-100 cursor-pointer border-b last:border-b-0 transition"
+                  >
+                    <div className="flex items-center gap-3">
+                      {product.image && (
+                        <img
+                          src={`${process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337"}${product.image.url}`}
+                          alt={product.name}
+                          className="w-10 h-10 object-cover rounded"
+                        />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-sm truncate text-black">
+                          {product.name}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          ${product.price}
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="p-4 text-center text-gray-500 text-sm">
+                No results found
+              </div>
+            )}
+          </div>
+        )}
     </div>
   );
 }
