@@ -124,7 +124,7 @@ export function ProductCard({
         </Link>
       )}
       <div className="p-4  flex flex-col items-center">
-        <h3 className=" text-gray-900 text-xs md:text-xl font-light   min-h-[5vh] text-center">
+        <h3 className=" text-gray-900 text-xs sm:text-sm md:text-xl font-light   min-h-[5vh] text-center">
           {product.name}
         </h3>
         <p className="text-xl  md:text-2xl font-bold ">${product.price}</p>
@@ -139,7 +139,7 @@ export function ProductCard({
 
         <ButtonAnimated
           text="Add to Cart"
-          classname="text-black md:mt-2 mt-3 mx-20 w-full md:w-50  h-[5dvh] md:h-10 bg-amber-300 text-xs"
+          classname="text-black md:mt-2 mt-3 mx-20 w-full sm:w-40 md:w-50  h-[5dvh] md:h-10 bg-amber-300 text-xs sm:text-sm "
         />
 
         {/* Variants */}

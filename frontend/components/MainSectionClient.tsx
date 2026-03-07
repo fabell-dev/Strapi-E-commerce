@@ -73,9 +73,9 @@ export function MainSectionClient({
   }, [products, sortBy]);
 
   return (
-    <div className="flex flex-col md:mx-40 mx-5">
+    <div className="flex flex-col md:mx-40 mx-5 mt-40 md:mt-20">
       <SortSelector
-        className="self-center lg:self-end lg:mr-10 mb-5"
+        className="self-center lg:self-end lg:mr-10 mb-5 "
         onSortChange={setSortBy}
         currentSort={sortBy}
       />

@@ -3,9 +3,7 @@ import {
   getProductsByCategory,
 } from "@/lib/Strapi/Data/product-data";
 import { notFound } from "next/navigation";
-import ProductsGrid from "@/components/ProductsGrid";
-import { SortSelector } from "@/components/SortSelector";
-import GridPagination from "@/components/GridPagination";
+import { MainSectionClient } from "@/components/MainSectionClient";
 
 const { STRAPI_HOST } = process.env;
 
@@ -39,15 +37,9 @@ export default async function CategoryPage({
   }
 
   //Se le pasa la categoria actual a la funcion que ejecuta la query
-  const products = await getProductsByCategory(currentCategory);
+  const productsByCategory = await getProductsByCategory(currentCategory);
 
   return (
-    <>
-      <div className="flex flex-col md:mx-40 mx-5 mt-40 md:mt-30 ">
-        <SortSelector className=" self-center lg:self-end lg:mr-10 mb-5 " />
-        <ProductsGrid products={products} strapiHost={STRAPI_HOST} />
-        <GridPagination />
-      </div>
-    </>
+    <MainSectionClient products={productsByCategory} strapiHost={STRAPI_HOST} />
   );
 }
