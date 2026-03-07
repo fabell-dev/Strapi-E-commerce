@@ -26,7 +26,7 @@ export async function getProductCategories() {
 export const fetchAllProducts = unstable_cache(
   async () => {
     const queryProducts = qs.stringify({
-      fields: ["name", "price", "stock", "color"],
+      fields: ["name", "price", "stock", "color", "slug"],
       populate: {
         image: {
           fields: ["url", "name"],

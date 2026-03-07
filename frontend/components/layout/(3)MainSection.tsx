@@ -1,21 +1,11 @@
 import { fetchAllProducts } from "@/lib/Strapi/Data/product-data";
 
-import { SortSelector } from "../SortSelector";
-import ProductsGrid from "../ProductsGrid";
-import GridPagination from "../GridPagination";
+import { MainSectionClient } from "../MainSectionClient";
 
 const { STRAPI_HOST } = process.env;
 
 export default async function MainSection() {
   const products = await fetchAllProducts();
 
-  return (
-    <>
-      <div className="flex flex-col md:mx-40 mx-5">
-        <SortSelector className=" self-center lg:self-end lg:mr-10 mb-5 " />
-        <ProductsGrid products={products} strapiHost={STRAPI_HOST} />
-        <GridPagination />
-      </div>
-    </>
-  );
+  return <MainSectionClient products={products} strapiHost={STRAPI_HOST} />;
 }

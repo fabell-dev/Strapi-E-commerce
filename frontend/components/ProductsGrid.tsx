@@ -28,6 +28,7 @@ interface Product {
   stock: number;
   image: ProductImage;
   color?: string;
+  slug: string;
   variants?: ProductVariant[];
 }
 
@@ -64,13 +65,15 @@ export default function ProductsGrid({
   return (
     <section className="pb-10">
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map((product) => (
-          <ProductCard
-            product={product}
-            key={product.id}
-            strapiHost={strapiHost}
-          />
-        ))}
+        {products
+          .filter((product) => product.stock > 0)
+          .map((product) => (
+            <ProductCard
+              product={product}
+              key={product.id}
+              strapiHost={strapiHost}
+            />
+          ))}
       </div>
     </section>
   );
@@ -112,7 +115,7 @@ export function ProductCard({
         </motion.button>
       )}
       {currentImage && (
-        <Link href={`/product/${product.documentId}`} key={product.id}>
+        <Link href={`/product/${product.slug}`} key={product.id}>
           <img
             src={`${strapiHost}${currentImage.url}`}
             alt={product.name}
@@ -121,13 +124,22 @@ export function ProductCard({
         </Link>
       )}
       <div className="p-4  flex flex-col items-center">
-        <h3 className=" text-gray-900 text-xs md:text-xl font-light mb-2">
+        <h3 className=" text-gray-900 text-xs md:text-xl font-light   min-h-[5vh] text-center">
           {product.name}
         </h3>
-        <p className="text-xl  md:text-2xl font-bold">${product.price}</p>
+        <p className="text-xl  md:text-2xl font-bold ">${product.price}</p>
+
+        {product.stock < 5 ? (
+          <p className="text-red-500 text-xs md:text-sm mt-2">
+            Only {product.stock} in stock
+          </p>
+        ) : (
+          <p className="invisible md:mt-2">placeholder</p>
+        )}
+
         <ButtonAnimated
           text="Add to Cart"
-          classname="text-black md:mt-5 mt-3 mx-20 w-full md:w-50  h-[5dvh] md:h-10 bg-amber-300 text-xs"
+          classname="text-black md:mt-2 mt-3 mx-20 w-full md:w-50  h-[5dvh] md:h-10 bg-amber-300 text-xs"
         />
 
         {/* Variants */}
