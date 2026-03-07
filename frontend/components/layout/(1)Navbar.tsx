@@ -84,7 +84,7 @@ export function SearchBar({ className }: { className: string }) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  const searchTimeoutRef = useRef<NodeJS.Timeout>();
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Detectar si estamos en una página de categoría
   const getCategoryFromPath = () => {
