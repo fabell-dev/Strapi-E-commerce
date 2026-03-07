@@ -39,7 +39,10 @@ export function MainSectionClient({
   // Cargar sort desde localStorage al montar
   useEffect(() => {
     const savedSort = localStorage.getItem("productSort") as SortOption | null;
-    if (savedSort && ["name-asc", "name-desc", "price-low", "price-high"].includes(savedSort)) {
+    if (
+      savedSort &&
+      ["name-asc", "name-desc", "price-low", "price-high"].includes(savedSort)
+    ) {
       setSortBy(savedSort);
     }
     setIsLoaded(true);
