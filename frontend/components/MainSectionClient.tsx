@@ -57,7 +57,7 @@ export function MainSectionClient({
 
   return (
     <section
-      className="flex flex-col md:mx-40 mx-5 mt-40 md:mt-20  scroll-mt-35"
+      className="flex flex-col md:mx-40 mx-5 md:mt-20  scroll-mt-35 "
       id="mainGrid"
     >
       <SortSelector

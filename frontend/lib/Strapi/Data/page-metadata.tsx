@@ -1,7 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { queryRead } from "@/lib/Strapi/strapi";
 
-const { STRAPI_HOST } = process.env;
+const STRAPI_HOST = process.env.STRAPI_HOST;
 
 export const getPageInfo = unstable_cache(
   async () => {

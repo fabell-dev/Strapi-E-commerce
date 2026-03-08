@@ -2,7 +2,7 @@ import { fetchCategories, fetchProducts } from "@/lib/Strapi/Data/product-data";
 import { notFound } from "next/navigation";
 import { MainSectionClient } from "@/components/MainSectionClient";
 
-const { STRAPI_HOST } = process.env;
+const STRAPI_HOST = process.env.STRAPI_HOST;
 
 //Se generan los params depende de las categorias disponibles desde STRAPI
 export async function generateStaticParams() {

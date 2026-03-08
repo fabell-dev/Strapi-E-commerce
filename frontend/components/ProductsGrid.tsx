@@ -8,7 +8,7 @@ import { UserContext } from "@/app/providers";
 import Link from "next/link";
 import { ProductsGridProps, ProductCardProps } from "@/types/product.types";
 
-const { STRAPI_HOST } = process.env;
+const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_URL;
 
 // Map de colores a valores hex
 const COLOR_MAP: Record<string, string> = {
