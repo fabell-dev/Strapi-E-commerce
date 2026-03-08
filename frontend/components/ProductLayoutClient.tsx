@@ -1,9 +1,9 @@
 "use client";
 import { Product } from "@/types/product.types";
-import { useState, useContext } from "react";
-import { UserContext } from "@/app/providers";
-import { motion } from "motion/react";
-import { Heart, Star, Bell } from "lucide-react";
+import { useState } from "react";
+
+import { Star, Bell } from "lucide-react";
+import HeartWhishlist from "./HeartWhishlist";
 
 type Props = {
   product: Product;
@@ -30,7 +30,6 @@ function getColorValue(colorName?: string): string {
 
 export default function ProductLayoutClient({ product }: Props) {
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(-1);
-  const user = useContext(UserContext);
 
   const hasVariants = product.variants && product.variants.length > 0;
   const currentImage =
@@ -39,9 +38,6 @@ export default function ProductLayoutClient({ product }: Props) {
       : product.variants?.[selectedVariantIndex]?.image || product.image;
 
   const originalColor = getColorValue(product.color);
-  const [isLiked, setIsLiked] = useState(false);
-  const getHeartFill = () =>
-    isLiked ? "fill-red-500 stroke-0" : "fill-white/70 stroke-2";
 
   const currentStock =
     selectedVariantIndex === -1
@@ -69,18 +65,7 @@ export default function ProductLayoutClient({ product }: Props) {
               <p>(18)</p>
             </div>
           </div>
-
-          {user && (
-            <motion.button
-              onClick={() => setIsLiked(!isLiked)}
-              animate={isLiked ? { scale: 1.2 } : { scale: 1 }}
-              transition={{ type: "spring", stiffness: 300, damping: 10 }}
-              whileTap={{ scale: 0.9 }}
-              className=""
-            >
-              <Heart className={`cursor-pointer ${getHeartFill()}`} />
-            </motion.button>
-          )}
+          <HeartWhishlist />
         </div>
         <img
           className="w-full rounded-4xl"
@@ -128,7 +113,7 @@ export default function ProductLayoutClient({ product }: Props) {
               {/*-------Manejar validaciones con el Stock-----*/}
               <div className=" self-center ml-5">
                 {currentStock === 0 ? (
-                  <p className="text-red-600 font-bold">Out of Stock</p>
+                  <p className="text-red-600 ">Out of Stock</p>
                 ) : currentStock < 5 ? (
                   <p className="text-red-500">
                     Only <span className="font-bold">{currentStock}</span> in
@@ -145,7 +130,7 @@ export default function ProductLayoutClient({ product }: Props) {
         {/*-------Buy Now / Restock Alert Buttons-----*/}
         <div className="py-4">
           {isInStock ? (
-            <button className="w-full bg-black text-white py-3 rounded-lg font-bold text-lg transition hover:bg-gray-800">
+            <button className="w-full bg-black text-white py-3 rounded-lg font-bold text-lg transition hover:bg-gray-800 cursor-pointer">
               Buy Now
             </button>
           ) : (
@@ -155,6 +140,8 @@ export default function ProductLayoutClient({ product }: Props) {
             </button>
           )}
         </div>
+        {/*------------You may also like---------*/}
+        <div></div>
       </section>
     </>
   );

@@ -10,6 +10,16 @@ export default function ButtonAnimated({
   text,
   classname,
 }: ButtonAnimatedProps) {
+  const isOutOfStock = text === "Out of Stock";
+
+  if (isOutOfStock) {
+    return (
+      <button className={`rounded-4xl ${classname}`}>
+        <span className="w-100% md:text-xl text-balance">{text}</span>
+      </button>
+    );
+  }
+
   return (
     <motion.button
       className={`rounded-4xl ${classname}`}

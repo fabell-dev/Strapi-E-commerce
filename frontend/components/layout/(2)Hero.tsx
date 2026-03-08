@@ -55,7 +55,7 @@ export default function Hero({ pageInfo }: { pageInfo: PageInfo }) {
           <Link href="/" onClick={handleMainGridClick}>
             <ButtonAnimated
               text="Start Shoping"
-              classname="bg-black text-white md:mt-5 mt-3 md:h-10 md:w-50 h-8 w-43"
+              classname="bg-black text-white md:mt-5 mt-3 md:h-10 md:w-50 h-8 w-43 cursor-pointer"
             />
           </Link>
         </div>

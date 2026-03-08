@@ -1,12 +1,9 @@
 "use client";
 import { useState } from "react";
-import { motion } from "motion/react";
 import ButtonAnimated from "./ui/(me)ButtonAnimated";
-import { Heart } from "lucide-react";
-import { useContext } from "react";
-import { UserContext } from "@/app/providers";
 import Link from "next/link";
 import { ProductsGridProps, ProductCardProps } from "@/types/product.types";
+import HeartWhishlist from "./HeartWhishlist";
 
 const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_URL;
 
@@ -52,8 +49,6 @@ export default function ProductsGrid({
 
 export function ProductCard({ product, strapiHost }: ProductCardProps) {
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(-1);
-  const [isLiked, setIsLiked] = useState(false);
-  const user = useContext(UserContext);
 
   const hasVariants = product.variants && product.variants.length > 0;
   const currentImage =
@@ -61,24 +56,16 @@ export function ProductCard({ product, strapiHost }: ProductCardProps) {
       ? product.image
       : product.variants?.[selectedVariantIndex]?.image || product.image;
 
+  const currentStock =
+    selectedVariantIndex === -1
+      ? product.stock
+      : product.variants?.[selectedVariantIndex]?.stock || 0;
+  const isInStock = currentStock > 0;
+
   const originalColor = getColorValue(product.color);
-
-  const getHeartFill = () =>
-    isLiked ? "fill-red-500 stroke-0" : "fill-white/70 stroke-2";
-
   return (
     <div className="border rounded-lg overflow-hidden shadow-lg relative h-[43dvh] md:h-full hover:shadow-xl transition-shadow">
-      {user && (
-        <motion.button
-          onClick={() => setIsLiked(!isLiked)}
-          animate={isLiked ? { scale: 1.2 } : { scale: 1 }}
-          transition={{ type: "spring", stiffness: 300, damping: 10 }}
-          whileTap={{ scale: 0.9 }}
-          className="absolute top-1 right-1 md:top-5 md:right-5"
-        >
-          <Heart className={`cursor-pointer ${getHeartFill()}`} />
-        </motion.button>
-      )}
+      <HeartWhishlist classname="absolute top-1 right-1 md:top-5 md:right-5" />
       {currentImage && (
         <Link href={`/product/${product.slug}`} key={product.id}>
           <img
@@ -89,23 +76,37 @@ export function ProductCard({ product, strapiHost }: ProductCardProps) {
         </Link>
       )}
       <div className="p-4  flex flex-col items-center">
-        <h3 className=" text-gray-900 text-xs sm:text-sm md:text-xl font-light   min-h-[5vh] text-center">
+        <Link
+          href={`/product/${product.slug}`}
+          key={product.id}
+          className=" text-gray-900 text-xs sm:text-sm md:text-xl font-light   min-h-[5vh] text-center hover:underline"
+        >
           {product.name}
-        </h3>
+        </Link>
         <p className="text-xl  md:text-2xl font-bold ">${product.price}</p>
 
-        {product.stock < 5 ? (
-          <p className="text-red-500 text-xs md:text-sm mt-2">
-            Only {product.stock} in stock
+        {currentStock === 0 ? (
+          <p className="invisible text-xs md:text-sm md:mt-2">placeholder</p>
+        ) : currentStock < 5 ? (
+          <p className="text-red-500 text-xs md:text-sm md:mt-2">
+            Only <span className="font-bold">{currentStock}</span> in stock
           </p>
         ) : (
-          <p className="invisible md:mt-2">placeholder</p>
+          <p className="invisible text-xs md:text-sm md:mt-2">placeholder</p>
         )}
 
-        <ButtonAnimated
-          text="Add to Cart"
-          classname="text-black md:mt-2 mt-3 mx-20 w-full sm:w-40 md:w-50  h-[5dvh] md:h-10 bg-amber-300 text-xs sm:text-sm cursor-pointer"
-        />
+        {/*-------Buy Now / Restock Alert Buttons-----*/}
+        {isInStock ? (
+          <ButtonAnimated
+            text="Add to Cart"
+            classname="text-black md:mt-2 mt-3 mx-20 w-full sm:w-40 md:w-50  h-[5dvh] md:h-10 bg-amber-300 text-xs sm:text-sm cursor-pointer"
+          />
+        ) : (
+          <ButtonAnimated
+            text="Out of Stock"
+            classname="text-black md:mt-2 mt-3 mx-20 w-full sm:w-40 md:w-50  h-[5dvh] md:h-10 bg-gray-400 text-xs sm:text-sm cursor-not-allowed"
+          />
+        )}
 
         {/* Variants */}
         {hasVariants && (
