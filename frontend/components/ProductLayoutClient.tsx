@@ -3,7 +3,7 @@ import { Product } from "@/types/product.types";
 import { useState, useContext } from "react";
 import { UserContext } from "@/app/providers";
 import { motion } from "motion/react";
-import { Heart } from "lucide-react";
+import { Heart, Star } from "lucide-react";
 
 type Props = {
   product: Product;
@@ -52,6 +52,16 @@ export default function ProductLayoutClient({ product }: Props) {
             <p className="text-xl font-bold text-gray-600 mt-3">
               ${product.price}
             </p>
+            {/* Temporary */}
+            <div className="flex">
+              <p>4.4</p>
+              <Star className="fill-yellow-400 stroke-0" />
+              <Star className="fill-yellow-400 stroke-0" />
+              <Star className="fill-yellow-400 stroke-0" />
+              <Star className="fill-yellow-400 stroke-0" />
+              <Star className="fill-yellow-400 stroke-0" />
+              <p>(18)</p>
+            </div>
           </div>
 
           {user && (
@@ -72,10 +82,10 @@ export default function ProductLayoutClient({ product }: Props) {
         ></img>
         <p className="">{product.description}</p>
 
-        {/* -----Variants */}
-        <div className="">
-          <p className="text-sm font-bold mb-2">Color</p>
-          {hasVariants && (
+        {/* -----Variants-----*/}
+        {hasVariants && (
+          <div className="">
+            <p className="text-sm font-bold mb-2">Color</p>
             <div className="flex flex-row gap-2 md:flex-wrap  ">
               <button
                 onClick={() => setSelectedVariantIndex(-1)}
@@ -110,8 +120,8 @@ export default function ProductLayoutClient({ product }: Props) {
                 );
               })}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </section>
     </>
   );
