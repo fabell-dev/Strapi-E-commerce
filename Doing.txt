@@ -28,3 +28,4 @@ Solo usuarios autenticados pueden ver/editar su propio cart y wishlist
 Usar users-permissions role
 
 que cuando cambies una variante y entres al producto estes en esa variante
+hacer un carrusel en la parte de productos para mostrar mas imagenes si tiene variantes

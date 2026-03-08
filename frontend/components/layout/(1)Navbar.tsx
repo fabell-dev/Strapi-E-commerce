@@ -30,7 +30,7 @@ export default function Navbar({ categories }: Props) {
 
   return (
     <nav className="fixed top-0 z-90 min-w-screen py-5 backdrop-filter backdrop-blur-sm bg-white/30 border-background border-b rounded-b-xl flex flex-col md:flex-row  items-center justify-evenly gap-5 md:px-40 ">
-      <div className="flex items-center justify-evenly max-w-80 w-full md:w-auto">
+      <div className="flex items-center justify-evenly max-w-80 w-full md:w-auto ">
         <Link
           className="font-bold text-sm md:text-xl "
           href="/"
