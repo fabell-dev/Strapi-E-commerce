@@ -4,24 +4,12 @@ import { useState } from "react";
 
 import { Star, Bell } from "lucide-react";
 import HeartWhishlist from "./HeartWhishlist";
+import { COLOR_MAP } from "./ProductsGrid";
 
 type Props = {
   product: Product;
 };
 const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_URL;
-// Map de colores a valores hex
-const COLOR_MAP: Record<string, string> = {
-  red: "#ef4444",
-  black: "#000000",
-  white: "#ffffff",
-  blue: "#3b82f6",
-  green: "#10b981",
-  yellow: "#eab308",
-  purple: "#a855f7",
-  pink: "#ec4899",
-  orange: "#f97316",
-  gray: "#6b7280",
-};
 
 function getColorValue(colorName?: string): string {
   if (!colorName) return "#9ca3af";

@@ -8,7 +8,7 @@ import HeartWhishlist from "./HeartWhishlist";
 const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_URL;
 
 // Map de colores a valores hex
-const COLOR_MAP: Record<string, string> = {
+export const COLOR_MAP: Record<string, string> = {
   red: "#ef4444",
   black: "#000000",
   white: "#ffffff",
