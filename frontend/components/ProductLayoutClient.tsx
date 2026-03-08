@@ -3,7 +3,7 @@ import { Product } from "@/types/product.types";
 import { useState, useContext } from "react";
 import { UserContext } from "@/app/providers";
 import { motion } from "motion/react";
-import { Heart, Star } from "lucide-react";
+import { Heart, Star, Bell } from "lucide-react";
 
 type Props = {
   product: Product;
@@ -43,6 +43,12 @@ export default function ProductLayoutClient({ product }: Props) {
   const getHeartFill = () =>
     isLiked ? "fill-red-500 stroke-0" : "fill-white/70 stroke-2";
 
+  const currentStock =
+    selectedVariantIndex === -1
+      ? product.stock
+      : product.variants?.[selectedVariantIndex]?.stock || 0;
+  const isInStock = currentStock > 0;
+
   return (
     <>
       <section className="flex mt-40 flex-col gap-y-5 px-10">
@@ -78,9 +84,9 @@ export default function ProductLayoutClient({ product }: Props) {
         </div>
         <img
           className="w-full rounded-4xl"
-          src={`${STRAPI_HOST}${product.image.url}`}
+          src={`${STRAPI_HOST}${currentImage.url}`}
         ></img>
-        <p className="">{product.description}</p>
+        <p>{product.description}</p>
 
         {/* -----Variants-----*/}
         {hasVariants && (
@@ -119,9 +125,36 @@ export default function ProductLayoutClient({ product }: Props) {
                   />
                 );
               })}
+              {/*-------Manejar validaciones con el Stock-----*/}
+              <div className=" self-center ml-5">
+                {currentStock === 0 ? (
+                  <p className="text-red-600 font-bold">Out of Stock</p>
+                ) : currentStock < 5 ? (
+                  <p className="text-red-500">
+                    Only <span className="font-bold">{currentStock}</span> in
+                    stock
+                  </p>
+                ) : (
+                  <p className="invisible"></p>
+                )}
+              </div>
             </div>
           </div>
         )}
+
+        {/*-------Buy Now / Restock Alert Buttons-----*/}
+        <div className="py-4">
+          {isInStock ? (
+            <button className="w-full bg-black text-white py-3 rounded-lg font-bold text-lg transition hover:bg-gray-800">
+              Buy Now
+            </button>
+          ) : (
+            <button className="w-full bg-gray-300 text-gray-600 py-3 rounded-lg font-bold text-lg cursor-not-allowed flex items-center justify-center">
+              <Bell className="mr-4" />
+              Restock Alert
+            </button>
+          )}
+        </div>
       </section>
     </>
   );

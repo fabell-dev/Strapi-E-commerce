@@ -37,7 +37,7 @@ export const fetchProducts = unstable_cache(
           fields: ["url", "name"],
         },
         variants: {
-          fields: ["color"],
+          fields: ["color", "stock"],
           populate: {
             image: {
               fields: ["url", "name"],
@@ -79,7 +79,7 @@ export const fetchProductBySlug = unstable_cache(
           fields: ["url", "name"],
         },
         variants: {
-          fields: ["color"],
+          fields: ["color", "stock"],
           populate: {
             image: {
               fields: ["url", "name"],

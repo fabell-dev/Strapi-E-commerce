@@ -11,6 +11,7 @@ export interface ProductVariant {
   id: number;
   documentId?: string;
   color: string;
+  stock: number;
   image: StrapiImage;
 }
 
