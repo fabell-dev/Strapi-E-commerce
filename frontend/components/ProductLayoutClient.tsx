@@ -1,37 +1,35 @@
 "use client";
 import { Product } from "@/types/product.types";
 import { useState } from "react";
-
-import { Star, Bell } from "lucide-react";
+import { Bell } from "lucide-react";
 import HeartWhishlist from "./HeartWhishlist";
-import { COLOR_MAP } from "./ProductsGrid";
+import VariantSelector from "./VariantSelector";
+import StarRating from "./StarRating";
 
 type Props = {
   product: Product;
 };
 const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_URL;
 
-function getColorValue(colorName?: string): string {
-  if (!colorName) return "#9ca3af";
-  return COLOR_MAP[colorName.toLowerCase()] || "#9ca3af";
-}
-
 export default function ProductLayoutClient({ product }: Props) {
+  // Variants
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(-1);
-
   const hasVariants = product.variants && product.variants.length > 0;
   const currentImage =
     selectedVariantIndex === -1
       ? product.image
       : product.variants?.[selectedVariantIndex]?.image || product.image;
 
-  const originalColor = getColorValue(product.color);
-
+  //Stock
   const currentStock =
     selectedVariantIndex === -1
       ? product.stock
       : product.variants?.[selectedVariantIndex]?.stock || 0;
   const isInStock = currentStock > 0;
+
+  //Rating
+  const rating = 4.5;
+  const ratingCount = 18;
 
   return (
     <>
@@ -42,15 +40,10 @@ export default function ProductLayoutClient({ product }: Props) {
             <p className="text-xl font-bold text-gray-600 mt-3">
               ${product.price}
             </p>
-            {/* Temporary */}
-            <div className="flex">
-              <p>4.4</p>
-              <Star className="fill-yellow-400 stroke-0" />
-              <Star className="fill-yellow-400 stroke-0" />
-              <Star className="fill-yellow-400 stroke-0" />
-              <Star className="fill-yellow-400 stroke-0" />
-              <Star className="fill-yellow-400 stroke-0" />
-              <p>(18)</p>
+            {/* Rating */}
+            <div className="flex text-sm gap-x-2">
+              <p>{rating}</p>
+              <StarRating rating={rating} count={ratingCount} />
             </div>
           </div>
           <HeartWhishlist />
@@ -65,43 +58,17 @@ export default function ProductLayoutClient({ product }: Props) {
         {hasVariants && (
           <div className="">
             <p className="text-sm font-bold mb-2">Color</p>
-            <div className="flex flex-row gap-2 md:flex-wrap  ">
-              <button
-                onClick={() => setSelectedVariantIndex(-1)}
-                style={{
-                  backgroundColor: originalColor,
-                  borderColor:
-                    selectedVariantIndex === -1 ? "#000000" : "transparent",
-                  borderWidth: selectedVariantIndex === -1 ? "2px" : "0px",
-                }}
-                className="w-[5dvh] h-[5dvh] md:w-10 md:h-10 rounded-full flex items-center justify-center text-sm font-medium transition cursor-pointer hover:opacity-80"
-                title={product.color || "Original"}
+            <div className="flex flex-row gap-2 md:flex-wrap items-center">
+              <VariantSelector
+                product={product}
+                selectedVariantIndex={selectedVariantIndex}
+                onVariantChange={setSelectedVariantIndex}
+                size="large"
               />
-              {product.variants!.map((variant, index) => {
-                const variantColor = getColorValue(variant.color);
-
-                return (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedVariantIndex(index)}
-                    style={{
-                      backgroundColor: variantColor,
-                      borderColor:
-                        selectedVariantIndex === index
-                          ? "#000000"
-                          : "transparent",
-                      borderWidth:
-                        selectedVariantIndex === index ? "2px" : "0px",
-                    }}
-                    className="w-[5dvh] h-[5dvh] md:w-10 md:h-10  rounded-full flex items-center justify-center text-xs font-medium transition cursor-pointer hover:opacity-80"
-                    title={variant.color}
-                  />
-                );
-              })}
               {/*-------Manejar validaciones con el Stock-----*/}
-              <div className=" self-center ml-5">
+              <div className="ml-5">
                 {currentStock === 0 ? (
-                  <p className="text-red-600 ">Out of Stock</p>
+                  <p className="text-red-600">Out of Stock</p>
                 ) : currentStock < 5 ? (
                   <p className="text-red-500">
                     Only <span className="font-bold">{currentStock}</span> in

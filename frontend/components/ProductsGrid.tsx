@@ -4,27 +4,9 @@ import ButtonAnimated from "./ui/(me)ButtonAnimated";
 import Link from "next/link";
 import { ProductsGridProps, ProductCardProps } from "@/types/product.types";
 import HeartWhishlist from "./HeartWhishlist";
+import VariantSelector from "./VariantSelector";
 
 const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_URL;
-
-// Map de colores a valores hex
-export const COLOR_MAP: Record<string, string> = {
-  red: "#ef4444",
-  black: "#000000",
-  white: "#ffffff",
-  blue: "#3b82f6",
-  green: "#10b981",
-  yellow: "#eab308",
-  purple: "#a855f7",
-  pink: "#ec4899",
-  orange: "#f97316",
-  gray: "#6b7280",
-};
-
-function getColorValue(colorName?: string): string {
-  if (!colorName) return "#9ca3af";
-  return COLOR_MAP[colorName.toLowerCase()] || "#9ca3af";
-}
 
 export default function ProductsGrid({
   products,
@@ -62,7 +44,6 @@ export function ProductCard({ product, strapiHost }: ProductCardProps) {
       : product.variants?.[selectedVariantIndex]?.stock || 0;
   const isInStock = currentStock > 0;
 
-  const originalColor = getColorValue(product.color);
   return (
     <div className="border rounded-lg overflow-hidden shadow-lg relative h-[43dvh] md:h-full hover:shadow-xl transition-shadow">
       <HeartWhishlist classname="absolute top-1 right-1 md:top-5 md:right-5" />
@@ -110,38 +91,13 @@ export function ProductCard({ product, strapiHost }: ProductCardProps) {
 
         {/* Variants */}
         {hasVariants && (
-          <div className="flex flex-row gap-2 md:flex-wrap mt-5 ">
-            <button
-              onClick={() => setSelectedVariantIndex(-1)}
-              style={{
-                backgroundColor: originalColor,
-                borderColor:
-                  selectedVariantIndex === -1 ? "#000000" : "transparent",
-                borderWidth: selectedVariantIndex === -1 ? "2px" : "0px",
-              }}
-              className="w-[3dvh] h-[3dvh] md:w-10 md:h-10 rounded-full flex items-center justify-center text-sm font-medium transition cursor-pointer hover:opacity-80"
-              title={product.color || "Original"}
+          <div className="flex flex-row gap-2 md:flex-wrap mt-5">
+            <VariantSelector
+              product={product}
+              selectedVariantIndex={selectedVariantIndex}
+              onVariantChange={setSelectedVariantIndex}
+              size="small"
             />
-            {product.variants!.map((variant, index) => {
-              const variantColor = getColorValue(variant.color);
-
-              return (
-                <button
-                  key={index}
-                  onClick={() => setSelectedVariantIndex(index)}
-                  style={{
-                    backgroundColor: variantColor,
-                    borderColor:
-                      selectedVariantIndex === index
-                        ? "#000000"
-                        : "transparent",
-                    borderWidth: selectedVariantIndex === index ? "2px" : "0px",
-                  }}
-                  className="w-[3dvh] h-[3dvh] md:w-10 md:h-10  rounded-full flex items-center justify-center text-xs font-medium transition cursor-pointer hover:opacity-80"
-                  title={variant.color}
-                />
-              );
-            })}
           </div>
         )}
       </div>
