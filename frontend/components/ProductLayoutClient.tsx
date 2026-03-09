@@ -5,6 +5,7 @@ import { Bell } from "lucide-react";
 import HeartWhishlist from "./HeartWhishlist";
 import VariantSelector from "./VariantSelector";
 import StarRating from "./StarRating";
+import ProductsSugestedCarrousel from "./ProductsSugestedCarrousel";
 
 type Props = {
   product: Product;
@@ -96,8 +97,15 @@ export default function ProductLayoutClient({ product }: Props) {
           )}
         </div>
         {/*------------You may also like---------*/}
-        <div></div>
       </section>
+      <section className="w-full mt-10">
+        <ProductsSugestedCarrousel
+          category={product.subCategory?.category?.name}
+          currentProductSlug={product.slug}
+        />
+      </section>
+      {/*--------Review Form-------*/}
+      <section></section>
     </>
   );
 }
