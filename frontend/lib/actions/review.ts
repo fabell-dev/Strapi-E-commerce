@@ -6,16 +6,25 @@ import {
 } from "../validations/validationsReview";
 import { createReview } from "../Strapi/strapi";
 import { getCurrentUser } from "@/lib/Strapi/strapi";
+import { LucideFileSliders } from "lucide-react";
 
 export async function sendReviewAction(
   prevState: ReviewFormState,
   formData: FormData,
 ): Promise<ReviewFormState> {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    return {
+      success: false,
+      message: "Debes estar autenticado para crear una review",
+      Errors: null,
+    };
+  }
   const fields = {
     title: formData.get("title") as string,
     description: formData.get("description") as string,
-    author: formData.get("author") as string,
-    email: formData.get("email") as string,
+    author: currentUser.username as string,
+    email: currentUser.email as string,
     rating: Number(formData.get("rating")),
     productId: Number(formData.get("productId")),
   };
@@ -39,21 +48,7 @@ export async function sendReviewAction(
     };
   } else {
     try {
-      const currentUser = await getCurrentUser();
-      if (!currentUser) {
-        return {
-          success: false,
-          message: "Debes estar autenticado para crear una review",
-          data: fields,
-          Errors: null,
-        };
-      }
-      const reviewData = {
-        ...fields,
-        author: currentUser.username,
-        email: currentUser.email,
-      };
-      const response = await createReview(reviewData);
+      const response = await createReview(fields);
       return {
         success: true,
         message: "Review succesfully created",

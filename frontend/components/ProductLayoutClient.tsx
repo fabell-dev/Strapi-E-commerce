@@ -1,7 +1,7 @@
 "use client";
 import { Product } from "@/types/product.types";
 import { useState } from "react";
-import { Bell } from "lucide-react";
+import { Bell, Star } from "lucide-react";
 import HeartWhishlist from "./HeartWhishlist";
 import VariantSelector from "./VariantSelector";
 import StarRating from "./StarRating";
@@ -113,11 +113,21 @@ export default function ProductLayoutClient({ product }: Props) {
           currentProductSlug={product.slug}
         />
       </section>
-      {/*--------Review Form-------*/}
 
-      <ReviewForm productID={product.id} />
+      {/*--------Review Section-------*/}
+      <section className="flex flex-col mt-10 mx-10 gap-y-10">
+        <div className="flex flex-col items-start  ">
+          <p className="font-bold text-2xl">Product Reviews</p>
+          <div className="flex gap-x-2 items-center">
+            <Star className="fill-black" />
+            <p className="font-bold text-xl">{rating}</p>
+            <p className="text-xs">( {ratingCount} reviews)</p>
+          </div>
+        </div>
+        {/* Review Form */}
 
-      <section></section>
+        <ReviewForm productID={product.id} />
+      </section>
     </>
   );
 }

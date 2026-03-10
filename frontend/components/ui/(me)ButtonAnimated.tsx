@@ -4,11 +4,13 @@ import { motion } from "motion/react";
 interface ButtonAnimatedProps {
   text: string;
   classname: string;
+  type?: "button" | "submit" | "reset";
 }
 
 export default function ButtonAnimated({
   text,
   classname,
+  type,
 }: ButtonAnimatedProps) {
   const isOutOfStock = text === "Out of Stock";
 
@@ -22,6 +24,7 @@ export default function ButtonAnimated({
 
   return (
     <motion.button
+      type={type}
       className={`rounded-4xl ${classname}`}
       whileHover={{ scale: 1.05, y: -1 }}
       whileTap={{ scale: 0.95, y: 1 }}
