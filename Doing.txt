@@ -1,33 +1,11 @@
-mejorar el boton de sent las animaciones y tal
 mejorar probalemente el manejo de imagenes
 mejorar el stock y su suma con el stock de las variantes \
-- no renderizar productos con stock 0 y sus variantes no renderizarlas
 hacer whithlist
 que cuando cambies una variante y entres al producto estes en esa variante
 integrar sales (por categoria estaria guapo o a todo el catalogo)
 
+-(check) no renderizar productos con stock 0 y sus variantes no renderizarlas
 
 
-1. Estructura en Strapi (Content-Types a crear)
-A. Cart (Carrito)
-B. CartItem (Items del Carrito)
-C. Wishlist
-2. Pasos a seguir en Strapi
-Ir a Content-Type Builder → Crear nuevos tipos
-
-Configurar relaciones:
-
-Cart ↔ User (One-to-One)
-CartItem ↔ Cart (Many-to-One)
-CartItem ↔ Product (Many-to-One)
-Wishlist ↔ User (One-to-One)
-Wishlist ↔ Product (Many-to-Many)
-Habilitar autenticación (si no está):
-
-Settings → Users & Permissions Plugin → Roles & Permissions
-Configurar permisos:
-
-Solo usuarios autenticados pueden ver/editar su propio cart y wishlist
-Usar users-permissions role
 
 

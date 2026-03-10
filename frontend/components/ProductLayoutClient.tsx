@@ -1,7 +1,8 @@
 "use client";
+import { motion } from "motion/react";
 import { Product } from "@/types/product.types";
 import { useState } from "react";
-import { Bell, Star } from "lucide-react";
+import { Bell, Star, ChevronDown } from "lucide-react";
 import HeartWhishlist from "./HeartWhishlist";
 import VariantSelector from "./VariantSelector";
 import StarRating from "./StarRating";
@@ -56,10 +57,12 @@ export default function ProductLayoutClient({ product }: Props) {
               ${product.price}
             </p>
             {/* Rating */}
-            <div className="flex text-sm gap-x-2">
-              <p>{rating}</p>
-              <StarRating rating={rating} count={ratingCount} />
-            </div>
+            {(product.reviews?.length || 0) > 0 && (
+              <div className="flex text-sm gap-x-2">
+                <p>{rating}</p>
+                <StarRating rating={rating} count={ratingCount} />
+              </div>
+            )}
           </div>
           <HeartWhishlist />
         </div>
@@ -130,18 +133,32 @@ export default function ProductLayoutClient({ product }: Props) {
       <section className="flex flex-col mt-10 mx-10 gap-y-10">
         <div className="flex flex-col items-start  ">
           <p className="font-bold text-2xl">Product Reviews</p>
-          <div className="flex gap-x-2 items-center">
-            <Star className="fill-black" />
-            <p className="font-bold text-xl">{rating}</p>
-            <p className="text-xs">( {ratingCount} reviews)</p>
-          </div>
+          {(product.reviews?.length || 0) > 0 && (
+            <div className="flex gap-x-2 items-center ">
+              <Star className="fill-black" />
+              <p className="font-bold text-xl">{rating}</p>
+              <p className="text-xs">( {ratingCount} reviews)</p>
+            </div>
+          )}
         </div>
         {/* Review Form */}
-
         <ReviewForm productID={product.id} />
         <Reviews reviews={product.reviews} numberToShow={numberToShow} />
-        {product.reviews.length > 3 ? (
-          <button onClick={addMoreReviews}>Show More</button>
+        {numberToShow < (product.reviews?.length || 0) ? (
+          <motion.button
+            whileHover={{ scale: 1.05, y: -1 }}
+            whileTap={{ scale: 0.95, y: 1 }}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 15,
+            }}
+            className="border-2 border-black/70 w-1/2 self-center rounded-2xl font-bold cursor-pointer flex justify-center"
+            onClick={addMoreReviews}
+          >
+            <p> Show More</p>
+            <ChevronDown />
+          </motion.button>
         ) : (
           <></>
         )}
