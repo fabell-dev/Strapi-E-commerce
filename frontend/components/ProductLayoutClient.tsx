@@ -6,6 +6,7 @@ import HeartWhishlist from "./HeartWhishlist";
 import VariantSelector from "./VariantSelector";
 import StarRating from "./StarRating";
 import ProductsSugestedCarrousel from "./ProductsSugestedCarrousel";
+import ImageFlip from "./ImageFlip";
 
 type Props = {
   product: Product;
@@ -49,11 +50,18 @@ export default function ProductLayoutClient({ product }: Props) {
           </div>
           <HeartWhishlist />
         </div>
-        <img
+        {/* Old image */}
+        {/* <img
           className="w-full rounded-4xl"
           src={`${STRAPI_HOST}${currentImage.url}`}
-        ></img>
-        <p>{product.description}</p>
+        ></img> */}
+        <ImageFlip
+          imageUrl={`${STRAPI_HOST}${currentImage.url}`}
+          imageAlt={product.name}
+          backText={product.description || "Flip to see more details"}
+        />
+        {/* Description */}
+        {/* <p className=" md:block">{product.description}</p> */}
 
         {/* -----Variants-----*/}
         {hasVariants && (

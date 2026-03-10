@@ -37,3 +37,52 @@ export async function getAllProducts(): Promise<ProductGridItem[]> {
     return [];
   }
 }
+
+export async function searchProducts(
+  query: string,
+  category?: string,
+): Promise<ProductGridItem[]> {
+  if (!query || query.trim().length < 2) {
+    return [];
+  }
+
+  try {
+    const filters: any = {
+      name: {
+        $containsi: query,
+      },
+    };
+
+    if (category) {
+      filters.subCategory = {
+        category: {
+          name: {
+            $eqi: category,
+          },
+        },
+      };
+    }
+
+    const qs = await import("qs");
+    const queryString = qs.default.stringify({
+      filters,
+      fields: ["name", "slug", "price"],
+      populate: {
+        image: {
+          fields: ["url", "name"],
+        },
+      },
+      pagination: {
+        limit: 8,
+      },
+    });
+
+    const { queryRead } = await import("@/lib/Strapi/strapi");
+    const response = await queryRead(`products?${queryString}`);
+    const data = Array.isArray(response.data) ? response.data : [];
+    return data;
+  } catch (error) {
+    console.error("Search error:", error);
+    return [];
+  }
+}

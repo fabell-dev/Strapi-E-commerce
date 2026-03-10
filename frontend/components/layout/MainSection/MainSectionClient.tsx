@@ -1,8 +1,8 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
-import { SortSelector } from "./SortSelector";
-import ProductsGrid from "./ProductsGrid";
-import GridPagination from "./GridPagination";
+import { SortSelector } from "../../SortSelector";
+import ProductsGrid from "../../ProductsGrid";
+import GridPagination from "../../GridPagination";
 import { ProductGridItem } from "@/types/product.types";
 
 interface MainSectionClientProps {

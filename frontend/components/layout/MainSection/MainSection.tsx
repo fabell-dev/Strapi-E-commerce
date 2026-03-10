@@ -1,5 +1,5 @@
 import { fetchProducts } from "@/lib/Strapi/Data/product-data";
-import { MainSectionClient } from "../MainSectionClient";
+import { MainSectionClient } from "./MainSectionClient";
 
 const STRAPI_HOST = process.env.STRAPI_HOST;
 

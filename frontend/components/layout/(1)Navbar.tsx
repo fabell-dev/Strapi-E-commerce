@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { AvatarDropdown } from "../AvatarDropdown";
 import { useState, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { searchProducts } from "@/lib/actions/product-actions";
 
 type Props = {
   categories: string[];
@@ -77,7 +78,7 @@ function Icons({ className }: { className: string }) {
   );
 }
 
-export function SearchBar({ className }: { className: string }) {
+function SearchBar({ className }: { className: string }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -117,12 +118,7 @@ export function SearchBar({ className }: { className: string }) {
     setIsLoading(true);
     searchTimeoutRef.current = setTimeout(async () => {
       try {
-        let url = `/api/search?q=${encodeURIComponent(value)}`;
-        if (currentCategory) {
-          url += `&category=${encodeURIComponent(currentCategory)}`;
-        }
-        const response = await fetch(url);
-        const data = await response.json();
+        const data = await searchProducts(value, currentCategory || undefined);
         setResults(Array.isArray(data) ? data : []);
         setIsOpen(true);
       } catch (error) {

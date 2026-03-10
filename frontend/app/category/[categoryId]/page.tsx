@@ -1,6 +1,6 @@
 import { fetchCategories, fetchProducts } from "@/lib/Strapi/Data/product-data";
 import { notFound } from "next/navigation";
-import { MainSectionClient } from "@/components/MainSectionClient";
+import { MainSectionClient } from "@/components/layout/MainSection/MainSectionClient";
 
 const STRAPI_HOST = process.env.STRAPI_HOST;
 
