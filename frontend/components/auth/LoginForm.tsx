@@ -13,10 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useActionState } from "react";
-import {
-  SigninFormSchema,
-  type SigninFormState,
-} from "@/lib/validations/validationsAuth";
+import { type SigninFormState } from "@/lib/validations/validationsAuth";
 import { loginUserAction } from "@/lib/actions/auth";
 
 const INITIAL_STATE: SigninFormState = {

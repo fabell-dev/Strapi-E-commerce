@@ -7,6 +7,7 @@ import VariantSelector from "./VariantSelector";
 import StarRating from "./StarRating";
 import ProductsSugestedCarrousel from "./ProductsSugestedCarrousel";
 import ImageFlip from "./ImageFlip";
+import ReviewForm from "./ReviewForm";
 
 type Props = {
   product: Product;
@@ -113,6 +114,9 @@ export default function ProductLayoutClient({ product }: Props) {
         />
       </section>
       {/*--------Review Form-------*/}
+
+      <ReviewForm productID={product.id} />
+
       <section></section>
     </>
   );

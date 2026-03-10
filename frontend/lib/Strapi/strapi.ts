@@ -39,28 +39,43 @@ export async function getCurrentUser() {
   return await response.json();
 }
 
-//Asi debe ser la estructura de las peticiones
-export async function autenticatedRequest(url: string) {
+//CREATE REVIEW
+export async function createReview(reviewData: {
+  title: string;
+  description: string;
+  rating: number;
+  author: string;
+  email: string;
+  productId: number;
+}) {
   const token = await getToken();
 
   if (!token) {
     throw new Error("No autorizado");
   }
 
-  const response = await fetch(`${STRAPI_HOST}${url}`, {
+  const response = await fetch(`${STRAPI_HOST}/api/reviews`, {
+    method: "POST",
     headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
+    body: JSON.stringify({
+      data: {
+        title: reviewData.title,
+        description: reviewData.description,
+        rating: reviewData.rating,
+        author: reviewData.author,
+        email: reviewData.email,
+        product: reviewData.productId,
+      },
+    }),
   });
 
   if (!response.ok) {
-    throw new Error(`Error: ${response.statusText}`);
+    const error = await response.json();
+    throw new Error(error.error?.message || "Error creando review");
   }
 
   return await response.json();
 }
-
-// export async function isAutenticated() {
-//   const token = await getToken();
-//   return !!token;
-// }
