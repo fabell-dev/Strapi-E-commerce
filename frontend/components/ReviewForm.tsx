@@ -50,6 +50,8 @@ export default function ReviewForm({ productID }: Props) {
             id="title"
             name="title"
             placeholder="Enter a Title for your review"
+            min="1"
+            max="50"
             required
             className="border-black border-2 rounded-sm px-3 py-2 focus:outline-black/60 focus:outline-4 transition-all duration-50 "
           />

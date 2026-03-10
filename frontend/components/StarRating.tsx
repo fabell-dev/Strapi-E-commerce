@@ -48,7 +48,7 @@ export default function StarRating({ rating, count, size = "md" }: Props) {
           />
         ))}
       </div>
-      {count && <p className="text-sm text-gray-600">({count})</p>}
+      {count && <p className="text-sm text-gray-600">({count} reviews)</p>}
     </div>
   );
 }

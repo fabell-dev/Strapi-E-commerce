@@ -1,12 +1,12 @@
 "use server";
 import { z } from "zod";
+import { revalidateTag } from "next/cache";
 import {
   ReviewFormState,
   ReviewSchema,
 } from "../validations/validationsReview";
 import { createReview } from "../Strapi/strapi";
 import { getCurrentUser } from "@/lib/Strapi/strapi";
-import { LucideFileSliders } from "lucide-react";
 
 export async function sendReviewAction(
   prevState: ReviewFormState,
@@ -49,6 +49,7 @@ export async function sendReviewAction(
   } else {
     try {
       const response = await createReview(fields);
+      revalidateTag("products", "");
       return {
         success: true,
         message: "Review succesfully created",

@@ -1,3 +1,4 @@
+import { Review } from "./review-types";
 // Interfaces para productos en Strapi
 
 export interface StrapiImage {
@@ -40,6 +41,7 @@ export interface Product {
   image: StrapiImage;
   variants?: ProductVariant[];
   subCategory?: SubCategory;
+  reviews?: Review[];
 }
 
 // Para el grid de productos (datos simplificados)

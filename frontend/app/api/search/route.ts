@@ -5,6 +5,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get("q");
   const category = searchParams.get("category");
+  const currentProductSlug = searchParams.get("slug");
 
   if (!query || query.trim().length < 2) {
     return Response.json([]);
@@ -25,6 +26,13 @@ export async function GET(request: Request) {
             $eqi: category,
           },
         },
+      };
+    }
+
+    // Si estamos en una página de producto, excluir ese producto de los resultados
+    if (currentProductSlug) {
+      filters.slug = {
+        $ne: currentProductSlug,
       };
     }
 

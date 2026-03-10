@@ -1,6 +1,7 @@
 import { Product } from "./product.types";
 
 export interface Review {
+  length: number;
   id: number;
   documentId?: string;
   title: string;
@@ -9,4 +10,5 @@ export interface Review {
   author: string;
   email: string;
   product: Product;
+  createdAt: string;
 }

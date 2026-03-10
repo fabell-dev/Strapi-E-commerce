@@ -11,7 +11,7 @@ export const fetchCategories = unstable_cache(
     });
   },
   ["categories"],
-  { revalidate: 60 },
+  { revalidate: 3600 },
 );
 
 //--------- Función para obtener productos (Devuelve todos,exepto si se le pasa una categoria que solo dvuelve los de esa categoria)
@@ -65,41 +65,49 @@ export const fetchProducts = unstable_cache(
 );
 
 //--------- Función para obtener un producto por slug
-export const fetchProductBySlug = unstable_cache(
-  async (slug: string): Promise<Product | null> => {
-    const queryOptions = qs.stringify({
-      filters: {
-        slug: {
-          $eq: slug,
-        },
+export const fetchProductBySlug = async (
+  slug: string,
+): Promise<Product | null> => {
+  const queryOptions = qs.stringify({
+    filters: {
+      slug: {
+        $eq: slug,
       },
-      fields: ["name", "price", "stock", "color", "slug", "description"],
-      populate: {
-        image: {
-          fields: ["url", "name"],
-        },
-        variants: {
-          fields: ["color", "stock"],
-          populate: {
-            image: {
-              fields: ["url", "name"],
-            },
-          },
-        },
-        subCategory: {
-          populate: {
-            category: {
-              fields: ["name"],
-            },
+    },
+    fields: ["name", "price", "stock", "color", "slug", "description"],
+    populate: {
+      image: {
+        fields: ["url", "name"],
+      },
+      variants: {
+        fields: ["color", "stock"],
+        populate: {
+          image: {
+            fields: ["url", "name"],
           },
         },
       },
-    });
+      subCategory: {
+        populate: {
+          category: {
+            fields: ["name"],
+          },
+        },
+      },
+      reviews: {
+        fields: [
+          "author",
+          "email",
+          "title",
+          "description",
+          "rating",
+          "createdAt",
+        ],
+      },
+    },
+  });
 
-    return queryRead(`products?${queryOptions}`).then((res) => {
-      return res.data?.[0] || null;
-    });
-  },
-  ["productBySlug"],
-  { revalidate: 60 },
-);
+  return queryRead(`products?${queryOptions}`).then((res) => {
+    return res.data?.[0] || null;
+  });
+};

@@ -8,6 +8,7 @@ import StarRating from "./StarRating";
 import ProductsSugestedCarrousel from "./ProductsSugestedCarrousel";
 import ImageFlip from "./ImageFlip";
 import ReviewForm from "./ReviewForm";
+import Reviews from "./Reviews";
 
 type Props = {
   product: Product;
@@ -30,10 +31,21 @@ export default function ProductLayoutClient({ product }: Props) {
       : product.variants?.[selectedVariantIndex]?.stock || 0;
   const isInStock = currentStock > 0;
 
-  //Rating
-  const rating = 4.5;
-  const ratingCount = 18;
-
+  //Reviews and Rating
+  const [numberToShow, setnumberToShow] = useState(3);
+  function addMoreReviews() {
+    setnumberToShow(numberToShow + 3);
+  }
+  const ratingCount = product.reviews?.length || 0;
+  let rating =
+    ratingCount > 0
+      ? Number(
+          (
+            product.reviews!.reduce((sum, review) => sum + review.rating, 0) /
+            ratingCount
+          ).toFixed(1),
+        )
+      : 0;
   return (
     <>
       <section className="flex mt-40 flex-col gap-y-5 px-10">
@@ -127,6 +139,12 @@ export default function ProductLayoutClient({ product }: Props) {
         {/* Review Form */}
 
         <ReviewForm productID={product.id} />
+        <Reviews reviews={product.reviews} numberToShow={numberToShow} />
+        {product.reviews.length > 3 ? (
+          <button onClick={addMoreReviews}>Show More</button>
+        ) : (
+          <></>
+        )}
       </section>
     </>
   );

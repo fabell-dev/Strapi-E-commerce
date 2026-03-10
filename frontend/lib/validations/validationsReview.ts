@@ -4,15 +4,15 @@ export const ReviewSchema = z.object({
   productId: z.number().positive("Product ID es requerido"), // ← Agregar esto
   title: z
     .string()
-    .min(3, "Title is to short")
-    .max(20, "Title must be less than 20 characters"),
+    .min(1, "Title is to short")
+    .max(50, "Title must be less than 20 characters"),
   description: z
     .string()
-    .min(3, "Description is to short")
-    .max(100, "Description must be less than 100 characters"),
+    .min(1, "Description is to short")
+    .max(500, "Description must be less than 100 characters"),
   author: z
     .string()
-    .min(6, "Author must be at least 6 characters")
+    .min(3, "Author must be at least 6 characters")
     .max(20, "Author must be less than 20 characters"),
   email: z.email("Please enter a valid email address"),
   rating: z

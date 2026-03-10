@@ -41,6 +41,7 @@ export async function getAllProducts(): Promise<ProductGridItem[]> {
 export async function searchProducts(
   query: string,
   category?: string,
+  productSlug?: string,
 ): Promise<ProductGridItem[]> {
   if (!query || query.trim().length < 2) {
     return [];
@@ -60,6 +61,13 @@ export async function searchProducts(
             $eqi: category,
           },
         },
+      };
+    }
+
+    // Si estamos en una página de producto, excluir ese producto de los resultados
+    if (productSlug) {
+      filters.slug = {
+        $ne: productSlug,
       };
     }
 

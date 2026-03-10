@@ -68,6 +68,7 @@ export async function createReview(reviewData: {
         author: reviewData.author,
         email: reviewData.email,
         product: reviewData.productId,
+        publishedAt: new Date().toISOString(), // Publicar automáticamente
       },
     }),
   });

@@ -100,7 +100,14 @@ function SearchBar({ className }: { className: string }) {
     return null;
   };
 
+  // Detectar si estamos en una página de producto
+  const getProductSlugFromPath = () => {
+    const match = pathname.match(/^\/product\/(.+)$/);
+    return match ? match[1] : null;
+  };
+
   const currentCategory = getCategoryFromPath();
+  const currentProductSlug = getProductSlugFromPath();
 
   const handleSearch = (value: string) => {
     setSearchQuery(value);
@@ -118,7 +125,11 @@ function SearchBar({ className }: { className: string }) {
     setIsLoading(true);
     searchTimeoutRef.current = setTimeout(async () => {
       try {
-        const data = await searchProducts(value, currentCategory || undefined);
+        const data = await searchProducts(
+          value,
+          currentCategory || undefined,
+          currentProductSlug || undefined
+        );
         setResults(Array.isArray(data) ? data : []);
         setIsOpen(true);
       } catch (error) {
