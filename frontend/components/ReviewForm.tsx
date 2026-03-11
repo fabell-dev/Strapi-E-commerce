@@ -32,10 +32,14 @@ export default function ReviewForm({ productID }: Props) {
   );
 
   const [rating, setRating] = useState(0);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     if (formState.success) {
       setRating(0);
+      setTitle("");
+      setDescription("");
     }
   }, [formState.success]);
 
@@ -56,7 +60,8 @@ export default function ReviewForm({ productID }: Props) {
                 placeholder="Enter a Title for your review"
                 min="1"
                 max="50"
-                required
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 className="border-black border-2 rounded-sm px-3 py-2 focus:outline-black/60 focus:outline-4 transition-all duration-50 "
               />
             </div>
@@ -67,6 +72,8 @@ export default function ReviewForm({ productID }: Props) {
                 id="description"
                 name="description"
                 required
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 className="border-black border-2 rounded-sm px-3 py-2 focus:outline-black/60 focus:outline-4 transition-all duration-50 w-full h-32 resize-y "
               ></textarea>
             </div>
@@ -92,6 +99,11 @@ export default function ReviewForm({ productID }: Props) {
                   </button>
                 ))}
               </div>
+              {formState.Errors?.rating && (
+                <p className="text-red-600 text-sm mt-2">
+                  {formState.Errors.rating[0]}
+                </p>
+              )}
             </div>
 
             <motion.button

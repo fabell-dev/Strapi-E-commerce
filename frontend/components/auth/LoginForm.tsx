@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useState, useEffect } from "react";
 import { type SigninFormState } from "@/lib/validations/validationsAuth";
 import { loginUserAction } from "@/lib/actions/auth";
 
@@ -32,6 +32,16 @@ export function LoginForm() {
     INITIAL_STATE,
   );
 
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (formState.success) {
+      setIdentifier("");
+      setPassword("");
+    }
+  }, [formState.success]);
+
   return (
     <Card className="w-full max-w-sm ">
       <CardHeader>
@@ -50,6 +60,8 @@ export function LoginForm() {
                 name="identifier"
                 type="text"
                 placeholder="m@example.com or username"
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
                 required
               />
               {formState.Errors?.identifier && (
@@ -73,6 +85,8 @@ export function LoginForm() {
                 name="password"
                 type="password"
                 placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
               {formState.Errors?.password && (

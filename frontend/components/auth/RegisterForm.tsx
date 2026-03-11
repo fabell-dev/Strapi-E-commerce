@@ -37,6 +37,21 @@ export function RegisterForm() {
     registerUserAction,
     INITIAL_STATE,
   );
+
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cpassword, setCpassword] = useState("");
+
+  useEffect(() => {
+    if (formState.success) {
+      setUsername("");
+      setEmail("");
+      setPassword("");
+      setCpassword("");
+    }
+  }, [formState.success]);
+
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -55,6 +70,8 @@ export function RegisterForm() {
                 name="username"
                 type="text"
                 placeholder="jhondoe"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 required
               />
               {formState.Errors?.username && (
@@ -70,6 +87,8 @@ export function RegisterForm() {
                 name="email"
                 type="email"
                 placeholder="m@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
               {formState.Errors?.email && (
@@ -87,6 +106,8 @@ export function RegisterForm() {
                 name="password"
                 type="password"
                 placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
               {formState.Errors?.password && (
@@ -102,6 +123,8 @@ export function RegisterForm() {
                 name="cpassword"
                 type="password"
                 placeholder="••••••••"
+                value={cpassword}
+                onChange={(e) => setCpassword(e.target.value)}
                 required
               />
               {formState.Errors?.cpassword && (
