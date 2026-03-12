@@ -11,7 +11,7 @@ export default function HeartWhishlist({ classname }: Props) {
   const user = useContext(UserContext);
   const [isLiked, setIsLiked] = useState(false);
   const getHeartFill = () =>
-    isLiked ? "fill-red-500 stroke-0" : "fill-white/70 stroke-2";
+    isLiked ? "fill-red-500 stroke-0" : "bg-transparent stroke-2";
   return (
     <>
       {user && (
@@ -22,7 +22,7 @@ export default function HeartWhishlist({ classname }: Props) {
           whileTap={{ scale: 0.9 }}
           className={`${classname}`}
         >
-          <Heart className={`cursor-pointer ${getHeartFill()}`} />
+          <Heart className={`cursor-pointer  ${getHeartFill()}`} />
         </motion.button>
       )}
     </>
