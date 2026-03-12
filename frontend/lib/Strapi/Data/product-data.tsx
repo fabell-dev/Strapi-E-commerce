@@ -1,7 +1,11 @@
 import { unstable_cache } from "next/cache";
 import { queryRead } from "@/lib/Strapi/strapi";
 import qs from "qs";
-import { Product, ProductGridItem } from "@/types/product.types";
+import {
+  Product,
+  ProductGridItem,
+  FetchProductsResult,
+} from "@/types/product.types";
 
 //--------- Función para obtener Categorias
 export const fetchCategories = unstable_cache(
@@ -16,7 +20,11 @@ export const fetchCategories = unstable_cache(
 
 //--------- Función para obtener productos (Devuelve todos,exepto si se le pasa una categoria que solo dvuelve los de esa categoria)
 export const fetchProducts = unstable_cache(
-  async (categoryName?: string): Promise<ProductGridItem[]> => {
+  async (
+    page?: number,
+    pageSize?: number,
+    categoryName?: string,
+  ): Promise<FetchProductsResult> => {
     const filters = categoryName
       ? {
           subCategory: {
@@ -54,10 +62,17 @@ export const fetchProducts = unstable_cache(
           },
         }),
       },
+      pagination: {
+        page: page || 1,
+        pageSize: pageSize || 25,
+      },
     });
 
     return queryRead(`products?${queryOptions}`).then((res) => {
-      return res.data;
+      return {
+        data: res.data,
+        pagination: res.meta.pagination,
+      };
     });
   },
   ["products"],

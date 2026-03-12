@@ -1,3 +1,4 @@
+mejorar animacion de paginacion
 mejorar probalemente el manejo de imagenes
 mejorar el stock y su suma con el stock de las variantes \
 hacer whithlist

@@ -10,7 +10,8 @@ export async function getProductsByCategory(
   categoryName: string,
 ): Promise<ProductGridItem[]> {
   try {
-    const products = await fetchProducts(categoryName);
+    const { data: products } = await fetchProducts(1, 25, categoryName);
+
     return products;
   } catch (error) {
     console.error("Error fetching products by category:", error);
@@ -30,7 +31,8 @@ export async function getProductBySlugg(slug: string): Promise<Product | null> {
 
 export async function getAllProducts(): Promise<ProductGridItem[]> {
   try {
-    const products = await fetchProducts();
+    const { data: products } = await fetchProducts(1, 25);
+
     return products;
   } catch (error) {
     console.error("Error fetching all products:", error);

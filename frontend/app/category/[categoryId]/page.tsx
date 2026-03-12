@@ -1,6 +1,7 @@
 import { fetchCategories, fetchProducts } from "@/lib/Strapi/Data/product-data";
 import { notFound } from "next/navigation";
 import { MainSectionClient } from "@/components/layout/MainSection/MainSectionClient";
+import { redirect } from "next/navigation";
 
 const STRAPI_HOST = process.env.STRAPI_HOST;
 
@@ -16,11 +17,23 @@ export async function generateStaticParams() {
 //Se renderiza la pagina dinamicamente
 export default async function CategoryPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ categoryId: string }>;
+  searchParams: any;
 }) {
+  const paramsPagination = await searchParams;
+
+  if (!paramsPagination.page || !paramsPagination.pageSize) {
+    redirect("?page=1&pageSize=12");
+  }
+
   //Se extrae la categoria desde los params
   const { categoryId } = await params;
+  const paramData = await searchParams;
+  const page = parseInt(paramData.page || "1");
+  const pageSize = parseInt(paramData.pageSize || "12");
+
   //Se hace fetch de todas las categorias
   const categories = await fetchCategories();
 
@@ -34,9 +47,17 @@ export default async function CategoryPage({
   }
 
   //Se le pasa la categoria actual a la funcion que ejecuta la query
-  const productsByCategory = await fetchProducts(currentCategory);
+  const { data: productsByCategory, pagination } = await fetchProducts(
+    page,
+    pageSize,
+    currentCategory,
+  );
 
   return (
-    <MainSectionClient products={productsByCategory} strapiHost={STRAPI_HOST} />
+    <MainSectionClient
+      pagination={pagination}
+      products={productsByCategory}
+      strapiHost={STRAPI_HOST}
+    />
   );
 }

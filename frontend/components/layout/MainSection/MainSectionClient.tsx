@@ -4,8 +4,17 @@ import { SortSelector } from "../../SortSelector";
 import ProductsGrid from "../../ProductsGrid";
 import GridPagination from "../../GridPagination";
 import { ProductGridItem } from "@/types/product.types";
+import { useRouter } from "next/navigation";
+
+interface PaginationData {
+  page: number;
+  pageSize: number;
+  pageCount: number;
+  total: number;
+}
 
 interface MainSectionClientProps {
+  pagination: PaginationData;
   products: ProductGridItem[];
   strapiHost?: string;
 }
@@ -13,9 +22,17 @@ interface MainSectionClientProps {
 type SortOption = "name-asc" | "name-desc" | "price-low" | "price-high";
 
 export function MainSectionClient({
+  pagination,
   products,
   strapiHost,
 }: MainSectionClientProps) {
+  const router = useRouter();
+  //Pagination
+  const [currentPage, setcurrentPage] = useState(pagination.page);
+  useEffect(() => {
+    setcurrentPage(pagination.page);
+  }, [pagination.page]);
+
   const [sortBy, setSortBy] = useState<SortOption>("name-asc");
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -55,18 +72,37 @@ export function MainSectionClient({
     }
   }, [products, sortBy]);
 
+  // Adjust page size based on screen width
+  useEffect(() => {
+    const width = window.innerWidth;
+    const newPageSize = width < 640 ? 4 : width < 1024 ? 6 : 12;
+
+    if (newPageSize !== pagination.pageSize) {
+      router.push(`?page=1&pageSize=${newPageSize}`);
+    }
+  }, []);
+
   return (
-    <section
-      className="flex flex-col md:mx-40 mx-5 md:mt-20  scroll-mt-35 "
-      id="mainGrid"
-    >
-      <SortSelector
-        className="self-center lg:self-end lg:mr-10 mb-5 "
-        onSortChange={setSortBy}
-        currentSort={sortBy}
-      />
-      <ProductsGrid products={sortedProducts} strapiHost={strapiHost} />
-      <GridPagination />
-    </section>
+    <>
+      <section
+        className="flex flex-col md:mx-40 mx-5 pt-40 sm:pt-20  md:pt-20 scroll-mt-35 "
+        id="mainGrid"
+      >
+        <div className="0"></div>
+        <SortSelector
+          className="self-center lg:self-end lg:mr-10 mb-5 "
+          onSortChange={setSortBy}
+          currentSort={sortBy}
+        />
+        <ProductsGrid products={sortedProducts} strapiHost={strapiHost} />
+        {pagination.pageCount > 1 && (
+          <GridPagination
+            currentpage={currentPage}
+            pageSize={pagination.pageSize}
+            totalpages={pagination.pageCount}
+          />
+        )}
+      </section>
+    </>
   );
 }

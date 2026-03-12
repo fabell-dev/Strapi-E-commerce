@@ -72,3 +72,15 @@ export interface ProductPageProps {
   product: Product | null;
   strapiHost?: string;
 }
+
+export interface FetchProductsResult {
+  data: ProductGridItem[];
+  pagination: PaginationMeta;
+}
+
+export interface PaginationMeta {
+  page: number;
+  pageSize: number;
+  pageCount: number;
+  total: number;
+}
