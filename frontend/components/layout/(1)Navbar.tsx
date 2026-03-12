@@ -34,7 +34,7 @@ export default function Navbar({ categories }: Props) {
       <div className="flex items-center justify-evenly max-w-80 w-full md:w-auto ">
         <Link
           className="font-bold text-sm md:text-xl "
-          href="/"
+          href="/?page=1&pageSize=9"
           onClick={handleHeroClick}
         >
           <span className="block md:hidden">Your Little Store</span>
@@ -44,6 +44,7 @@ export default function Navbar({ categories }: Props) {
 
         <Icons className="flex  md:hidden" />
       </div>
+
       <SearchBar className="flex md:hidden" />
 
       <div className=" hidden md:flex gap-5  flex-2 items-center justify-center">
@@ -58,6 +59,17 @@ export default function Navbar({ categories }: Props) {
       </div>
 
       <Icons className="hidden md:flex flex-1" />
+      <div className=" md:hidden flex gap-5  flex-2 items-center justify-center">
+        {categories.map((item, index) => (
+          <Link
+            className="font-bold"
+            href={`/category/${item.toLowerCase().replace(/\s+/g, "-")}`}
+            key={index}
+          >
+            {item}
+          </Link>
+        ))}
+      </div>
     </nav>
   );
 }
@@ -128,7 +140,7 @@ function SearchBar({ className }: { className: string }) {
         const data = await searchProducts(
           value,
           currentCategory || undefined,
-          currentProductSlug || undefined
+          currentProductSlug || undefined,
         );
         setResults(Array.isArray(data) ? data : []);
         setIsOpen(true);

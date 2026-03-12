@@ -17,9 +17,18 @@ export default function ProductsSugestedCarrousel({
   category,
   currentProductSlug,
 }: Props) {
+  // Responsive
+  const [width, setWidth] = useState(0);
+  useEffect(() => {
+    setWidth(window.innerWidth);
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  const isMobile = width < 768 ? true : false;
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
-    slidesToScroll: 2,
+    slidesToScroll: isMobile ? 2 : 1,
   });
   const [prevBtnDisabled, setPrevBtnDisabled] = useState(true);
   const [nextBtnDisabled, setNextBtnDisabled] = useState(true);
@@ -83,14 +92,16 @@ export default function ProductsSugestedCarrousel({
 
   return (
     <>
-      <h2 className="text-2xl font-bold mb-4 text-center">You may also like</h2>
-      <div className="flex items-center gap-1 ">
+      <h2 className="text-2xl md:text-4xl font-bold mb-4 md:mb-8 text-center">
+        You may also like
+      </h2>
+      <div className="flex items-center gap-1 md:px-10 ">
         {/* Botón anterior - Solo mostrar si hay más de 2 productos */}
         {hasMoreThanTwo && (
           <button
             onClick={scrollPrev}
             disabled={prevBtnDisabled}
-            className="shrink-0 bg-black text-white rounded-full p-1 transition disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-800 ml-2"
+            className=" shrink-0 bg-black text-white rounded-full p-1 md:p-3 transition disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-800 ml-2"
             aria-label="Previous slide"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -106,7 +117,7 @@ export default function ProductsSugestedCarrousel({
               <Link
                 key={product.id}
                 href={`/product/${product.slug}`}
-                className="shrink-0 px-2 w-1/2 h-64 hover:opacity-60"
+                className="shrink-0 px-2 w-1/2  md:w-1/3 h-64 hover:opacity-60"
               >
                 <div className="w-full h-full bg-gray-200 rounded-xl overflow-hidden ">
                   <img
@@ -133,7 +144,7 @@ export default function ProductsSugestedCarrousel({
           <button
             onClick={scrollNext}
             disabled={nextBtnDisabled}
-            className="shrink-0 bg-black text-white rounded-full p-1 transition disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-800 mr-2"
+            className="shrink-0 bg-black text-white rounded-full p-1 md:p-3 transition disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-800 mr-2"
             aria-label="Next slide"
           >
             <ChevronRight className="w-6 h-6" />

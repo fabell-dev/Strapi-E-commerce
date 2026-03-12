@@ -102,9 +102,6 @@ export function LoginForm() {
         </form>
       </CardContent>
       <CardFooter className="flex-col gap-2">
-        <Button variant="outline" className="w-full">
-          Login with Google
-        </Button>
         <CardAction className="w-full flex items-center justify-center">
           <p className="flex items-center text-sm text-gray-500">
             Don't have an account?

@@ -18,7 +18,7 @@ export default function Reviews({ reviews, numberToShow }: Props) {
         (review, index) =>
           index < numberToShow && (
             <div
-              className="flex border-b-2  border-gray-400/80  gap-x-5"
+              className="flex border-b-2  border-gray-400/80  gap-x-5 md:w-1/2 md:mt-5"
               key={review.id}
             >
               <img

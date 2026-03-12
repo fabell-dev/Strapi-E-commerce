@@ -75,7 +75,7 @@ export function MainSectionClient({
   // Adjust page size based on screen width
   useEffect(() => {
     const width = window.innerWidth;
-    const newPageSize = width < 640 ? 4 : width < 1024 ? 6 : 12;
+    const newPageSize = width < 640 ? 4 : width < 1024 ? 6 : 9;
 
     if (newPageSize !== pagination.pageSize) {
       router.push(`?page=1&pageSize=${newPageSize}`);
@@ -85,7 +85,7 @@ export function MainSectionClient({
   return (
     <>
       <section
-        className="flex flex-col md:mx-40 mx-5 pt-40 sm:pt-20 md:pt-20 scroll-mt-35 "
+        className="flex flex-col md:mx-40 mx-5 pt-50 sm:pt-20 md:pt-20 scroll-mt-35 "
         id="mainGrid"
       >
         <div className="0"></div>

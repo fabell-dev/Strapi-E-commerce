@@ -25,7 +25,7 @@ export default async function CategoryPage({
   const paramsPagination = await searchParams;
 
   if (!paramsPagination.page || !paramsPagination.pageSize) {
-    redirect("?page=1&pageSize=12");
+    redirect("?page=1&pageSize=9");
   }
 
   //Se extrae la categoria desde los params

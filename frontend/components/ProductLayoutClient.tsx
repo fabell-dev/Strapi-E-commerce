@@ -52,7 +52,7 @@ export default function ProductLayoutClient({ product }: Props) {
 
   return (
     <>
-      <section className="flex mt-40 md:mt-30 flex-col gap-y-5 px-10 md:px-40  md:flex-row md:gap-x-10 ">
+      <section className="flex mt-50 md:mt-30 flex-col gap-y-5 px-10 md:px-40  md:flex-row md:gap-x-10 ">
         <div className="flex justify-evenly w-full md:w-1/2 ">
           <div className="flex flex-col md:w-full h-full md:flex-1">
             <p className="text-3xl sm:text-4xl md:text-5xl font-bold text-left md:flex md:items-center  justify-between">
@@ -76,7 +76,7 @@ export default function ProductLayoutClient({ product }: Props) {
             )}
             {!isMobile && (
               <p className="my-5 text-sm md:text-sm lg:text-xl xl:text-2xl">
-                {product.description}
+                {product.description}.
               </p>
             )}
 
@@ -148,9 +148,9 @@ export default function ProductLayoutClient({ product }: Props) {
       </section>
 
       {/*--------Review Section-------*/}
-      <section className="flex flex-col mt-10 mx-10 gap-y-10">
-        <div className="flex flex-col items-start  ">
-          <p className="font-bold text-2xl">Product Reviews</p>
+      <section className="flex flex-col mt-10 mx-10 gap-y-10 md:items-center">
+        <div className="flex flex-col items-start md:items-center md:mt-10  ">
+          <p className="font-bold text-2xl md:text-4xl">Product Reviews</p>
           {(product.reviews?.length || 0) > 0 && (
             <div className="flex gap-x-2 items-center ">
               <Star className="fill-black" />
@@ -171,7 +171,7 @@ export default function ProductLayoutClient({ product }: Props) {
               stiffness: 300,
               damping: 15,
             }}
-            className="border-2 border-black/70 w-1/2 self-center rounded-2xl font-bold cursor-pointer flex justify-center"
+            className="border-2 border-black/70 w-1/2 self-center rounded-2xl font-bold cursor-pointer flex justify-center md:w-1/7 md:py-3"
             onClick={addMoreReviews}
           >
             <p> Show More</p>

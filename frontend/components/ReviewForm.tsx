@@ -47,12 +47,14 @@ export default function ReviewForm({ productID }: Props) {
     <>
       {user ? (
         <>
-          <form action={formAction} className="flex flex-col gap-y-5">
+          <form action={formAction} className="flex flex-col gap-y-5 md:w-1/2">
             <input type="hidden" name="productId" value={String(productID)} />
             <input type="hidden" name="rating" value={rating} />
 
             <div className="flex flex-col">
-              <label htmlFor="title">Title </label>
+              <label className="md:text-xl" htmlFor="title">
+                Title{" "}
+              </label>
               <input
                 type="text"
                 id="title"
@@ -66,7 +68,9 @@ export default function ReviewForm({ productID }: Props) {
               />
             </div>
             <div>
-              <label htmlFor="description">Review </label>
+              <label className="md:text-xl" htmlFor="description">
+                Review{" "}
+              </label>
               <textarea
                 placeholder="Share your thoughts and experience"
                 id="description"
@@ -79,7 +83,7 @@ export default function ReviewForm({ productID }: Props) {
             </div>
 
             <div>
-              <p className="mb-2">Rating</p>
+              <p className="mb-2 md:text-xl">Rating</p>
               <div className="flex gap-2">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
@@ -120,7 +124,7 @@ export default function ReviewForm({ productID }: Props) {
               whileHover={!formState.success ? { scale: 1.05, y: -1 } : {}}
               whileTap={!formState.success ? { scale: 0.95, y: 1 } : {}}
               type="submit"
-              className={`self-center py-2 text-white w-1/2 rounded-2xl font-medium flex items-center justify-center gap-2 ${
+              className={`self-center py-2 text-white w-1/2 md:w-1/3 md:py-3 rounded-2xl font-medium flex items-center justify-center gap-2 ${
                 formState.success ? "cursor-not-allowed" : "cursor-pointer"
               }`}
               disabled={isPending || formState.success}

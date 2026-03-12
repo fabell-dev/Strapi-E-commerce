@@ -1,11 +1,11 @@
+esqueletos quizas
+implementar forgot password y login google quizas
 mejorar animacion de paginacion
 mejorar probalemente el manejo de imagenes
 mejorar el stock y su suma con el stock de las variantes \
 hacer whithlist
 que cuando cambies una variante y entres al producto estes en esa variante
-integrar sales (por categoria estaria guapo o a todo el catalogo)
-register and login make more mobile
-manejar mejor la cantidad maxima en la homepage y trabajar con lo de next page previus page y tal probablemente se use el pagination de los fecth
+integrar sales (por categoria estaria guapo o a todo el catalogo)manejar mejor la cantidad maxima en la homepage y trabajar con lo de next page previus page y tal probablemente
 
 
 -(check)hacer que el login el register y lo de las review muestren errores y no reinicien los campos cuando hay un error

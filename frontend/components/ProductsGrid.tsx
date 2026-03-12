@@ -80,7 +80,7 @@ export function ProductCard({ product, strapiHost }: ProductCardProps) {
         {isInStock ? (
           <ButtonAnimated
             text="Add to Cart"
-            classname="text-black md:mt-2 mt-3 mx-20 w-full sm:w-40 md:w-50  h-[5dvh] md:h-10 bg-amber-300 text-xs sm:text-sm cursor-pointer"
+            classname=" text-black md:mt-2 mt-3 mx-20 w-full sm:w-40 md:w-50  h-[5dvh] md:h-10 bg-amber-300 text-xs sm:text-sm cursor-pointer"
           />
         ) : (
           <ButtonAnimated
