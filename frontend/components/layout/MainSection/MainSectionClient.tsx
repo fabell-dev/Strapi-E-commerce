@@ -2,7 +2,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { SortSelector } from "../../SortSelector";
 import ProductsGrid from "../../ProductsGrid";
-import GridPagination from "../../GridPagination";
+import PaginationGrid from "../../PaginationGrid";
 import { ProductGridItem } from "@/types/product.types";
 import { useRouter } from "next/navigation";
 
@@ -96,7 +96,7 @@ export function MainSectionClient({
         />
         <ProductsGrid products={sortedProducts} strapiHost={strapiHost} />
         {pagination.pageCount > 1 && (
-          <GridPagination
+          <PaginationGrid
             currentpage={currentPage}
             pageSize={pagination.pageSize}
             totalpages={pagination.pageCount}

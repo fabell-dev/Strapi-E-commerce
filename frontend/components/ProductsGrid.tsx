@@ -58,8 +58,6 @@ export function ProductCard({ product, strapiHost, i }: ProductCardProps) {
       whileHover={{ y: -4 }}
       className="border rounded-lg overflow-hidden shadow-lg relative h-[43dvh] md:h-full hover:shadow-xl transition-shadow"
     >
-      <HeartWhishlist classname="absolute top-1 right-1 md:top-5 md:right-5" />
-
       {currentImage && (
         <div className="overflow-hidden w-full h-[15vh] md:h-64">
           <Link href={`/product/${product.slug}`} key={product.id}>

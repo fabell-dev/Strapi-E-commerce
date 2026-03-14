@@ -1,5 +1,6 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTransition } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -9,28 +10,33 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-interface GridPaginationProps {
+interface PaginationGridProps {
   currentpage: number;
   pageSize: number;
   totalpages: number;
   classname?: string;
 }
 
-export default function GridPagination({
+export default function PaginationGrid({
   currentpage,
   pageSize,
   totalpages,
   classname,
-}: GridPaginationProps) {
+}: PaginationGridProps) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  
   const handlePageChange = (newPage: number) => {
-    router.push(`?page=${newPage}&pageSize=${pageSize}`);
+    startTransition(() => {
+      router.push(`?page=${newPage}&pageSize=${pageSize}`);
+    });
+    
     setTimeout(() => {
       const mainGrid = document.getElementById("mainGrid");
       if (mainGrid) {
-        mainGrid.scrollIntoView({ behavior: "smooth" });
+        mainGrid.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-    }, 100);
+    }, 300);
   };
   return (
     <div className={`${classname} `}>
