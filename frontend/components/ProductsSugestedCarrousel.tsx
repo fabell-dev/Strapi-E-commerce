@@ -111,7 +111,7 @@ export default function ProductsSugestedCarrousel({
         {/* Carrusel */}
         <div className="overflow-hidden flex-1" ref={emblaRef}>
           <div
-            className={`flex ${products.length < 2 ? "justify-center " : ""} ${products.length === 2 ? "mx-5" : ""}`}
+            className={`flex ${products.length < 2 ? "justify-center " : ""} ${products.length === 2 ? "mx-5 justify-center" : ""}`}
           >
             {products.map((product) => (
               <Link

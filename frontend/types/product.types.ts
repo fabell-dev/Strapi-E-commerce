@@ -64,6 +64,7 @@ export interface ProductsGridProps {
 }
 
 export interface ProductCardProps {
+  i: number;
   product: ProductGridItem;
   strapiHost?: string;
 }

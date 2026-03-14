@@ -79,7 +79,6 @@ function Icons({ className }: { className: string }) {
     <>
       <div className={`${className} justify-center items-center gap-x-5 `}>
         <SearchBar className="md:flex hidden mr-5" />
-
         <AvatarDropdown />
 
         <button className="cursor-pointer">
@@ -90,6 +89,7 @@ function Icons({ className }: { className: string }) {
   );
 }
 
+// -------SearchBar---------
 function SearchBar({ className }: { className: string }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState<any[]>([]);

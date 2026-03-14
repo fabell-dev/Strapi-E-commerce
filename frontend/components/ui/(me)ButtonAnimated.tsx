@@ -34,7 +34,7 @@ export default function ButtonAnimated({
         damping: 15,
       }}
     >
-      <span className="w-100% md:text-xl text-balance">{text}</span>
+      <span className="sm:text-sm lg:text-xl text-balance">{text}</span>
     </motion.button>
   );
 }

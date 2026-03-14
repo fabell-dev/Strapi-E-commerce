@@ -1,4 +1,5 @@
-esqueletos quizas
+esqueletos quizas animacion para tiempos de carga
+y quizas animacion entre paginas
 implementar forgot password y login google quizas
 mejorar animacion de paginacion
 mejorar probalemente el manejo de imagenes

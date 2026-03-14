@@ -43,7 +43,9 @@ export function AvatarDropdown() {
           <DropdownMenuItem className="text-sm p-2 font-semibold">
             {user.username}
           </DropdownMenuItem>
-          <DropdownMenuItem>Whishlist</DropdownMenuItem>
+          <Link href="/whishlist">
+            <DropdownMenuItem>Whishlist</DropdownMenuItem>
+          </Link>
           <DropdownMenuItem variant="destructive" onClick={handleLogout}>
             Logout
           </DropdownMenuItem>

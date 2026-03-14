@@ -85,7 +85,7 @@ export function MainSectionClient({
   return (
     <>
       <section
-        className="flex flex-col md:mx-40 mx-5 pt-50 sm:pt-20 md:pt-20 scroll-mt-35 "
+        className="flex flex-col md:mx-40 mx-5 pt-10 sm:pt-20 md:pt-20 scroll-mt-35 "
         id="mainGrid"
       >
         <div className="0"></div>

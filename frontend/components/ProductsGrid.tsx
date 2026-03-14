@@ -1,4 +1,5 @@
 "use client";
+import { motion } from "motion/react";
 import { useState } from "react";
 import ButtonAnimated from "./ui/(me)ButtonAnimated";
 import Link from "next/link";
@@ -14,11 +15,12 @@ export default function ProductsGrid({
 }: ProductsGridProps) {
   return (
     <section className="pb-10">
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products
           .filter((product) => product.stock > 0)
-          .map((product) => (
+          .map((product, i) => (
             <ProductCard
+              i={i}
               product={product}
               key={product.id}
               strapiHost={strapiHost}
@@ -29,7 +31,7 @@ export default function ProductsGrid({
   );
 }
 
-export function ProductCard({ product, strapiHost }: ProductCardProps) {
+export function ProductCard({ product, strapiHost, i }: ProductCardProps) {
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(-1);
 
   const hasVariants = product.variants && product.variants.length > 0;
@@ -45,16 +47,31 @@ export function ProductCard({ product, strapiHost }: ProductCardProps) {
   const isInStock = currentStock > 0;
 
   return (
-    <div className="border rounded-lg overflow-hidden shadow-lg relative h-[43dvh] md:h-full hover:shadow-xl transition-shadow">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        delay: 0.1 + i * 0.08,
+        type: "spring",
+        stiffness: 200,
+      }}
+      whileHover={{ y: -4 }}
+      className="border rounded-lg overflow-hidden shadow-lg relative h-[43dvh] md:h-full hover:shadow-xl transition-shadow"
+    >
       <HeartWhishlist classname="absolute top-1 right-1 md:top-5 md:right-5" />
+
       {currentImage && (
-        <Link href={`/product/${product.slug}`} key={product.id}>
-          <img
-            src={`${strapiHost}${currentImage.url}`}
-            alt={product.name}
-            className="w-full h-[15vh] md:h-64 object-cover "
-          />
-        </Link>
+        <div className="overflow-hidden w-full h-[15vh] md:h-64">
+          <Link href={`/product/${product.slug}`} key={product.id}>
+            <motion.img
+              src={`${strapiHost}${currentImage.url}`}
+              alt={product.name}
+              className="w-full h-full object-cover"
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.3 }}
+            />
+          </Link>
+        </div>
       )}
       <div className="p-4  flex flex-col items-center">
         <Link
@@ -80,12 +97,12 @@ export function ProductCard({ product, strapiHost }: ProductCardProps) {
         {isInStock ? (
           <ButtonAnimated
             text="Add to Cart"
-            classname=" text-black md:mt-2 mt-3 mx-20 w-full sm:w-40 md:w-50  h-[5dvh] md:h-10 bg-amber-300 text-xs sm:text-sm cursor-pointer"
+            classname=" text-black md:mt-2 mt-3 mx-20 w-full sm:w-40  md:w-4/5 lg:w-5/6  h-[5dvh] md:h-10 bg-amber-300  sm:text-sm cursor-pointer"
           />
         ) : (
           <ButtonAnimated
             text="Out of Stock"
-            classname="text-black md:mt-2 mt-3 mx-20 w-full sm:w-40 md:w-50  h-[5dvh] md:h-10 bg-gray-400 text-xs sm:text-sm cursor-not-allowed"
+            classname="text-black md:mt-2 mt-3 mx-20 w-full sm:w-40  md:w-4/5 lg:w-5/6  h-[5dvh] md:h-10 bg-gray-400  sm:text-sm  cursor-not-allowed"
           />
         )}
 
@@ -101,6 +118,6 @@ export function ProductCard({ product, strapiHost }: ProductCardProps) {
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
