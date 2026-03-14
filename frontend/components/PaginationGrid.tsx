@@ -25,12 +25,12 @@ export default function PaginationGrid({
 }: PaginationGridProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  
+
   const handlePageChange = (newPage: number) => {
     startTransition(() => {
       router.push(`?page=${newPage}&pageSize=${pageSize}`);
     });
-    
+
     setTimeout(() => {
       const mainGrid = document.getElementById("mainGrid");
       if (mainGrid) {

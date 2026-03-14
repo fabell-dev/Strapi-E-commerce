@@ -55,7 +55,7 @@ export function ProductCard({ product, strapiHost, i }: ProductCardProps) {
         type: "spring",
         stiffness: 200,
       }}
-      whileHover={{ y: -4 }}
+      whileHover={{ y: -10 }}
       className="border rounded-lg overflow-hidden shadow-lg relative h-[43dvh] md:h-full hover:shadow-xl transition-shadow"
     >
       {currentImage && (
