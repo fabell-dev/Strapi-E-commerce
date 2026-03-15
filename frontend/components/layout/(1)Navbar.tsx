@@ -12,6 +12,7 @@ import { AvatarDropdown } from "../AvatarDropdown";
 import { useState, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { searchProducts } from "@/lib/actions/product-actions";
+import { ShoppingCartNew } from "../ShopingCart/ShoppingCart";
 
 type Props = {
   categories: string[];
@@ -30,7 +31,7 @@ export default function Navbar({ categories }: Props) {
   };
 
   return (
-    <nav className="fixed top-0 z-90 min-w-screen py-5 backdrop-filter backdrop-blur-sm bg-white/30 border-background border-b rounded-b-xl flex flex-col md:flex-row  items-center justify-evenly gap-5 md:px-40 ">
+    <nav className="fixed top-0 z-40 min-w-screen py-5 backdrop-filter backdrop-blur-sm bg-white/30 border-background border-b rounded-b-xl flex flex-col md:flex-row  items-center justify-evenly gap-5 md:px-40 ">
       <div className="flex items-center justify-evenly max-w-80 w-full md:w-auto ">
         <Link
           className="font-bold text-sm md:text-xl "
@@ -80,10 +81,7 @@ function Icons({ className }: { className: string }) {
       <div className={`${className} justify-center items-center gap-x-5 `}>
         <SearchBar className="md:flex hidden mr-5" />
         <AvatarDropdown />
-
-        <button className="cursor-pointer">
-          <ShoppingCart className="md:scale-125 shrink-0" />
-        </button>
+        <ShoppingCartNew />
       </div>
     </>
   );

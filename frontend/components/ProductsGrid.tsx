@@ -1,11 +1,17 @@
 "use client";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
 import ButtonAnimated from "./ui/(me)ButtonAnimated";
 import Link from "next/link";
 import { ProductsGridProps, ProductCardProps } from "@/types/product.types";
-import HeartWhishlist from "./HeartWhishlist";
 import VariantSelector from "./VariantSelector";
+import { useCart } from "./ShopingCart/CartContext";
+
+interface FlyingItem {
+  id: string;
+  x: number;
+  y: number;
+}
 
 const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_URL;
 
@@ -13,26 +19,67 @@ export default function ProductsGrid({
   products,
   strapiHost = STRAPI_HOST,
 }: ProductsGridProps) {
+  const [flyingItems, setFlyingItems] = useState<FlyingItem[]>([]);
+
   return (
-    <section className="pb-10">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products
-          .filter((product) => product.stock > 0)
-          .map((product, i) => (
-            <ProductCard
-              i={i}
-              product={product}
-              key={product.id}
-              strapiHost={strapiHost}
-            />
-          ))}
-      </div>
-    </section>
+    <>
+      {/* Flying dot animations */}
+      <AnimatePresence>
+        {flyingItems.map((fly) => (
+          <motion.div
+            key={fly.id}
+            className="fixed z-[9999] w-4 h-4 rounded-full bg-amber-400 pointer-events-none"
+            style={{ top: fly.y - 8, left: fly.x - 8 }}
+            initial={{ scale: 1, opacity: 1 }}
+            animate={{
+              top: 20,
+              left: "calc(100% - 60px)",
+              scale: 0.3,
+              opacity: 0,
+            }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+          />
+        ))}
+      </AnimatePresence>
+
+      <section className="pb-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {products
+            .filter((product) => product.stock > 0)
+            .map((product, i) => (
+              <ProductCard
+                i={i}
+                product={product}
+                key={product.id}
+                strapiHost={strapiHost}
+                onAddToCart={(e) => {
+                  const flyId = `${Date.now()}-${product.id}`;
+                  setFlyingItems((prev) => [
+                    ...prev,
+                    { id: flyId, x: e.clientX, y: e.clientY },
+                  ]);
+                  setTimeout(() => {
+                    setFlyingItems((prev) =>
+                      prev.filter((f) => f.id !== flyId),
+                    );
+                  }, 700);
+                }}
+              />
+            ))}
+        </div>
+      </section>
+    </>
   );
 }
 
-export function ProductCard({ product, strapiHost, i }: ProductCardProps) {
+export function ProductCard({
+  product,
+  strapiHost,
+  i,
+  onAddToCart,
+}: ProductCardProps & { onAddToCart: (e: React.MouseEvent) => void }) {
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(-1);
+  const { addToCart } = useCart();
 
   const hasVariants = product.variants && product.variants.length > 0;
   const currentImage =
@@ -45,6 +92,20 @@ export function ProductCard({ product, strapiHost, i }: ProductCardProps) {
       ? product.stock
       : product.variants?.[selectedVariantIndex]?.stock || 0;
   const isInStock = currentStock > 0;
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    // Trigger flying dot animation
+    onAddToCart(e);
+
+    const cartProduct = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: currentImage?.url || "",
+      category: product.productCategory?.name || "Product",
+    };
+    addToCart(cartProduct);
+  };
 
   return (
     <motion.div
@@ -95,6 +156,7 @@ export function ProductCard({ product, strapiHost, i }: ProductCardProps) {
         {isInStock ? (
           <ButtonAnimated
             text="Add to Cart"
+            onClick={handleAddToCart}
             classname=" text-black md:mt-2 mt-3 mx-20 w-full sm:w-40  md:w-4/5 lg:w-5/6  h-[5dvh] md:h-10 bg-amber-300  sm:text-sm cursor-pointer"
           />
         ) : (

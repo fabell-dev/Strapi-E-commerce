@@ -144,14 +144,6 @@ export function ShoppingCartDemo() {
 
       {/* NAVBAR */}
       <nav className="relative z-50 flex items-center justify-between px-4 sm:px-8 py-4 border-b border-white/10 backdrop-blur-sm bg-white/5">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="text-white font-black text-xl tracking-tight"
-        >
-          <span className="text-indigo-400">APEX</span>STORE
-        </motion.div>
-
         {/* Cart Button */}
         <motion.button
           ref={cartButtonRef}
@@ -203,81 +195,78 @@ export function ShoppingCartDemo() {
             Click "Add to Cart" and watch the magic happen ✨
           </p>
         </motion.div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {PRODUCTS.map((product, i) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: 0.1 + i * 0.08,
-                type: "spring",
-                stiffness: 200,
-              }}
-              whileHover={{ y: -4 }}
-              className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm group"
-            >
-              <div className="relative h-44 overflow-hidden bg-white/5">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                <span className="absolute top-2 left-2 bg-white/20 backdrop-blur-sm text-white text-xs px-2 py-0.5 rounded-full">
-                  {product.category}
-                </span>
-              </div>
+            // <motion.div
+            //   key={product.id}
+            //   initial={{ opacity: 0, y: 30 }}
+            //   animate={{ opacity: 1, y: 0 }}
+            //   transition={{
+            //     delay: 0.1 + i * 0.08,
+            //     type: "spring",
+            //     stiffness: 200,
+            //   }}
+            //   whileHover={{ y: -4 }}
+            //   className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm group"
+            // >
+            //   <div className="relative h-44 overflow-hidden bg-white/5">
+            //     <img
+            //       src={product.image}
+            //       alt={product.name}
+            //       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            //     />
+            //     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+            //     <span className="absolute top-2 left-2 bg-white/20 backdrop-blur-sm text-white text-xs px-2 py-0.5 rounded-full">
+            //       {product.category}
+            //     </span>
+            //   </div>
 
-              <div className="p-4">
-                <h3 className="text-white font-semibold text-sm mb-1">
-                  {product.name}
-                </h3>
-                <p className="text-indigo-300 font-black text-lg mb-3">
-                  ${product.price.toFixed(2)}
-                </p>
+            //   <div className="p-4">
+            //     <h3 className="text-white font-semibold text-sm mb-1">
+            //       {product.name}
+            //     </h3>
+            //     <p className="text-indigo-300 font-black text-lg mb-3">
+            //       ${product.price.toFixed(2)}
+            //     </p>
 
-                <motion.button
-                  onClick={(e) => addToCart(product, e)}
-                  className={`w-full flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all cursor-pointer select-none
+            <motion.button
+              onClick={(e) => addToCart(product, e)}
+              className={`w-full flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all cursor-pointer select-none
                     ${
                       addedId === product.id
                         ? "bg-green-500 text-white"
                         : "bg-indigo-600 hover:bg-indigo-500 text-white"
                     }`}
-                  whileTap={{ scale: 0.95 }}
-                  animate={
-                    addedId === product.id ? { scale: [1, 1.08, 1] } : {}
-                  }
-                  transition={{ duration: 0.3 }}
-                >
-                  <AnimatePresence mode="wait">
-                    {addedId === product.id ? (
-                      <motion.span
-                        key="added"
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -6 }}
-                        className="flex items-center gap-1"
-                      >
-                        ✓ Added!
-                      </motion.span>
-                    ) : (
-                      <motion.span
-                        key="add"
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -6 }}
-                        className="flex items-center gap-1"
-                      >
-                        <Plus className="w-4 h-4" /> Add to Cart
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </motion.button>
-              </div>
-            </motion.div>
+              whileTap={{ scale: 0.95 }}
+              animate={addedId === product.id ? { scale: [1, 1.08, 1] } : {}}
+              transition={{ duration: 0.3 }}
+            >
+              <AnimatePresence mode="wait">
+                {addedId === product.id ? (
+                  <motion.span
+                    key="added"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    className="flex items-center gap-1"
+                  >
+                    ✓ Added!
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="add"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    className="flex items-center gap-1"
+                  >
+                    <Plus className="w-4 h-4" /> Add to Cart
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
+            //   </div>
+            // </motion.div>
           ))}
         </div>
       </main>

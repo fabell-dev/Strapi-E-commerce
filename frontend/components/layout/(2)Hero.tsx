@@ -4,7 +4,6 @@ import { Raleway } from "next/font/google";
 import { useRouter } from "next/navigation";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import ButtonAnimated from "../ui/(me)ButtonAnimated";
-import Link from "next/link";
 
 const raleway = Raleway({
   subsets: ["latin"],

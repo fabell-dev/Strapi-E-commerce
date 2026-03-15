@@ -88,7 +88,6 @@ export function MainSectionClient({
         className="flex flex-col md:mx-40 mx-5 pt-10 sm:pt-20 md:pt-20 scroll-mt-35 "
         id="mainGrid"
       >
-        <div className="0"></div>
         <SortSelector
           className="self-center lg:self-end lg:mr-10 mb-5 "
           onSortChange={setSortBy}
