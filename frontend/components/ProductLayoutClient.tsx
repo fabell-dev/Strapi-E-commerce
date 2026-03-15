@@ -1,21 +1,31 @@
 "use client";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Product } from "@/types/product.types";
 import { useState, useEffect } from "react";
-import { Bell, Star, ChevronDown } from "lucide-react";
+import { Star, ChevronDown } from "lucide-react";
 import HeartWhishlist from "./HeartWhishlist";
 import VariantSelector from "./VariantSelector";
 import StarRating from "./StarRating";
 import ProductsSugestedCarrousel from "./ProductsSugestedCarrousel";
 import ReviewForm from "./ReviewForm";
 import Reviews from "./Reviews";
+import AddToCartButton from "./ShopingCart/AddToCartButton";
 
 type Props = {
   product: Product;
 };
 const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_URL;
 
+interface FlyingItem {
+  id: string;
+  x: number;
+  y: number;
+}
+
 export default function ProductLayoutClient({ product }: Props) {
+  // Flying items for animation
+  const [flyingItems, setFlyingItems] = useState<FlyingItem[]>([]);
+
   // Variants
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(-1);
   const hasVariants = product.variants && product.variants.length > 0;
@@ -23,6 +33,16 @@ export default function ProductLayoutClient({ product }: Props) {
     selectedVariantIndex === -1
       ? product.image
       : product.variants?.[selectedVariantIndex]?.image || product.image;
+
+  const currentStock =
+    selectedVariantIndex === -1
+      ? product.stock
+      : product.variants?.[selectedVariantIndex]?.stock || 0;
+
+  const selectedColor =
+    selectedVariantIndex !== -1
+      ? product.variants?.[selectedVariantIndex]?.color
+      : product.color;
 
   //Reviews and Rating
   const [numberToShow, setnumberToShow] = useState(3);
@@ -50,17 +70,48 @@ export default function ProductLayoutClient({ product }: Props) {
   }, []);
   const isMobile = width < 768 ? true : false;
 
+  const handleAddToCartAnimation = (e?: React.MouseEvent<HTMLElement>) => {
+    if (!e) return;
+    const flyId = `${Date.now()}-${product.id}`;
+    setFlyingItems((prev) => [
+      ...prev,
+      { id: flyId, x: e.clientX, y: e.clientY },
+    ]);
+    setTimeout(() => {
+      setFlyingItems((prev) => prev.filter((f) => f.id !== flyId));
+    }, 700);
+  };
+
   return (
     <>
+      {/* Flying dot animations */}
+      <AnimatePresence>
+        {flyingItems.map((fly) => (
+          <motion.div
+            key={fly.id}
+            className="fixed z-9999 w-4 h-4 rounded-full bg-amber-400 pointer-events-none"
+            style={{ top: fly.y - 8, left: fly.x - 8 }}
+            initial={{ scale: 1, opacity: 1 }}
+            animate={{
+              top: 20,
+              left: "calc(100% - 60px)",
+              scale: 0.3,
+              opacity: 0,
+            }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+          />
+        ))}
+      </AnimatePresence>
+
       <section className="flex mt-50 md:mt-30 flex-col gap-y-5 px-10 md:px-40  md:flex-row md:gap-x-10 ">
         <div className="flex justify-evenly w-full md:w-1/2 ">
           <div className="flex flex-col md:w-full h-full md:flex-1">
             <p className="text-3xl sm:text-4xl md:text-5xl font-bold text-left md:flex md:items-center  justify-between">
-              <span className="text-3xl md:text-3xl lg:text-4xl xl:text-5xl">
+              <span className="text-3xl md:text-3xl lg:text-4xl xl:text-5xl ">
                 {product.name}
               </span>
               {!isMobile && (
-                <HeartWhishlist classname=" h-full scale-150 px-10  " />
+                <HeartWhishlist classname=" h-full scale-150 px-5 " />
               )}
             </p>
 
@@ -91,21 +142,21 @@ export default function ProductLayoutClient({ product }: Props) {
                         selectedVariantIndex={selectedVariantIndex}
                         onVariantChange={setSelectedVariantIndex}
                       />
-                      <BuyOrRestockButton
-                        product={product}
-                        selectedVariantIndex={selectedVariantIndex}
-                      />
                     </>
                   )}
-                  {!hasVariants && (
-                    <>
-                      <BuyOrRestockButton
+
+                  <>
+                    <div className="mt-10 w-full flex  justify-center ">
+                      <AddToCartButton
+                        classname="scale-y-125 max-w-80 "
                         product={product}
-                        selectedVariantIndex={selectedVariantIndex}
-                        classname="mt-10"
+                        currentStock={currentStock}
+                        currentImage={currentImage}
+                        selectedColor={selectedColor}
+                        onAnimationTrigger={handleAddToCartAnimation}
                       />
-                    </>
-                  )}
+                    </div>
+                  </>
                 </div>
               </>
             )}
@@ -132,9 +183,13 @@ export default function ProductLayoutClient({ product }: Props) {
               />
             )}
 
-            <BuyOrRestockButton
+            {/*-------Buy Now / Restock Alert Buttons-----*/}
+            <AddToCartButton
               product={product}
-              selectedVariantIndex={selectedVariantIndex}
+              currentStock={currentStock}
+              currentImage={currentImage}
+              selectedColor={selectedColor}
+              onAnimationTrigger={handleAddToCartAnimation}
             />
           </>
         )}
@@ -225,42 +280,6 @@ function Variants({
             )}
           </div>
         </div>
-      </div>
-    </>
-  );
-}
-
-// Button
-type BuyOrRestockButtonProps = {
-  product: Product;
-  selectedVariantIndex: number;
-  classname?: string;
-};
-
-function BuyOrRestockButton({
-  product,
-  selectedVariantIndex,
-  classname,
-}: BuyOrRestockButtonProps) {
-  //Stock
-  const currentStock =
-    selectedVariantIndex === -1
-      ? product.stock
-      : product.variants?.[selectedVariantIndex]?.stock || 0;
-  const isInStock = currentStock > 0;
-  return (
-    <>
-      <div className={`py-4 ${classname}`}>
-        {isInStock ? (
-          <button className="w-full bg-black text-white py-3 rounded-lg font-bold text-lg transition hover:bg-gray-800 cursor-pointer">
-            Buy Now
-          </button>
-        ) : (
-          <button className="w-full bg-gray-300 text-gray-600 py-3 rounded-lg font-bold text-lg cursor-not-allowed flex items-center justify-center">
-            <Bell className="mr-4" />
-            Restock Alert
-          </button>
-        )}
       </div>
     </>
   );

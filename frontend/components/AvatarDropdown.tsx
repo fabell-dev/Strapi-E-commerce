@@ -24,7 +24,7 @@ export function AvatarDropdown() {
   if (!user) {
     return (
       <Link href="/register">
-        <Button>Registrarse</Button>
+        <Button className="ml-2">Registrarse</Button>
       </Link>
     );
   }

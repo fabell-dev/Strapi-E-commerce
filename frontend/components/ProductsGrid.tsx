@@ -1,11 +1,10 @@
 "use client";
+import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
-import ButtonAnimated from "./ui/(me)ButtonAnimated";
-import Link from "next/link";
 import { ProductsGridProps, ProductCardProps } from "@/types/product.types";
 import VariantSelector from "./VariantSelector";
-import { useCart } from "./ShopingCart/CartContext";
+import AddToCartButton from "./ShopingCart/AddToCartButton";
 
 interface FlyingItem {
   id: string;
@@ -28,7 +27,7 @@ export default function ProductsGrid({
         {flyingItems.map((fly) => (
           <motion.div
             key={fly.id}
-            className="fixed z-[9999] w-4 h-4 rounded-full bg-amber-400 pointer-events-none"
+            className="fixed z-9999 w-4 h-4 rounded-full bg-amber-400 pointer-events-none"
             style={{ top: fly.y - 8, left: fly.x - 8 }}
             initial={{ scale: 1, opacity: 1 }}
             animate={{
@@ -53,6 +52,7 @@ export default function ProductsGrid({
                 key={product.id}
                 strapiHost={strapiHost}
                 onAddToCart={(e) => {
+                  if (!e) return;
                   const flyId = `${Date.now()}-${product.id}`;
                   setFlyingItems((prev) => [
                     ...prev,
@@ -77,9 +77,10 @@ export function ProductCard({
   strapiHost,
   i,
   onAddToCart,
-}: ProductCardProps & { onAddToCart: (e: React.MouseEvent) => void }) {
+}: ProductCardProps & {
+  onAddToCart: (e?: React.MouseEvent<HTMLElement>) => void;
+}) {
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(-1);
-  const { addToCart } = useCart();
 
   const hasVariants = product.variants && product.variants.length > 0;
   const currentImage =
@@ -91,21 +92,11 @@ export function ProductCard({
     selectedVariantIndex === -1
       ? product.stock
       : product.variants?.[selectedVariantIndex]?.stock || 0;
-  const isInStock = currentStock > 0;
 
-  const handleAddToCart = (e: React.MouseEvent) => {
-    // Trigger flying dot animation
-    onAddToCart(e);
-
-    const cartProduct = {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: currentImage?.url || "",
-      category: product.productCategory?.name || "Product",
-    };
-    addToCart(cartProduct);
-  };
+  const selectedColor =
+    selectedVariantIndex !== -1
+      ? product.variants?.[selectedVariantIndex]?.color
+      : product.color;
 
   return (
     <motion.div
@@ -153,18 +144,14 @@ export function ProductCard({
         )}
 
         {/*-------Buy Now / Restock Alert Buttons-----*/}
-        {isInStock ? (
-          <ButtonAnimated
-            text="Add to Cart"
-            onClick={handleAddToCart}
-            classname=" text-black md:mt-2 mt-3 mx-20 w-full sm:w-40  md:w-4/5 lg:w-5/6  h-[5dvh] md:h-10 bg-amber-300  sm:text-sm cursor-pointer"
-          />
-        ) : (
-          <ButtonAnimated
-            text="Out of Stock"
-            classname="text-black md:mt-2 mt-3 mx-20 w-full sm:w-40  md:w-4/5 lg:w-5/6  h-[5dvh] md:h-10 bg-gray-400  sm:text-sm  cursor-not-allowed"
-          />
-        )}
+        <AddToCartButton
+          classname="mt-2"
+          product={product}
+          currentStock={currentStock}
+          currentImage={currentImage}
+          selectedColor={selectedColor}
+          onAnimationTrigger={onAddToCart}
+        />
 
         {/* Variants */}
         {hasVariants && (

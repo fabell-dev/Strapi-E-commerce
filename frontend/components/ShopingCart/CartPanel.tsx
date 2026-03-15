@@ -66,9 +66,9 @@ export function CartPanel({ onClose }: { onClose: () => void }) {
                 className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl p-3"
               >
                 <img
-                  src={`${STRAPI_HOST}${item.image}`}
+                  src={`${STRAPI_HOST}${item.image.url}`}
                   alt={item.name}
-                  className="w-14 h-14 object-cover rounded-xl flex-shrink-0"
+                  className="w-14 h-14 object-cover rounded-xl shrink-0"
                 />
                 <div className="flex-1 min-w-0">
                   <p className="text-white text-sm font-semibold truncate">
@@ -91,17 +91,23 @@ export function CartPanel({ onClose }: { onClose: () => void }) {
                       key={item.quantity}
                       initial={{ scale: 1.4, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
-                      className="text-white text-sm font-bold w-5 text-center"
+                      className="text-white text-sm font-bold w-5 text-center "
                     >
                       {item.quantity}
                     </motion.span>
                     <motion.button
                       whileTap={{ scale: 0.85 }}
+                      disabled={item.quantity >= item.stock ? true : false}
                       onClick={() => updateQty(item.id, 1)}
-                      className="w-6 h-6 rounded-full bg-indigo-600 hover:bg-indigo-500 flex items-center justify-center text-white transition-colors cursor-pointer"
+                      className={`w-6 h-6 rounded-full bg-indigo-600 hover:bg-indigo-500 flex items-center justify-center text-white transition-colors cursor-pointer  ${item.quantity >= item.stock ? "cursor-not-allowed! bg-gray-500!" : ""}`}
                     >
                       <Plus className="w-3 h-3" />
                     </motion.button>
+                    {item.quantity >= item.stock ? (
+                      <p className="text-red-500 ">Out Stock</p>
+                    ) : (
+                      false
+                    )}
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-2">

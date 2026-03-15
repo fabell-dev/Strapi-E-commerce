@@ -81,7 +81,7 @@ export function ShoppingCartNew({}: ShoppingCartProps = {}) {
               {/* Drawer — slides from right on desktop, from bottom on mobile */}
               <motion.div
                 key="drawer"
-                className="fixed z-50 bg-slate-900 border-white/10 flex flex-col
+                className="fixed z-50 bg-slate-900 flex flex-col
                          bottom-0 left-0 right-0 rounded-t-3xl max-h-[85vh]
                          sm:bottom-auto sm:top-0 sm:left-auto sm:right-0 sm:h-full sm:w-96 sm:rounded-none sm:rounded-l-3xl sm:max-h-full
                          border border-white/10"
