@@ -4,12 +4,12 @@ import { Product } from "@/types/product.types";
 import { useState, useEffect } from "react";
 import { Star, ChevronDown } from "lucide-react";
 import HeartWhishlist from "./HeartWhishlist";
-import VariantSelector from "./VariantSelector";
-import StarRating from "./StarRating";
-import ProductsSugestedCarrousel from "./ProductsSugestedCarrousel";
+import VariantSelector from "../VariantSelector";
+import StarRating from "../StarRating";
+import ProductsSugestedCarrousel from "./Carrousel";
 import ReviewForm from "./ReviewForm";
 import Reviews from "./Reviews";
-import AddToCartButton from "./ShopingCart/AddToCartButton";
+import AddToCartButton from "../ShopingCart/AddToCartButton";
 
 type Props = {
   product: Product;
@@ -22,7 +22,7 @@ interface FlyingItem {
   y: number;
 }
 
-export default function ProductLayoutClient({ product }: Props) {
+export default function ProductLayout({ product }: Props) {
   // Flying items for animation
   const [flyingItems, setFlyingItems] = useState<FlyingItem[]>([]);
 
@@ -50,7 +50,7 @@ export default function ProductLayoutClient({ product }: Props) {
     setnumberToShow(numberToShow + 3);
   }
   const ratingCount = product.reviews?.length || 0;
-  let rating =
+  const rating =
     ratingCount > 0
       ? Number(
           (
@@ -61,9 +61,8 @@ export default function ProductLayoutClient({ product }: Props) {
       : 0;
 
   // Responsive
-  const [width, setWidth] = useState(0);
+  const [width, setWidth] = useState(() => typeof window !== "undefined" ? window.innerWidth : 0);
   useEffect(() => {
-    setWidth(window.innerWidth);
     const handleResize = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);

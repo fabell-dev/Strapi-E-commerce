@@ -48,7 +48,7 @@ export async function sendReviewAction(
     };
   } else {
     try {
-      const response = await createReview(fields);
+      await createReview(fields);
       revalidateTag("products", "");
       return {
         success: true,

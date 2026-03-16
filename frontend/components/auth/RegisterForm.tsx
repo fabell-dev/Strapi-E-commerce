@@ -12,13 +12,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { z } from "zod";
 import { useActionState, useEffect, useState } from "react";
-import {
-  SignupFormSchema,
-  type SignupFormState,
-} from "@/lib/validations/validationsAuth";
-import { registerUserAction } from "@/lib/actions/auth";
+import { type SignupFormState } from "@/lib/validations/validationsAuth";
+import { registerUserAction } from "@/lib/actions/auth-actions";
 
 const INITIAL_STATE: SignupFormState = {
   success: false,
@@ -43,11 +39,16 @@ export function RegisterForm() {
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
 
+   
   useEffect(() => {
     if (formState.success) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setUsername("");
+       
       setEmail("");
+       
       setPassword("");
+       
       setCpassword("");
     }
   }, [formState.success]);

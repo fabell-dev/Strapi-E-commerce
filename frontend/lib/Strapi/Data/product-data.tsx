@@ -3,7 +3,6 @@ import { queryRead } from "@/lib/Strapi/strapi";
 import qs from "qs";
 import {
   Product,
-  ProductGridItem,
   FetchProductsResult,
 } from "@/types/product.types";
 
@@ -11,7 +10,7 @@ import {
 export const fetchCategories = unstable_cache(
   async () => {
     return queryRead("product-categories").then((res) => {
-      return res.data.map((item: any) => item.name);
+      return res.data.map((item: Record<string, unknown>) => item.name);
     });
   },
   ["categories"],

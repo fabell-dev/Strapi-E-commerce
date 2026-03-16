@@ -1,7 +1,7 @@
 import { fetchProductBySlug } from "@/lib/Strapi/Data/product-data";
 import { notFound } from "next/navigation";
 import { Product } from "@/types/product.types";
-import ProductLayoutClient from "@/components/ProductLayoutClient";
+import ProductLayout from "@/components/ProductPage/ProductLayout";
 
 export default async function ProductPage({
   params,
@@ -17,7 +17,7 @@ export default async function ProductPage({
 
   return (
     <>
-      <ProductLayoutClient product={product} />
+      <ProductLayout product={product} />
     </>
   );
 }

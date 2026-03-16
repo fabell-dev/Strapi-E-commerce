@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getProductsByCategory } from "@/lib/actions/product-actions";
@@ -18,9 +18,8 @@ export default function ProductsSugestedCarrousel({
   currentProductSlug,
 }: Props) {
   // Responsive
-  const [width, setWidth] = useState(0);
+  const [width, setWidth] = useState(() => typeof window !== "undefined" ? window.innerWidth : 0);
   useEffect(() => {
-    setWidth(window.innerWidth);
     const handleResize = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -42,6 +41,7 @@ export default function ProductsSugestedCarrousel({
   useEffect(() => {
     if (!category) return;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     getProductsByCategory(category)
       .then((data) => {
@@ -49,8 +49,10 @@ export default function ProductsSugestedCarrousel({
         const filtered = currentProductSlug
           ? data.filter((p) => p.slug !== currentProductSlug)
           : data;
+         
         setProducts(filtered);
       })
+       
       .finally(() => setLoading(false));
   }, [category, currentProductSlug]);
 

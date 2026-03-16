@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const filters: any = {
+    const filters: Record<string, unknown> = {
       name: {
         $containsi: query,
       },

@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useActionState, useState, useEffect } from "react";
 import { type SigninFormState } from "@/lib/validations/validationsAuth";
-import { loginUserAction } from "@/lib/actions/auth";
+import { loginUserAction } from "@/lib/actions/auth-actions";
 
 const INITIAL_STATE: SigninFormState = {
   success: false,
@@ -35,9 +35,12 @@ export function LoginForm() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
 
+   
   useEffect(() => {
     if (formState.success) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIdentifier("");
+       
       setPassword("");
     }
   }, [formState.success]);
@@ -104,7 +107,7 @@ export function LoginForm() {
       <CardFooter className="flex-col gap-2">
         <CardAction className="w-full flex items-center justify-center">
           <p className="flex items-center text-sm text-gray-500">
-            Don't have an account?
+            Don&apos;t have an account?
             <Link className="ml-2 underline text-black" href="/register">
               Sign Up
             </Link>

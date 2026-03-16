@@ -1,5 +1,5 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import {
   Pagination,
@@ -24,12 +24,9 @@ export default function PaginationGrid({
   classname,
 }: PaginationGridProps) {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
 
   const handlePageChange = (newPage: number) => {
-    startTransition(() => {
-      router.push(`?page=${newPage}&pageSize=${pageSize}`);
-    });
+    router.push(`?page=${newPage}&pageSize=${pageSize}`);
 
     setTimeout(() => {
       const mainGrid = document.getElementById("mainGrid");

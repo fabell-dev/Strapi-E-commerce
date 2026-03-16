@@ -6,7 +6,7 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import Link from "next/link";
-import { ShoppingCart, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { AvatarDropdown } from "../AvatarDropdown";
 import { useState, useRef } from "react";
@@ -88,9 +88,15 @@ function Icons({ className }: { className: string }) {
 }
 
 // -------SearchBar---------
+interface SearchResult {
+  id: string | number;
+  name: string;
+  slug: string;
+}
+
 function SearchBar({ className }: { className: string }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<SearchResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -184,7 +190,7 @@ function SearchBar({ className }: { className: string }) {
               </div>
             ) : results?.length > 0 ? (
               <ul className="max-h-80 overflow-y-auto">
-                {results.map((product: any) => (
+                {results.map((product: SearchResult) => (
                   <li
                     key={product.id}
                     onMouseDown={() => handleSelectProduct(product.slug)}

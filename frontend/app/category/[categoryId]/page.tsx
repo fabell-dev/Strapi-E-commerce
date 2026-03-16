@@ -20,7 +20,7 @@ export default async function CategoryPage({
   searchParams,
 }: {
   params: Promise<{ categoryId: string }>;
-  searchParams: any;
+  searchParams: Promise<Record<string, string | string[]>>;
 }) {
   const paramsPagination = await searchParams;
 

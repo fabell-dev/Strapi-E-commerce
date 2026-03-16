@@ -2,7 +2,7 @@
 
 import { useActionState, useState, useEffect, useContext } from "react";
 import { UserContext } from "@/app/providers";
-import { sendReviewAction } from "@/lib/actions/review";
+import { sendReviewAction } from "@/lib/actions/review-actions";
 import { type ReviewFormState } from "@/lib/validations/validationsReview";
 import { Star, CheckCircle } from "lucide-react";
 import { motion } from "motion/react";
@@ -35,10 +35,14 @@ export default function ReviewForm({ productID }: Props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+   
   useEffect(() => {
     if (formState.success) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setRating(0);
+       
       setTitle("");
+       
       setDescription("");
     }
   }, [formState.success]);

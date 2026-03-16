@@ -7,7 +7,7 @@ const STRAPI_HOST = process.env.STRAPI_HOST;
 export default async function MainSection({
   searchParams,
 }: {
-  searchParams: any;
+  searchParams: Promise<Record<string, string | string[]>>;
 }) {
   const params = await searchParams;
 

@@ -17,7 +17,7 @@ const { STRAPI_HOST } = process.env;
 export async function logoutAction() {
   const cookieStore = await cookies();
   cookieStore.delete("authToken");
-  redirect("/");
+  return { success: true };
 }
 
 export async function registerUserAction(

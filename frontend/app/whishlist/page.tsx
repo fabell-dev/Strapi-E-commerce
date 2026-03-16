@@ -4,7 +4,7 @@ import { fetchProducts } from "@/lib/Strapi/Data/product-data";
 
 const STRAPI_HOST = process.env.STRAPI_HOST;
 
-export default async function page({ searchParams }: { searchParams: any }) {
+export default async function page({ searchParams }: { searchParams: Promise<Record<string, string | string[]>> }) {
   const paramsPagination = await searchParams;
   if (!paramsPagination.page || !paramsPagination.pageSize) {
     redirect("?page=1&pageSize=9");

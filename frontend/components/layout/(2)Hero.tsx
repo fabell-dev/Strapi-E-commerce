@@ -1,7 +1,6 @@
 "use client";
 
 import { Raleway } from "next/font/google";
-import { useRouter } from "next/navigation";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import ButtonAnimated from "../ui/(me)ButtonAnimated";
 
@@ -11,12 +10,11 @@ const raleway = Raleway({
 });
 interface PageInfo {
   title: string;
-  description: any;
+  description: Record<string, unknown>;
   imageURL: string;
 }
 
 export default function Hero({ pageInfo }: { pageInfo: PageInfo }) {
-  const router = useRouter();
 
   const { title, description, imageURL } = pageInfo;
   return (

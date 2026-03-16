@@ -28,32 +28,24 @@ export function MainSectionClient({
 }: MainSectionClientProps) {
   const router = useRouter();
   //Pagination
-  const [currentPage, setcurrentPage] = useState(pagination.page);
-  useEffect(() => {
-    setcurrentPage(pagination.page);
-  }, [pagination.page]);
+  const currentPage = pagination.page;
 
-  const [sortBy, setSortBy] = useState<SortOption>("name-asc");
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  // Cargar sort desde localStorage al montar
-  useEffect(() => {
+  const [sortBy, setSortBy] = useState<SortOption>(() => {
+    if (typeof window === "undefined") return "name-asc";
     const savedSort = localStorage.getItem("productSort") as SortOption | null;
     if (
       savedSort &&
       ["name-asc", "name-desc", "price-low", "price-high"].includes(savedSort)
     ) {
-      setSortBy(savedSort);
+      return savedSort;
     }
-    setIsLoaded(true);
-  }, []);
+    return "name-asc";
+  });
 
   // Guardar sort en localStorage cuando cambia
   useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem("productSort", sortBy);
-    }
-  }, [sortBy, isLoaded]);
+    localStorage.setItem("productSort", sortBy);
+  }, [sortBy]);
 
   const sortedProducts = useMemo(() => {
     const sorted = [...products];

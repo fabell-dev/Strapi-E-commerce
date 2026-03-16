@@ -12,13 +12,16 @@ import { UserRound } from "lucide-react";
 import { useContext } from "react";
 import { UserContext } from "@/app/providers";
 import Link from "next/link";
-import { logoutAction } from "@/lib/actions/auth";
+import { logoutAction } from "@/lib/actions/auth-actions";
+import { useRouter } from "next/navigation";
 
 export function AvatarDropdown() {
   const user = useContext(UserContext);
+  const router = useRouter();
 
   const handleLogout = async () => {
     await logoutAction();
+    router.push("/");
   };
 
   if (!user) {

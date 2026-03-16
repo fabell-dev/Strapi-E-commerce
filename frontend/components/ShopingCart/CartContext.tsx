@@ -1,12 +1,20 @@
 "use client";
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+  useCallback,
+} from "react";
 import { Product } from "@/types/product.types";
 
-interface CartItem extends Product {
+// ==================== TIPOS ====================
+export interface CartItem extends Product {
   quantity: number;
 }
 
-interface CartContextType {
+export interface CartContextType {
   cartItems: CartItem[];
   totalItems: number;
   totalPrice: number;
@@ -16,10 +24,52 @@ interface CartContextType {
   clearCart: () => void;
 }
 
+// ==================== SERVICIO localStorage ====================
+const CART_KEY = "strapi_cart";
+
+class LocalStorageCartService {
+  getCart(): CartItem[] {
+    try {
+      const stored = localStorage.getItem(CART_KEY);
+      return stored ? JSON.parse(stored) : [];
+    } catch (error) {
+      console.error("Error al obtener carrito:", error);
+      return [];
+    }
+  }
+
+  setCart(items: CartItem[]): void {
+    try {
+      localStorage.setItem(CART_KEY, JSON.stringify(items));
+    } catch (error) {
+      console.error("Error al guardar carrito:", error);
+    }
+  }
+
+  clearCart(): void {
+    localStorage.removeItem(CART_KEY);
+  }
+}
+
+const localStorageCart = new LocalStorageCartService();
+
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  // Cargar carrito desde localStorage al montar
+   
+  useEffect(() => {
+    const saved = localStorageCart.getCart();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCartItems(saved);
+  }, []);
+
+  // Guardar en localStorage cuando cambien los items
+  useEffect(() => {
+    localStorageCart.setCart(cartItems);
+  }, [cartItems]);
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = cartItems.reduce(
@@ -27,7 +77,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     0,
   );
 
-  const addToCart = (product: Product) => {
+  const addToCart = useCallback((product: Product) => {
     setCartItems((prev) => {
       const existing = prev.find((i) => i.id === product.id);
       if (existing) {
@@ -37,23 +87,23 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
       return [...prev, { ...product, quantity: 1 }];
     });
-  };
+  }, []);
 
-  const updateQty = (id: number, delta: number) => {
+  const updateQty = useCallback((id: number, delta: number) => {
     setCartItems((prev) =>
       prev
         .map((i) => (i.id === id ? { ...i, quantity: i.quantity + delta } : i))
         .filter((i) => i.quantity > 0),
     );
-  };
+  }, []);
 
-  const removeItem = (id: number) => {
+  const removeItem = useCallback((id: number) => {
     setCartItems((prev) => prev.filter((i) => i.id !== id));
-  };
+  }, []);
 
-  const clearCart = () => {
+  const clearCart = useCallback(() => {
     setCartItems([]);
-  };
+  }, []);
 
   return (
     <CartContext.Provider
@@ -74,7 +124,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
 export function useCart() {
   const context = useContext(CartContext);
-
   if (!context) {
     throw new Error("useCart debe ser usado dentro de CartProvider");
   }

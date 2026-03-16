@@ -17,8 +17,10 @@ export function ShoppingCartNew({}: ShoppingCartProps = {}) {
   const cartButtonRef = useRef<HTMLButtonElement>(null);
 
   // Trigger animation cada vez que totalItems cambia
+   
   useEffect(() => {
     if (totalItems > 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setAnimationKey((prev) => prev + 1);
     }
   }, [totalItems]);
