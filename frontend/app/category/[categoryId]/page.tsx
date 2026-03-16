@@ -1,6 +1,6 @@
 import { fetchCategories, fetchProducts } from "@/lib/Strapi/Data/product-data";
 import { notFound } from "next/navigation";
-import { MainSectionClient } from "@/components/layout/MainSection/MainSectionClient";
+import { MainSectionClient } from "@/components/MainSection/MainSectionClient";
 import { redirect } from "next/navigation";
 
 const STRAPI_HOST = process.env.STRAPI_HOST;
@@ -31,8 +31,14 @@ export default async function CategoryPage({
   //Se extrae la categoria desde los params
   const { categoryId } = await params;
   const paramData = await searchParams;
-  const page = parseInt(paramData.page || "1");
-  const pageSize = parseInt(paramData.pageSize || "12");
+  const page = parseInt(
+    Array.isArray(paramData.page) ? paramData.page[0] : paramData.page || "1",
+  );
+  const pageSize = parseInt(
+    Array.isArray(paramData.pageSize)
+      ? paramData.pageSize[0]
+      : paramData.pageSize || "12",
+  );
 
   //Se hace fetch de todas las categorias
   const categories = await fetchCategories();

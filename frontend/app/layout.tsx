@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import LayoutWrapper from "@/components/LayoutWrapper";
+import LayoutWrapper from "@/components/layout/LayoutWrapper";
 import { getPageInfo } from "@/lib/Strapi/Data/page-metadata";
 import { fetchCategories } from "@/lib/Strapi/Data/product-data";
 

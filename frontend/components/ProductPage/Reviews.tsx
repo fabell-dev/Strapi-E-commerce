@@ -1,5 +1,5 @@
 import { Review } from "@/types/review-types";
-import StarRating from "../StarRating";
+import StarRating from "./StarRating";
 
 type Props = {
   reviews?: Review[];

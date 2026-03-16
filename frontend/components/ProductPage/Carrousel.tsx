@@ -18,7 +18,9 @@ export default function ProductsSugestedCarrousel({
   currentProductSlug,
 }: Props) {
   // Responsive
-  const [width, setWidth] = useState(() => typeof window !== "undefined" ? window.innerWidth : 0);
+  const [width, setWidth] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth : 0,
+  );
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
@@ -49,10 +51,10 @@ export default function ProductsSugestedCarrousel({
         const filtered = currentProductSlug
           ? data.filter((p) => p.slug !== currentProductSlug)
           : data;
-         
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setProducts(filtered);
       })
-       
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       .finally(() => setLoading(false));
   }, [category, currentProductSlug]);
 

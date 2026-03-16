@@ -1,8 +1,8 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
-import { SortSelector } from "../../SortSelector";
-import ProductsGrid from "../../ProductsGrid";
-import PaginationGrid from "../../PaginationGrid";
+import { SortSelector } from "./SortSelector";
+import ProductsGrid from "./ProductsGrid";
+import PaginationGrid from "./PaginationGrid";
 import { ProductGridItem } from "@/types/product.types";
 import { useRouter } from "next/navigation";
 

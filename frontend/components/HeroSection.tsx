@@ -2,7 +2,7 @@
 
 import { Raleway } from "next/font/google";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
-import ButtonAnimated from "../ui/(me)ButtonAnimated";
+import ButtonAnimated from "./ui/(me)ButtonAnimated";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -10,7 +10,7 @@ const raleway = Raleway({
 });
 interface PageInfo {
   title: string;
-  description: Record<string, unknown>;
+  description: any;
   imageURL: string;
 }
 

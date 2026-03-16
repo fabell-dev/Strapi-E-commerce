@@ -92,6 +92,8 @@ interface SearchResult {
   id: string | number;
   name: string;
   slug: string;
+  image?: { url: string };
+  price: string | number;
 }
 
 function SearchBar({ className }: { className: string }) {

@@ -1,4 +1,4 @@
-import { MainSectionClient } from "@/components/layout/MainSection/MainSectionClient";
+import { MainSectionClient } from "@/components/MainSection/MainSectionClient";
 import { redirect } from "next/navigation";
 import { fetchProducts } from "@/lib/Strapi/Data/product-data";
 
@@ -14,8 +14,14 @@ export default async function page({
     redirect("?page=1&pageSize=9");
   }
   const paramData = await searchParams;
-  const page = parseInt(paramData.page || "1");
-  const pageSize = parseInt(paramData.pageSize || "12");
+  const page = parseInt(
+    Array.isArray(paramData.page) ? paramData.page[0] : paramData.page || "1",
+  );
+  const pageSize = parseInt(
+    Array.isArray(paramData.pageSize)
+      ? paramData.pageSize[0]
+      : paramData.pageSize || "12",
+  );
 
   const { data: productsByCategory, pagination } = await fetchProducts(
     page,

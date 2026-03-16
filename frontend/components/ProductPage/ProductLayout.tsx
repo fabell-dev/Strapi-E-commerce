@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { Star, ChevronDown } from "lucide-react";
 import HeartWhishlist from "./HeartWhishlist";
 import VariantSelector from "../VariantSelector";
-import StarRating from "../StarRating";
+import StarRating from "./StarRating";
 import ProductsSugestedCarrousel from "./Carrousel";
 import ReviewForm from "./ReviewForm";
 import Reviews from "./Reviews";
