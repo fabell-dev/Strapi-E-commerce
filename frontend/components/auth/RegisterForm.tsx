@@ -39,16 +39,15 @@ export function RegisterForm() {
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
 
-   
   useEffect(() => {
     if (formState.success) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setUsername("");
-       
+
       setEmail("");
-       
+
       setPassword("");
-       
+
       setCpassword("");
     }
   }, [formState.success]);

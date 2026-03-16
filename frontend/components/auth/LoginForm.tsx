@@ -35,12 +35,11 @@ export function LoginForm() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
 
-   
   useEffect(() => {
     if (formState.success) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setIdentifier("");
-       
+
       setPassword("");
     }
   }, [formState.success]);

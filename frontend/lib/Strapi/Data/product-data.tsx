@@ -1,10 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { queryRead } from "@/lib/Strapi/strapi";
 import qs from "qs";
-import {
-  Product,
-  FetchProductsResult,
-} from "@/types/product.types";
+import { Product, FetchProductsResult } from "@/types/product.types";
 
 //--------- Función para obtener Categorias
 export const fetchCategories = unstable_cache(

@@ -15,7 +15,6 @@ interface PageInfo {
 }
 
 export default function Hero({ pageInfo }: { pageInfo: PageInfo }) {
-
   const { title, description, imageURL } = pageInfo;
   return (
     <>

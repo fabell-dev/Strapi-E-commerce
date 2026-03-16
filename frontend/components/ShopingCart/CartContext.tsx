@@ -59,7 +59,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   // Cargar carrito desde localStorage al montar
-   
+
   useEffect(() => {
     const saved = localStorageCart.getCart();
     // eslint-disable-next-line react-hooks/set-state-in-effect
