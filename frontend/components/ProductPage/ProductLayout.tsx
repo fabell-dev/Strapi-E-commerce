@@ -10,6 +10,7 @@ import ProductsSugestedCarrousel from "./Carrousel";
 import ReviewForm from "./ReviewForm";
 import Reviews from "./Reviews";
 import AddToCartButton from "../ShopingCart/AddToCartButton";
+import { useCart } from "../ShopingCart/CartContext";
 
 type Props = {
   product: Product;
@@ -25,6 +26,9 @@ interface FlyingItem {
 export default function ProductLayout({ product }: Props) {
   // Flying items for animation
   const [flyingItems, setFlyingItems] = useState<FlyingItem[]>([]);
+
+  // Cart context
+  const { cartItems } = useCart();
 
   // Variants
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(-1);
@@ -43,6 +47,19 @@ export default function ProductLayout({ product }: Props) {
     selectedVariantIndex !== -1
       ? product.variants?.[selectedVariantIndex]?.color
       : product.color;
+
+  // Calculate quantity already in cart for this product+variant
+  const quantityInCart = cartItems.reduce((sum, item) => {
+    if (item.id === product.id) {
+      // For products without variants: match items with undefined variantIndex
+      // For products with variants: match items with the selected variantIndex
+      const itemVariantIndex = hasVariants ? selectedVariantIndex : undefined;
+      if (item.variantIndex === itemVariantIndex) {
+        return sum + item.quantity;
+      }
+    }
+    return sum;
+  }, 0);
 
   //Reviews and Rating
   const [numberToShow, setnumberToShow] = useState(3);
@@ -154,6 +171,8 @@ export default function ProductLayout({ product }: Props) {
                         currentStock={currentStock}
                         currentImage={currentImage}
                         selectedColor={selectedColor}
+                        selectedVariantIndex={selectedVariantIndex}
+                        quantityInCart={quantityInCart}
                         onAnimationTrigger={handleAddToCartAnimation}
                       />
                     </div>
@@ -190,6 +209,8 @@ export default function ProductLayout({ product }: Props) {
               currentStock={currentStock}
               currentImage={currentImage}
               selectedColor={selectedColor}
+              selectedVariantIndex={selectedVariantIndex}
+              quantityInCart={quantityInCart}
               onAnimationTrigger={handleAddToCartAnimation}
             />
           </>

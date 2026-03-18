@@ -49,6 +49,9 @@ export function AvatarDropdown() {
           <Link href="/whishlist">
             <DropdownMenuItem>Whishlist</DropdownMenuItem>
           </Link>
+          <Link href="/orders">
+            <DropdownMenuItem>My Orders</DropdownMenuItem>
+          </Link>
           <DropdownMenuItem variant="destructive" onClick={handleLogout}>
             Logout
           </DropdownMenuItem>

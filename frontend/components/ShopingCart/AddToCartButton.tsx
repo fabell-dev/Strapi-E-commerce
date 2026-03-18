@@ -11,6 +11,8 @@ interface AddToCartButtonProps {
   currentStock: number;
   currentImage: Product["image"];
   selectedColor?: string;
+  selectedVariantIndex?: number;
+  quantityInCart?: number; // Items of this product+variant already in cart
   onAnimationTrigger?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -20,14 +22,18 @@ export default function AddToCartButton({
   currentStock,
   currentImage,
   selectedColor,
+  selectedVariantIndex,
+  quantityInCart = 0,
   onAnimationTrigger,
 }: AddToCartButtonProps) {
   const [addedId, setAddedId] = useState<number | null>(null);
   const { addToCart } = useCart();
-  const isInStock = currentStock > 0;
+
+  // Can only add if: quantity in cart + 1 won't exceed stock
+  const canAddMore = quantityInCart + 1 <= currentStock;
 
   const handleAddToCart = (e?: React.MouseEvent<HTMLElement>) => {
-    if (!isInStock) return;
+    if (!canAddMore) return;
 
     // Set added feedback
     setAddedId(product.id);
@@ -39,18 +45,26 @@ export default function AddToCartButton({
     }
 
     // Add to cart with selected variant info
-    const cartProduct: Product = {
+    // Use variantIndex instead of variantId since variants don't have stable IDs
+    const variantIndex =
+      selectedVariantIndex !== undefined && selectedVariantIndex >= 0
+        ? selectedVariantIndex
+        : undefined;
+
+    const cartProduct: Product & { variantIndex?: number } = {
       ...product,
       stock: currentStock,
       image: currentImage,
       ...(selectedColor && { color: selectedColor }),
+      ...(variantIndex !== undefined && { variantIndex }),
     };
-    addToCart(cartProduct);
+
+    addToCart(cartProduct as any);
   };
 
   return (
     <>
-      {isInStock ? (
+      {canAddMore ? (
         <motion.button
           onClick={handleAddToCart}
           className={`w-full flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all cursor-pointer select-none text-black
@@ -90,9 +104,17 @@ export default function AddToCartButton({
       ) : (
         <motion.button
           disabled
-          className="w-full flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold cursor-not-allowed select-none bg-gray-400 text-white"
+          className="w-full  flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all cursor-not-allowed select-none text-white bg-gray-400 mt-2
+                    "
         >
-          Out of Stock
+          <motion.span
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            className="flex items-center gap-1 "
+          >
+            Out of Stock
+          </motion.span>
         </motion.button>
       )}
     </>

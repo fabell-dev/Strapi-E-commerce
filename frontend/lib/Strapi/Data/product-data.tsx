@@ -41,7 +41,7 @@ export const fetchProducts = unstable_cache(
           fields: ["url", "name"],
         },
         variants: {
-          fields: ["color", "stock"],
+          fields: ["id", "color", "stock"],
           populate: {
             image: {
               fields: ["url", "name"],
@@ -91,7 +91,7 @@ export const fetchProductBySlug = async (
         fields: ["url", "name"],
       },
       variants: {
-        fields: ["color", "stock"],
+        fields: ["id", "color", "stock"],
         populate: {
           image: {
             fields: ["url", "name"],

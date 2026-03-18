@@ -1,10 +1,12 @@
+Animacion al completar el pago y mejorar checkout
+quizas mejorar out of stock cuando todo esta en el cart
+mejorar succes page
+manejar ordnenes y shiping
 esqueletos quizas animacion para tiempos de carga
 quizas meter google y confirmacion de email
 y quizas animacion entre paginas
 implementar forgot password y login google quizas
-mejorar animacion de paginacion
 mejorar probalemente el manejo de imagenes
-mejorar el stock y su suma con el stock de las variantes \
 hacer whithlist
 que cuando cambies una variante y entres al producto estes en esa variante
 integrar sales (por categoria estaria guapo o a todo el catalogo)manejar mejor la cantidad maxima en la homepage y trabajar con lo de next page previus page y tal probablemente

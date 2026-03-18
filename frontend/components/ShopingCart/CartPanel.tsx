@@ -9,6 +9,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useCart } from "./CartContext";
+import Link from "next/link";
 
 const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_URL;
 
@@ -57,7 +58,7 @@ export function CartPanel({ onClose }: { onClose: () => void }) {
           ) : (
             cartItems.map((item) => (
               <motion.div
-                key={item.id}
+                key={`${item.id}-${item.variantIndex ?? "main"}`}
                 layout
                 initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -72,7 +73,9 @@ export function CartPanel({ onClose }: { onClose: () => void }) {
                 />
                 <div className="flex-1 min-w-0">
                   <p className="text-white text-sm font-semibold truncate">
-                    {item.name}
+                    {item.variantIndex !== undefined && item.color
+                      ? `${item.name} - ${item.color}`
+                      : item.name}
                   </p>
 
                   <p className="text-indigo-300 text-sm font-bold">
@@ -82,7 +85,7 @@ export function CartPanel({ onClose }: { onClose: () => void }) {
                   <div className="flex items-center gap-2 mt-2">
                     <motion.button
                       whileTap={{ scale: 0.85 }}
-                      onClick={() => updateQty(item.id, -1)}
+                      onClick={() => updateQty(item.id, -1, item.variantIndex)}
                       className="w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer"
                     >
                       <Minus className="w-3 h-3" />
@@ -98,7 +101,7 @@ export function CartPanel({ onClose }: { onClose: () => void }) {
                     <motion.button
                       whileTap={{ scale: 0.85 }}
                       disabled={item.quantity >= item.stock ? true : false}
-                      onClick={() => updateQty(item.id, 1)}
+                      onClick={() => updateQty(item.id, 1, item.variantIndex)}
                       className={`w-6 h-6 rounded-full bg-indigo-600 hover:bg-indigo-500 flex items-center justify-center text-white transition-colors cursor-pointer  ${item.quantity >= item.stock ? "cursor-not-allowed! bg-gray-500!" : ""}`}
                     >
                       <Plus className="w-3 h-3" />
@@ -117,7 +120,7 @@ export function CartPanel({ onClose }: { onClose: () => void }) {
                   <motion.button
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.85 }}
-                    onClick={() => removeItem(item.id)}
+                    onClick={() => removeItem(item.id, item.variantIndex)}
                     className="text-white/30 hover:text-rose-400 transition-colors cursor-pointer"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -162,13 +165,15 @@ export function CartPanel({ onClose }: { onClose: () => void }) {
             </div>
 
             {/* Checkout button */}
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
-              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl py-4 font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-lg shadow-indigo-900/40"
-            >
-              Checkout <ArrowRight className="w-4 h-4" />
-            </motion.button>
+            <Link href="/checkout" onClick={onClose}>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl py-4 font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-lg shadow-indigo-900/40"
+              >
+                Checkout <ArrowRight className="w-4 h-4" />
+              </motion.button>
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>

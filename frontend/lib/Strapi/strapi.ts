@@ -1,6 +1,12 @@
 import { cookies } from "next/headers";
 
-const { STRAPI_HOST, STRAPI_READ_TOKEN, STRAPI_FULLACCESS_TOKEN } = process.env;
+// En servidor (SSR), usar localhost; en cliente, usar la IP
+const STRAPI_HOST =
+  typeof window === "undefined"
+    ? "http://localhost:1337" // Server-side
+    : process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+
+const { STRAPI_READ_TOKEN, STRAPI_FULLACCESS_TOKEN } = process.env;
 
 //Queries
 
@@ -24,19 +30,24 @@ export async function getToken() {
 }
 
 export async function getCurrentUser() {
-  const token = await getToken();
+  try {
+    const token = await getToken();
 
-  if (!token) return null;
+    if (!token) return null;
 
-  const response = await fetch(`${STRAPI_HOST}/api/users/me`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+    const response = await fetch(`${STRAPI_HOST}/api/users/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  if (!response.ok) return null;
+    if (!response.ok) return null;
 
-  return await response.json();
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching current user:", error);
+    return null;
+  }
 }
 
 //CREATE REVIEW

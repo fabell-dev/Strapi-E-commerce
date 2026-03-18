@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ProductsGridProps, ProductCardProps } from "@/types/product.types";
 import VariantSelector from "../VariantSelector";
 import AddToCartButton from "../ShopingCart/AddToCartButton";
+import { useCart } from "../ShopingCart/CartContext";
 
 interface FlyingItem {
   id: string;
@@ -80,6 +81,7 @@ export function ProductCard({
 }: ProductCardProps & {
   onAddToCart: (e?: React.MouseEvent<HTMLElement>) => void;
 }) {
+  const { cartItems } = useCart();
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(-1);
 
   const hasVariants = product.variants && product.variants.length > 0;
@@ -97,6 +99,19 @@ export function ProductCard({
     selectedVariantIndex !== -1
       ? product.variants?.[selectedVariantIndex]?.color
       : product.color;
+
+  // Calculate quantity already in cart for this product+variant
+  const quantityInCart = cartItems.reduce((sum, item) => {
+    if (item.id === product.id) {
+      // For products without variants: match items with undefined variantIndex
+      // For products with variants: match items with the selected variantIndex
+      const itemVariantIndex = hasVariants ? selectedVariantIndex : undefined;
+      if (item.variantIndex === itemVariantIndex) {
+        return sum + item.quantity;
+      }
+    }
+    return sum;
+  }, 0);
 
   return (
     <motion.div
@@ -150,6 +165,8 @@ export function ProductCard({
           currentStock={currentStock}
           currentImage={currentImage}
           selectedColor={selectedColor}
+          selectedVariantIndex={selectedVariantIndex}
+          quantityInCart={quantityInCart}
           onAnimationTrigger={onAddToCart}
         />
 

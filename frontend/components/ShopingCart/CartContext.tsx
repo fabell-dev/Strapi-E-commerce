@@ -12,6 +12,7 @@ import { Product } from "@/types/product.types";
 // ==================== TIPOS ====================
 export interface CartItem extends Product {
   quantity: number;
+  variantIndex?: number; // Index of the selected variant (if any)
 }
 
 export interface CartContextType {
@@ -19,8 +20,8 @@ export interface CartContextType {
   totalItems: number;
   totalPrice: number;
   addToCart: (product: Product) => void;
-  updateQty: (id: number, delta: number) => void;
-  removeItem: (id: number) => void;
+  updateQty: (id: number, delta: number, variantIndex?: number) => void;
+  removeItem: (id: number, variantIndex?: number) => void;
   clearCart: () => void;
 }
 
@@ -59,7 +60,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   // Cargar carrito desde localStorage al montar
-
   useEffect(() => {
     const saved = localStorageCart.getCart();
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -77,28 +77,68 @@ export function CartProvider({ children }: { children: ReactNode }) {
     0,
   );
 
-  const addToCart = useCallback((product: Product) => {
-    setCartItems((prev) => {
-      const existing = prev.find((i) => i.id === product.id);
-      if (existing) {
-        return prev.map((i) =>
-          i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i,
+  const addToCart = useCallback(
+    (product: Product & { variantIndex?: number }) => {
+      setCartItems((prev) => {
+        // Check if same product AND same variant already exists
+        const existing = prev.find(
+          (i) =>
+            i.id === product.id &&
+            i.variantIndex === (product as any).variantIndex,
         );
-      }
-      return [...prev, { ...product, quantity: 1 }];
-    });
-  }, []);
 
-  const updateQty = useCallback((id: number, delta: number) => {
+        if (existing) {
+          // Only increase if it doesn't exceed stock
+          if (existing.quantity + 1 <= product.stock) {
+            return prev.map((i) =>
+              i.id === product.id &&
+              i.variantIndex === (product as any).variantIndex
+                ? { ...i, quantity: i.quantity + 1 }
+                : i,
+            );
+          }
+          // Return unchanged if at max stock
+          return prev;
+        }
+
+        return [
+          ...prev,
+          {
+            ...product,
+            quantity: 1,
+            variantIndex: (product as any).variantIndex,
+          } as CartItem,
+        ];
+      });
+    },
+    [],
+  );
+
+  const updateQty = useCallback(
+    (id: number, delta: number, variantIndex?: number) => {
+      setCartItems((prev) =>
+        prev
+          .map((i) => {
+            if (i.id === id && i.variantIndex === variantIndex) {
+              // Prevent quantity from exceeding stock (only for increases)
+              const newQty = i.quantity + delta;
+              if (delta > 0 && newQty > i.stock) {
+                return i; // Don't change if would exceed stock
+              }
+              return { ...i, quantity: newQty };
+            }
+            return i;
+          })
+          .filter((i) => i.quantity > 0),
+      );
+    },
+    [],
+  );
+
+  const removeItem = useCallback((id: number, variantIndex?: number) => {
     setCartItems((prev) =>
-      prev
-        .map((i) => (i.id === id ? { ...i, quantity: i.quantity + delta } : i))
-        .filter((i) => i.quantity > 0),
+      prev.filter((i) => !(i.id === id && i.variantIndex === variantIndex)),
     );
-  }, []);
-
-  const removeItem = useCallback((id: number) => {
-    setCartItems((prev) => prev.filter((i) => i.id !== id));
   }, []);
 
   const clearCart = useCallback(() => {
