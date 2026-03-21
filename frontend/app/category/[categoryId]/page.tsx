@@ -60,7 +60,7 @@ export default async function CategoryPage({
   );
 
   return (
-    <div className="pt-50">
+    <div className="pt-50 md:pt-0">
       <MainSectionClient
         pagination={pagination}
         products={productsByCategory}

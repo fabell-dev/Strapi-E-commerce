@@ -35,7 +35,7 @@ export default async function RootLayout({
   const user = await getCurrentUser();
   return (
     <html lang="en" className={montserrat.className}>
-      <body className="text-black bg-amber-50">
+      <body className="text-black bg-amber-50 flex flex-col min-h-screen">
         <StripeProvider>
           <CartProvider>
             <UserProvider user={user}>

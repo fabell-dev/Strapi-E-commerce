@@ -15,10 +15,10 @@ export default function LayoutWrapper({ categories, children }: Props) {
     pathname.startsWith("/login") || pathname.startsWith("/register");
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       {!isAuthRoute && <Navbar categories={categories} />}
-      {children}
+      <main className="flex-1">{children}</main>
       {!isAuthRoute && <Footer />}
-    </>
+    </div>
   );
 }
