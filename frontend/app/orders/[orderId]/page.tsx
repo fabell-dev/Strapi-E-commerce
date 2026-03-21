@@ -126,8 +126,9 @@ export default function OrderDetail() {
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
-  const shipping = 0;
-  const tax = subtotal * 0.21;
+  const shipping: number = 0;
+  const tax = 0.1;
+  const taxCalculated = subtotal * tax;
 
   return (
     <section className="md:mx-40 mx-5 pt-50 sm:pt-50 md:pt-30 pb-20">
@@ -308,14 +309,21 @@ export default function OrderDetail() {
                   </span>
                 </div>
                 <div className="flex justify-between text-sm md:text-base">
-                  <span className="text-gray-600">Tax (21%)</span>
-                  <span>${tax.toFixed(2)}</span>
+                  <span className="text-gray-600">Tax ({tax * 100}%)</span>
+                  <span>${taxCalculated.toFixed(2)}</span>
                 </div>
               </div>
               <Separator />
               <div className="flex justify-between text-base md:text-lg font-bold">
                 <span>Total</span>
-                <span>${order.totalAmount.toFixed(2)}</span>
+                <span>
+                  $
+                  {(
+                    Number(order.totalAmount.toFixed(2)) +
+                    Number(shipping) +
+                    Number(taxCalculated.toFixed(2))
+                  ).toFixed(2)}
+                </span>
               </div>
             </CardContent>
           </Card>

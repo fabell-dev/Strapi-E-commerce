@@ -1,23 +1,18 @@
-Animacion al completar el pago y mejorar checkout
+
 en orders mejorar quizas el tema de shiping y estados tipo completed pending y tal
 quizas mejorar out of stock cuando todo esta en el cart
 que en las categorias cuando no haya productos para mostrar muestre algun tipo de algo
-revisar el orders sin nada
-mejorar succes page
-manejar ordnenes y shiping
-esqueletos quizas animacion para tiempos de carga
 quizas meter google y confirmacion de email
 y quizas animacion entre paginas
 implementar forgot password y login google quizas
 mejorar probalemente el manejo de imagenes
 hacer whithlist
 que cuando cambies una variante y entres al producto estes en esa variante
-integrar sales (por categoria estaria guapo o a todo el catalogo)manejar mejor la cantidad maxima en la homepage y trabajar con lo de next page previus page y tal probablemente
+integrar sales (por categoria estaria guapo o a todo el catalogo)
 
 
--(check)hacer que el login el register y lo de las review muestren errores y no reinicien los campos cuando hay un error
--(check) no renderizar productos con stock 0 y sus variantes no renderizarlas
-
-
-
-
+hacer mas distinta de la home la pagina de whishlist y de categorias
+manejar ordenes y shiping
+mejorar succes page
+Animacion al completar el pago y mejorar checkout
+esqueletos quizas animacion para tiempos de carga
