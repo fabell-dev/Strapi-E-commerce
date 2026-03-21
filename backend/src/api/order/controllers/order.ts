@@ -166,11 +166,11 @@ export default factories.createCoreController(
           // Extract card details from payment method
           let cardLastFour = null;
           let cardBrand = null;
-          
+
           if (paymentIntent.payment_method) {
             try {
               const paymentMethod = await stripe.paymentMethods.retrieve(
-                paymentIntent.payment_method as string
+                paymentIntent.payment_method as string,
               );
               cardLastFour = paymentMethod.card?.last4 || null;
               cardBrand = paymentMethod.card?.brand || null;

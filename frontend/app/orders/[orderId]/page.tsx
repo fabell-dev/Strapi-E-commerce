@@ -263,14 +263,22 @@ export default function OrderDetail() {
               {order.cardBrand && order.cardLastFour ? (
                 <div className="space-y-2">
                   <p className="text-xs md:text-sm text-gray-600">
-                    Card Brand: <span className="font-semibold capitalize">{order.cardBrand}</span>
+                    Card Brand:{" "}
+                    <span className="font-semibold capitalize">
+                      {order.cardBrand}
+                    </span>
                   </p>
                   <p className="text-xs md:text-sm text-gray-600">
-                    Card Ending in: <span className="font-semibold">•••• {order.cardLastFour}</span>
+                    Card Ending in:{" "}
+                    <span className="font-semibold">
+                      •••• {order.cardLastFour}
+                    </span>
                   </p>
                 </div>
               ) : (
-                <p className="text-xs md:text-sm text-gray-600">Card information not available</p>
+                <p className="text-xs md:text-sm text-gray-600">
+                  Card information not available
+                </p>
               )}
               <Separator />
               <p className="text-xs md:text-sm break-words font-mono text-gray-600">
