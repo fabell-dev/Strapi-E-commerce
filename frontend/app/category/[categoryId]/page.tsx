@@ -60,10 +60,12 @@ export default async function CategoryPage({
   );
 
   return (
-    <MainSectionClient
-      pagination={pagination}
-      products={productsByCategory}
-      strapiHost={STRAPI_HOST}
-    />
+    <div className="pt-50">
+      <MainSectionClient
+        pagination={pagination}
+        products={productsByCategory}
+        strapiHost={STRAPI_HOST}
+      />
+    </div>
   );
 }

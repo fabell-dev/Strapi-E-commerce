@@ -1,5 +1,8 @@
 Animacion al completar el pago y mejorar checkout
+en orders mejorar quizas el tema de shiping y estados tipo completed pending y tal
 quizas mejorar out of stock cuando todo esta en el cart
+que en las categorias cuando no haya productos para mostrar muestre algun tipo de algo
+revisar el orders sin nada
 mejorar succes page
 manejar ordnenes y shiping
 esqueletos quizas animacion para tiempos de carga

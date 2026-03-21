@@ -11,7 +11,7 @@ export default async function Home({
 
   return (
     <>
-      <main className="mt-40 md:mt-30">
+      <main className="mt-40 md:mt-30 ">
         <Hero pageInfo={pageInfo}></Hero>
         <MainSection searchParams={searchParams}></MainSection>
       </main>

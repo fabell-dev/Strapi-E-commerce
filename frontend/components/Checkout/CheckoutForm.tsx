@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/components/ShopingCart/CartContext";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { getAuthToken } from "@/lib/actions/get-auth-token";
 
 const STRAPI_URL =
   process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
@@ -93,15 +94,26 @@ export function CheckoutForm() {
       }
 
       // 1. Crear Payment Intent en backend
+      const token = await getAuthToken();
       const createRes = await fetch(
         `${STRAPI_URL}/api/orders/create-payment-intent`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
           body: JSON.stringify({
             items: cartItems,
             totalAmount: totalPrice,
             email: billingDetails.email,
+            shippingAddress: {
+              name: billingDetails.name,
+              street: billingDetails.addressLine1,
+              city: billingDetails.city,
+              zipCode: billingDetails.postalCode,
+              country: billingDetails.country,
+            },
           }),
         },
       );
@@ -138,14 +150,20 @@ export function CheckoutForm() {
 
       // Si el pago se completa
       if (paymentIntent?.status === "succeeded") {
-        await fetch(`${STRAPI_URL}/api/orders/confirm-payment`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            paymentIntentId: paymentIntent.id,
-            orderId,
-          }),
-        });
+        const confirmRes = await fetch(
+          `${STRAPI_URL}/api/orders/confirm-payment`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              ...(token && { Authorization: `Bearer ${token}` }),
+            },
+            body: JSON.stringify({
+              paymentIntentId: paymentIntent.id,
+              orderId,
+            }),
+          },
+        );
 
         router.push("/checkout/success");
       }

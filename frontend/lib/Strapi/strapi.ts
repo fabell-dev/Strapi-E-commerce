@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { getAuthToken } from "../actions/get-auth-token";
 
 // En servidor (SSR), usar localhost; en cliente, usar la IP
 const STRAPI_HOST =
@@ -13,6 +14,14 @@ const { STRAPI_READ_TOKEN, STRAPI_FULLACCESS_TOKEN } = process.env;
 export function queryRead(url: string) {
   return fetch(`${STRAPI_HOST}/api/${url}`, {
     headers: { Authorization: `Bearer ${STRAPI_READ_TOKEN}` },
+  }).then((res) => res.json());
+}
+
+//Query con el token del usuario
+export async function queryAutenticatedUser(url: string) {
+  const token = await getAuthToken();
+  return fetch(`${STRAPI_HOST}/api/${url}`, {
+    headers: { Authorization: `Bearer ${token}` },
   }).then((res) => res.json());
 }
 
