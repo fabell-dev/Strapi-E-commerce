@@ -4,7 +4,6 @@ hacer whithlist
 que cuando cambies una variante y entres al producto estes en esa variante
 
 
-hacer mas distinta de la home la pagina de whishlist y de categorias
 manejar ordenes y shiping
 mejorar checkout
 esqueletos quizas animacion para tiempos de carga
