@@ -15,7 +15,7 @@ import { searchProducts } from "@/lib/actions/product-actions";
 import { ShoppingCartNew } from "../ShopingCart/ShoppingCart";
 
 type Props = {
-  categories: string[];
+  categories: { name: string; description: string; image: unknown }[];
 };
 
 export default function Navbar({ categories }: Props) {
@@ -51,10 +51,10 @@ export default function Navbar({ categories }: Props) {
       <div className=" hidden md:flex gap-5  flex-2 items-center justify-center">
         {categories.map((item, index) => (
           <Link
-            href={`/category/${item.toLowerCase().replace(/\s+/g, "-")}`}
+            href={`/category/${item.name.toLowerCase().replace(/\s+/g, "-")}`}
             key={index}
           >
-            {item}
+            {item.name}
           </Link>
         ))}
       </div>
@@ -64,10 +64,10 @@ export default function Navbar({ categories }: Props) {
         {categories.map((item, index) => (
           <Link
             className="font-bold"
-            href={`/category/${item.toLowerCase().replace(/\s+/g, "-")}`}
+            href={`/category/${item.name.toLowerCase().replace(/\s+/g, "-")}`}
             key={index}
           >
-            {item}
+            {item.name}
           </Link>
         ))}
       </div>

@@ -2,24 +2,18 @@
 
 import { useCart } from "@/components/ShopingCart/CartContext";
 import { useEffect } from "react";
+import { SuccessPayment } from "@/components/SuccessPayment";
+import { useSearchParams } from "next/navigation";
 
 export default function page() {
   const { clearCart } = useCart();
+  const searchParams = useSearchParams();
+  const orderId = searchParams.get("orderId") || "";
+  const cardLast4 = searchParams.get("cardLast4") || "****";
 
   useEffect(() => {
     clearCart();
   }, []);
 
-  return (
-    <div className="p-8 bg-green-50 border border-green-200 rounded-lg text-center">
-      <div className="mb-4 text-5xl">✓</div>
-      <h3 className="text-2xl font-semibold text-green-700 mb-2">
-        ¡Pago exitoso!
-      </h3>
-      <p className="text-green-600 mb-4">
-        Tu orden ha sido procesada correctamente. Recibirás un email de
-        confirmación pronto.
-      </p>
-    </div>
-  );
+  return <SuccessPayment orderId={orderId} cardLast4={cardLast4} />;
 }

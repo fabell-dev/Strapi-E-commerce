@@ -165,7 +165,12 @@ export function CheckoutForm() {
           },
         );
 
-        router.push("/checkout/success");
+        const confirmData = await confirmRes.json();
+        const cardLast4 = confirmData.cardLastFour || "****";
+
+        router.push(
+          `/checkout/success?orderId=${orderId}&cardLast4=${cardLast4}`,
+        );
       }
     } catch (err) {
       const errorMessage =

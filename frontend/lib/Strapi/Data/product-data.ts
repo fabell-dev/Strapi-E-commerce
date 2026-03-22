@@ -6,8 +6,21 @@ import { Product, FetchProductsResult } from "@/types/product.types";
 //--------- Función para obtener Categorias
 export const fetchCategories = unstable_cache(
   async () => {
-    return queryRead("product-categories").then((res) => {
-      return res.data.map((item: Record<string, unknown>) => item.name);
+    const queryOptions = qs.stringify({
+      fields: ["name", "description"],
+      populate: {
+        image: {
+          fields: ["url", "name"],
+        },
+      },
+    });
+
+    return queryRead(`product-categories?${queryOptions}`).then((res) => {
+      return res.data.map((item: Record<string, unknown>) => ({
+        name: item.name,
+        description: item.description,
+        image: item.image,
+      }));
     });
   },
   ["categories"],

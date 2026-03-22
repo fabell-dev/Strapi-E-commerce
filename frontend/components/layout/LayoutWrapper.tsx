@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 import { Footer } from "./Footer";
 
 type Props = {
-  categories: string[];
+  categories: { name: string; description: string; image: unknown }[];
   children: React.ReactNode;
 };
 

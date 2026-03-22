@@ -259,7 +259,12 @@ export default factories.createCoreController(
             },
           });
 
-          ctx.body = { success: true, status: "completed" };
+          ctx.body = {
+            success: true,
+            status: "completed",
+            cardLastFour,
+            cardBrand,
+          };
         } else {
           ctx.body = { success: false, status: paymentIntent.status };
         }

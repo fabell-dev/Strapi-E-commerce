@@ -9,9 +9,11 @@ const STRAPI_HOST = process.env.STRAPI_HOST;
 export async function generateStaticParams() {
   const categories = await fetchCategories();
 
-  return categories.map((category: string) => ({
-    categoryId: category.toLowerCase().replace(/\s+/g, "-"),
-  }));
+  return categories.map(
+    (category: { name: string; description: string; image: unknown }) => ({
+      categoryId: category.name.toLowerCase().replace(/\s+/g, "-"),
+    }),
+  );
 }
 
 //Se renderiza la pagina dinamicamente
@@ -42,10 +44,12 @@ export default async function CategoryPage({
 
   //Se hace fetch de todas las categorias
   const categories = await fetchCategories();
+  console.log(categories);
 
   //Se busca la categoria actual comparandolas con todas las categorias disponibles
   const currentCategory = categories.find(
-    (cat: string) => cat.toLowerCase().replace(/\s+/g, "-") === categoryId,
+    (cat: { name: string; description: string; image: unknown }) =>
+      cat.name.toLowerCase().replace(/\s+/g, "-") === categoryId,
   );
 
   if (!currentCategory) {
@@ -56,16 +60,38 @@ export default async function CategoryPage({
   const { data: productsByCategory, pagination } = await fetchProducts(
     page,
     pageSize,
-    currentCategory,
+    currentCategory.name,
   );
 
   return (
-    <div className="pt-50 md:pt-0">
-      <MainSectionClient
-        pagination={pagination}
-        products={productsByCategory}
-        strapiHost={STRAPI_HOST}
-      />
-    </div>
+    <>
+      <div className="pt-50 md:pt-20"></div>
+      <div className="relative h-64 md:h-80 overflow-hidden ">
+        <img
+          src={`${STRAPI_HOST}${(currentCategory.image as any)?.url || ""}`}
+          alt={currentCategory.name}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-linear-to-r from-black/70 to-black/40 flex items-center">
+          <div className="container mx-auto px-4">
+            <div className="max-w-2xl text-white">
+              <h1 className="text-4xl md:text-5xl mb-4">
+                {currentCategory.name}
+              </h1>
+              <p className="text-lg md:text-xl opacity-90">
+                {currentCategory.description}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="">
+        <MainSectionClient
+          pagination={pagination}
+          products={productsByCategory}
+          strapiHost={STRAPI_HOST}
+        />
+      </div>
+    </>
   );
 }
