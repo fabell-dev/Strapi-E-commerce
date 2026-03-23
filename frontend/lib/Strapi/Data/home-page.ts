@@ -25,9 +25,6 @@ export const getHomePageInfo = unstable_cache(
     try {
       const res = await queryRead("home-page?populate=image");
       if (!res.data) {
-        console.warn(
-          "No data returned from home-page endpoint, using defaults",
-        );
         return DEFAULT_HOME_PAGE;
       }
       const { title, description, image } = res.data;
