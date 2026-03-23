@@ -2,6 +2,12 @@
 
 Una aplicación de e-commerce moderna y completa construida con **Next.js 16**, **React 19**, **TypeScript** y **Strapi CMS**. Incluye funcionalidades avanzadas como carrito de compras, pagos con Stripe, sistema de órdenes, reseñas de productos y más.
 
+## 🌐 Demo en Vivo
+
+📱 **Prueba la aplicación:** [https://strapi-e-commerce-vert.vercel.app](https://strapi-e-commerce-vert.vercel.app)
+
+---
+
 ## ✨ Características Principales
 
 ### 🛒 Gestión del Carrito
