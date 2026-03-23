@@ -13,6 +13,7 @@ import { useState, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { searchProducts } from "@/lib/actions/product-actions";
 import { ShoppingCartNew } from "../ShopingCart/ShoppingCart";
+import { getImageUrl } from "@/lib/utils/image-url";
 
 type Props = {
   categories: { name: string; description: string; image: unknown }[];
@@ -201,7 +202,7 @@ function SearchBar({ className }: { className: string }) {
                     <div className="flex items-center gap-3">
                       {product.image && (
                         <img
-                          src={`${process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337"}${product.image.url}`}
+                          src={getImageUrl(product.image.url)}
                           alt={product.name}
                           className="w-10 h-10 object-cover rounded"
                         />

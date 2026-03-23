@@ -6,22 +6,35 @@ import { Product, FetchProductsResult } from "@/types/product.types";
 //--------- Función para obtener Categorias
 export const fetchCategories = unstable_cache(
   async () => {
-    const queryOptions = qs.stringify({
-      fields: ["name", "description"],
-      populate: {
-        image: {
-          fields: ["url", "name"],
+    try {
+      const queryOptions = qs.stringify({
+        fields: ["name", "description"],
+        populate: {
+          image: {
+            fields: ["url", "name"],
+          },
         },
-      },
-    });
+      });
 
-    return queryRead(`product-categories?${queryOptions}`).then((res) => {
+      const res = await queryRead(`product-categories?${queryOptions}`);
+      
+      if (!res.data || !Array.isArray(res.data)) {
+        console.warn(
+          "[fetchCategories] No categories data or invalid format from Strapi",
+          res
+        );
+        return [];
+      }
+
       return res.data.map((item: Record<string, unknown>) => ({
         name: item.name,
         description: item.description,
         image: item.image,
       }));
-    });
+    } catch (error) {
+      console.error("[fetchCategories] Error fetching categories:", error);
+      return [];
+    }
   },
   ["categories"],
   { revalidate: 3600 },
@@ -34,55 +47,76 @@ export const fetchProducts = unstable_cache(
     pageSize?: number,
     categoryName?: string,
   ): Promise<FetchProductsResult> => {
-    const filters = categoryName
-      ? {
-          subCategory: {
-            category: {
-              name: {
-                $eq: categoryName,
-              },
-            },
-          },
-        }
-      : {};
-
-    const queryOptions = qs.stringify({
-      filters,
-      fields: ["name", "price", "stock", "color", "slug"],
-      populate: {
-        image: {
-          fields: ["url", "name"],
-        },
-        variants: {
-          fields: ["id", "color", "stock"],
-          populate: {
-            image: {
-              fields: ["url", "name"],
-            },
-          },
-        },
-        ...(categoryName && {
-          subCategory: {
-            populate: {
+    try {
+      const filters = categoryName
+        ? {
+            subCategory: {
               category: {
-                fields: ["name"],
+                name: {
+                  $eq: categoryName,
+                },
+              },
+            },
+          }
+        : {};
+
+      const queryOptions = qs.stringify({
+        filters,
+        fields: ["name", "price", "stock", "color", "slug"],
+        populate: {
+          image: {
+            fields: ["url", "name"],
+          },
+          variants: {
+            fields: ["id", "color", "stock"],
+            populate: {
+              image: {
+                fields: ["url", "name"],
               },
             },
           },
-        }),
-      },
-      pagination: {
-        page: page || 1,
-        pageSize: pageSize || 25,
-      },
-    });
+          ...(categoryName && {
+            subCategory: {
+              populate: {
+                category: {
+                  fields: ["name"],
+                },
+              },
+            },
+          }),
+        },
+        pagination: {
+          page: page || 1,
+          pageSize: pageSize || 25,
+        },
+      });
 
-    return queryRead(`products?${queryOptions}`).then((res) => {
+      const res = await queryRead(`products?${queryOptions}`);
+      
+      if (!res.data || !Array.isArray(res.data)) {
+        console.warn("[fetchProducts] No products data or invalid format");
+        return {
+          data: [],
+          pagination: { page: 1, pageCount: 0, pageSize: 25, total: 0 },
+        };
+      }
+
       return {
         data: res.data,
-        pagination: res.meta.pagination,
+        pagination: res.meta?.pagination || {
+          page: page || 1,
+          pageCount: 0,
+          pageSize: pageSize || 25,
+          total: 0,
+        },
       };
-    });
+    } catch (error) {
+      console.error("[fetchProducts] Error fetching products:", error);
+      return {
+        data: [],
+        pagination: { page: 1, pageCount: 0, pageSize: 25, total: 0 },
+      };
+    }
   },
   ["products"],
   { revalidate: 120 }, // Revalidar cada 2 minutos
