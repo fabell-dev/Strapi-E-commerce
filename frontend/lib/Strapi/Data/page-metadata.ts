@@ -5,7 +5,9 @@ const STRAPI_HOST =
   process.env.STRAPI_HOST || process.env.NEXT_PUBLIC_STRAPI_URL || "";
 
 if (!STRAPI_HOST) {
-  console.warn("[page-metadata] STRAPI_HOST not configured, images may not load");
+  console.warn(
+    "[page-metadata] STRAPI_HOST not configured, images may not load",
+  );
 }
 
 // Helper para construir URLs de imágenes
@@ -33,7 +35,9 @@ export const getPageInfo = unstable_cache(
         return DEFAULT_PAGE_INFO;
       }
       const { Page_Title, Page_Description, Page_Logo } = res.data;
-      const logo = Page_Logo?.url ? getImageUrl(Page_Logo.url) : DEFAULT_PAGE_INFO.logo;
+      const logo = Page_Logo?.url
+        ? getImageUrl(Page_Logo.url)
+        : DEFAULT_PAGE_INFO.logo;
       return { Page_Title, Page_Description, logo };
     } catch (error) {
       console.error("[page-metadata] Error fetching page info:", error);

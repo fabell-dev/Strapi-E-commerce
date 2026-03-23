@@ -17,11 +17,11 @@ export const fetchCategories = unstable_cache(
       });
 
       const res = await queryRead(`product-categories?${queryOptions}`);
-      
+
       if (!res.data || !Array.isArray(res.data)) {
         console.warn(
           "[fetchCategories] No categories data or invalid format from Strapi",
-          res
+          res,
         );
         return [];
       }
@@ -92,7 +92,7 @@ export const fetchProducts = unstable_cache(
       });
 
       const res = await queryRead(`products?${queryOptions}`);
-      
+
       if (!res.data || !Array.isArray(res.data)) {
         console.warn("[fetchProducts] No products data or invalid format");
         return {

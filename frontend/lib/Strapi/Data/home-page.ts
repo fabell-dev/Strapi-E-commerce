@@ -42,7 +42,9 @@ export const getHomePageInfo = unstable_cache(
         return DEFAULT_HOME_PAGE;
       }
       const { title, description, image } = res.data;
-      const imageURL = image?.url ? getImageUrl(image.url) : DEFAULT_HOME_PAGE.imageURL;
+      const imageURL = image?.url
+        ? getImageUrl(image.url)
+        : DEFAULT_HOME_PAGE.imageURL;
       const parsedDescription =
         typeof description === "string" ? JSON.parse(description) : description;
       return { title, description: parsedDescription, imageURL };

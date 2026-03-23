@@ -4,7 +4,7 @@
  */
 export function getImageUrl(
   imageUrl: string | undefined,
-  strapiHost?: string
+  strapiHost?: string,
 ): string {
   if (!imageUrl) return "";
 
@@ -15,9 +15,7 @@ export function getImageUrl(
 
   // Si es relativa, concatenar con STRAPI_HOST
   const host =
-    strapiHost ||
-    process.env.NEXT_PUBLIC_STRAPI_URL ||
-    "http://localhost:1337";
+    strapiHost || process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 
   return `${host}${imageUrl}`;
 }
