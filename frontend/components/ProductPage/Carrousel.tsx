@@ -7,8 +7,6 @@ import Link from "next/link";
 import { ProductGridItem } from "@/types/product.types";
 import { getImageUrl } from "@/lib/utils/image-url";
 
-const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_URL;
-
 type Props = {
   category?: string;
   currentProductSlug?: string;

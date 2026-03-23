@@ -1,21 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { queryRead } from "@/lib/Strapi/strapi";
-
-const STRAPI_HOST =
-  process.env.STRAPI_HOST || process.env.NEXT_PUBLIC_STRAPI_URL || "";
-
-if (!STRAPI_HOST) {
-  console.warn("[home-page] STRAPI_HOST not configured, images may not load");
-}
-
-// Helper para construir URLs de imágenes
-function getImageUrl(url: string | undefined): string {
-  if (!url) return DEFAULT_HOME_PAGE.imageURL;
-  // Si ya es una URL absoluta, retornarla tal cual
-  if (url.startsWith("http")) return url;
-  // Si es relativa, concatenar con STRAPI_HOST
-  return STRAPI_HOST ? `${STRAPI_HOST}${url}` : DEFAULT_HOME_PAGE.imageURL;
-}
+import { getImageUrl } from "@/lib/utils/image-url";
 
 const DEFAULT_HOME_PAGE = {
   title: "Welcome to Our Store",

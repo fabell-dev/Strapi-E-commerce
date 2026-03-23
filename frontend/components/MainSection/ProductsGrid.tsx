@@ -14,11 +14,8 @@ interface FlyingItem {
   y: number;
 }
 
-const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_URL;
-
 export default function ProductsGrid({
   products,
-  strapiHost = STRAPI_HOST,
 }: ProductsGridProps) {
   const [flyingItems, setFlyingItems] = useState<FlyingItem[]>([]);
 
@@ -54,7 +51,6 @@ export default function ProductsGrid({
                 i={i}
                 product={product}
                 key={product.id}
-                strapiHost={strapiHost}
                 onAddToCart={(e) => {
                   if (!e) return;
                   const flyId = `${Date.now()}-${product.id}`;
@@ -78,7 +74,6 @@ export default function ProductsGrid({
 
 export function ProductCard({
   product,
-  strapiHost,
   i,
   onAddToCart,
 }: ProductCardProps & {

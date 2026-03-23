@@ -12,8 +12,6 @@ import {
 import { useCart } from "./CartContext";
 import Link from "next/link";
 
-const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_URL;
-
 export function CartPanel({ onClose }: { onClose: () => void }) {
   const { cartItems, totalItems, totalPrice, updateQty, removeItem } =
     useCart();
