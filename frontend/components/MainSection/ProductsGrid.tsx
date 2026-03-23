@@ -14,9 +14,7 @@ interface FlyingItem {
   y: number;
 }
 
-export default function ProductsGrid({
-  products,
-}: ProductsGridProps) {
+export default function ProductsGrid({ products }: ProductsGridProps) {
   const [flyingItems, setFlyingItems] = useState<FlyingItem[]>([]);
 
   return (
