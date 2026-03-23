@@ -5,7 +5,7 @@ export const ReviewSchema = z.object({
   title: z
     .string()
     .min(1, "Title is to short")
-    .max(50, "Title must be less than 20 characters"),
+    .max(100, "Title must be less than 100 characters"),
   description: z
     .string()
     .min(1, "Description is to short")
