@@ -589,13 +589,6 @@ export interface ApiPageInfoPageInfo extends Struct.SingleTypeSchema {
           localized: true;
         };
       }>;
-    Page_Logo: Schema.Attribute.Media<'images' | 'files'> &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
     Page_Title: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{

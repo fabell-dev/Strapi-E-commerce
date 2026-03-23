@@ -13,18 +13,13 @@ const montserrat = Montserrat({
 import { getCurrentUser } from "@/lib/Strapi/strapi";
 import { UserProvider } from "./providers";
 import { CartProvider } from "@/components/ShopingCart/CartContext";
-import { StripeProvider } from "@/components/Checkout/StripeProvider";
 
-const { Page_Title, Page_Description, logo } = await getPageInfo();
+const { Page_Title, Page_Description } = await getPageInfo();
 const categories = await fetchCategories();
 
 export const metadata: Metadata = {
   title: `${Page_Title}` || "E-Commerce Store",
-  description: `${Page_Description} ` || "A web made with Nextjs and Strapi",
-  icons: {
-    icon: logo,
-    apple: logo, // Para Apple
-  },
+  description: `${Page_Description}` || "A web made with Nextjs and Strapi",
 };
 
 export default async function RootLayout({
@@ -36,13 +31,11 @@ export default async function RootLayout({
   return (
     <html lang="en" className={montserrat.className}>
       <body className="text-black bg-amber-50 flex flex-col min-h-screen">
-        <StripeProvider>
-          <CartProvider>
-            <UserProvider user={user}>
-              <LayoutWrapper categories={categories}>{children}</LayoutWrapper>
-            </UserProvider>
-          </CartProvider>
-        </StripeProvider>
+        <CartProvider>
+          <UserProvider user={user}>
+            <LayoutWrapper categories={categories}>{children}</LayoutWrapper>
+          </UserProvider>
+        </CartProvider>
       </body>
     </html>
   );
