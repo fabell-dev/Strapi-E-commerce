@@ -8,7 +8,7 @@ const getStrapiHost = () => {
     const host = process.env.STRAPI_HOST || process.env.NEXT_PUBLIC_STRAPI_URL;
     if (!host) {
       throw new Error(
-        "STRAPI_HOST or NEXT_PUBLIC_STRAPI_URL environment variable is not set"
+        "STRAPI_HOST or NEXT_PUBLIC_STRAPI_URL environment variable is not set",
       );
     }
     return host;
@@ -34,7 +34,7 @@ export function queryRead(url: string) {
   }).then((res) => {
     if (!res.ok) {
       throw new Error(
-        `Strapi API error: ${res.status} ${res.statusText} from ${STRAPI_HOST}/api/${url}`
+        `Strapi API error: ${res.status} ${res.statusText} from ${STRAPI_HOST}/api/${url}`,
       );
     }
     return res.json();
@@ -54,9 +54,7 @@ export async function queryAutenticatedUser(url: string) {
     headers: { Authorization: `Bearer ${token}` },
   }).then((res) => {
     if (!res.ok) {
-      throw new Error(
-        `Strapi API error: ${res.status} ${res.statusText}`
-      );
+      throw new Error(`Strapi API error: ${res.status} ${res.statusText}`);
     }
     return res.json();
   });
@@ -73,9 +71,7 @@ export function queryFullControl(url: string) {
     headers: { Authorization: `Bearer ${STRAPI_FULLACCESS_TOKEN}` },
   }).then((res) => {
     if (!res.ok) {
-      throw new Error(
-        `Strapi API error: ${res.status} ${res.statusText}`
-      );
+      throw new Error(`Strapi API error: ${res.status} ${res.statusText}`);
     }
     return res.json();
   });
@@ -83,15 +79,21 @@ export function queryFullControl(url: string) {
 
 //--------Autentication-------
 export async function getToken() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("authToken")?.value;
-  return token;
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("authToken")?.value;
+    return token || null;
+  } catch (error) {
+    // During build time or in static rendering, cookies() may fail
+    // This is expected behavior, return null gracefully
+    return null;
+  }
 }
 
 export async function getCurrentUser() {
   try {
     if (!STRAPI_HOST) {
-      throw new Error("STRAPI_HOST is not configured");
+      return null;
     }
     const token = await getToken();
 
@@ -104,13 +106,12 @@ export async function getCurrentUser() {
     });
 
     if (!response.ok) {
-      console.error(`Failed to fetch current user: ${response.status}`);
       return null;
     }
 
     return await response.json();
   } catch (error) {
-    console.error("Error fetching current user:", error);
+    // Silently handle errors during build or SSR
     return null;
   }
 }

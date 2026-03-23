@@ -1,19 +1,12 @@
 "use client";
 
-import { useCart } from "@/components/ShopingCart/CartContext";
-import { useEffect } from "react";
-import { SuccessPayment } from "@/components/SuccessPayment";
-import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import SuccessPageContent from "./success-content";
 
-export default function page() {
-  const { clearCart } = useCart();
-  const searchParams = useSearchParams();
-  const orderId = searchParams.get("orderId") || "";
-  const cardLast4 = searchParams.get("cardLast4") || "****";
-
-  useEffect(() => {
-    clearCart();
-  }, []);
-
-  return <SuccessPayment orderId={orderId} cardLast4={cardLast4} />;
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SuccessPageContent />
+    </Suspense>
+  );
 }
