@@ -1,4 +1,5 @@
 import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import { queryRead } from "@/lib/Strapi/strapi";
 import qs from "qs";
 import { Product, FetchProductsResult } from "@/types/product.types";
@@ -46,7 +47,7 @@ export const fetchCategories = unstable_cache(
 );
 
 //--------- Función para obtener productos (Devuelve todos,exepto si se le pasa una categoria que solo dvuelve los de esa categoria)
-export const fetchProducts = unstable_cache(
+export const fetchProducts = cache(
   async (
     page?: number,
     pageSize?: number,
@@ -123,8 +124,6 @@ export const fetchProducts = unstable_cache(
       };
     }
   },
-  ["products", `${page || 1}`, `${pageSize || 25}`, categoryName || "all"],
-  { revalidate: 3600 }, // Revalidar cada 2 minutos
 );
 
 //--------- Función para obtener un producto por slug
