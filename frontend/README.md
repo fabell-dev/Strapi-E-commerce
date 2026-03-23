@@ -5,6 +5,7 @@ Una aplicación de e-commerce moderna y completa construida con **Next.js 16**, 
 ## ✨ Características Principales
 
 ### 🛒 Gestión del Carrito
+
 - **Carrito persistente** con localStorage
 - Manejo de **variantes de productos** (colores, tallas, etc.)
 - Control de **stock en tiempo real**
@@ -12,6 +13,7 @@ Una aplicación de e-commerce moderna y completa construida con **Next.js 16**, 
 - Interfaz intuitiva para actualizar cantidades
 
 ### 📦 Catálogo de Productos
+
 - **Navegación por categorías** dinámicas
 - **Paginación** eficiente de productos
 - **Sistema de búsqueda** global con filtros
@@ -20,6 +22,7 @@ Una aplicación de e-commerce moderna y completa construida con **Next.js 16**, 
 - Visualización de precios y stock
 
 ### 💳 Pagos y Checkout
+
 - Integración con **Stripe** para pagos seguros
 - **Checkout embebido** con experiencia integrada
 - Validación de datos de facturación
@@ -27,6 +30,7 @@ Una aplicación de e-commerce moderna y completa construida con **Next.js 16**, 
 - Manejo seguro de transacciones
 
 ### 👤 Autenticación y Órdenes
+
 - Sistema de **login/registro** con JWT
 - Gestión de **cuenta de usuario** con Strapi
 - **Historial de órdenes** completo
@@ -35,17 +39,20 @@ Una aplicación de e-commerce moderna y completa construida con **Next.js 16**, 
 - Seguimiento de envíos con información de envío
 
 ### ❤️ Wishlist
+
 - Guardar productos favoritos
 - Gestión con localStorage para usuarios no autenticados
 - Paginación de productos en wishlist
 
 ### ⭐ Sistema de Reseñas
+
 - Crear reseñas y calificaciones de productos
 - Validación de reseñas (solo usuarios autenticados)
 - Visualización de calificaciones con estrellas
 - Listado de reseñas de otros usuarios
 
 ### 📱 Diseño Responsive
+
 - Interfaz totalmente adaptable a dispositivos móviles, tablets y desktop
 - Animaciones suaves con Motion library
 - Componentes de UI consistentes
@@ -53,6 +60,7 @@ Una aplicación de e-commerce moderna y completa construida con **Next.js 16**, 
 ## 🏗️ Stack Tecnológico
 
 ### Frontend
+
 - **Next.js 16.1.6** - Framework React con SSR/SSG
 - **React 19.2.3** - Librería UI moderna
 - **TypeScript** - Type-safety y mejor DX
@@ -62,14 +70,17 @@ Una aplicación de e-commerce moderna y completa construida con **Next.js 16**, 
 - **Embla Carousel** - Carrusel responsivo
 
 ### Backend & CMS
+
 - **Strapi CMS** - Gestión de contenido headless
 - **PostgreSQL** - Base de datos (Strapi)
 
 ### Pagos
+
 - **Stripe** - Procesamiento de pagos seguro
 - **@stripe/react-stripe-js** - Componentes Stripe para React
 
 ### Herramientas de Desarrollo
+
 - **ESLint** - Linting de código
 - **pnpm** - Gestor de paquetes eficiente
 - **TypeScript** - Tipado estático
@@ -173,7 +184,8 @@ frontend/
 ## 🚀 Guía de Inicio Rápido
 
 ### Requisitos Previos
-- Node.js 18+ 
+
+- Node.js 18+
 - pnpm (recomendado) o npm
 - Instancia de Strapi ejecutándose
 - Cuenta de Stripe (para pagos)
@@ -181,12 +193,14 @@ frontend/
 ### Instalación
 
 1. **Clonar el repositorio**
+
 ```bash
 git clone <repository-url>
 cd frontend
 ```
 
 2. **Instalar dependencias**
+
 ```bash
 pnpm install
 # o
@@ -212,6 +226,7 @@ NODE_ENV=development
 ```
 
 4. **Ejecutar en modo desarrollo**
+
 ```bash
 pnpm dev
 # o
@@ -230,6 +245,7 @@ pnpm start
 ## 📋 Características Implementadas
 
 ### Autenticación ✅
+
 - [x] Registro de usuarios
 - [x] Login/Logout
 - [x] Validación de credenciales
@@ -237,6 +253,7 @@ pnpm start
 - [x] Protección de rutas
 
 ### Productos ✅
+
 - [x] Listado paginado de productos
 - [x] Búsqueda global
 - [x] Filtrado por categoría
@@ -246,6 +263,7 @@ pnpm start
 - [x] Carrusel de imágenes
 
 ### Carrito de Compras ✅
+
 - [x] Agregar/eliminar productos
 - [x] Actualizar cantidades
 - [x] Persistencia con localStorage
@@ -254,6 +272,7 @@ pnpm start
 - [x] Cálculo de totales
 
 ### Órdenes ✅
+
 - [x] Creación de órdenes
 - [x] Historial de órdenes
 - [x] Detalles de orden
@@ -262,6 +281,7 @@ pnpm start
 - [x] Listado de artículos
 
 ### Pagos ✅
+
 - [x] Integración Stripe
 - [x] Checkout embebido
 - [x] Validación de datos
@@ -269,18 +289,21 @@ pnpm start
 - [x] Manejo de errores de pago
 
 ### Reseñas ✅
+
 - [x] Sistema de calificación por estrellas
 - [x] Crear reseñas authenticadas
 - [x] Visualización de reseñas
 - [x] Validación de datos
 
 ### Wishlist ✅
+
 - [x] Guardar favoritos
 - [x] Listar wishlist
 - [x] Persistencia con localStorage
 - [x] Agregar/remover de wishlist
 
 ### Frontend ✅
+
 - [x] Diseño responsive
 - [x] Animaciones suaves
 - [x] Componentes accesibles
@@ -289,17 +312,18 @@ pnpm start
 
 ## 🔑 Variables de Entorno
 
-| Variable | Descripción | Ejemplo |
-|----------|-------------|---------|
-| `STRAPI_HOST` | URL del servidor Strapi (server-side) | `http://localhost:1337` |
-| `NEXT_PUBLIC_STRAPI_URL` | URL de Strapi pública (client-side) | `https://api.example.com` |
-| `STRAPI_READ_TOKEN` | Token de lectura en Strapi | `abc123...` |
-| `STRAPI_FULLACCESS_TOKEN` | Token con acceso completo en Strapi | `xyz789...` |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Clave pública de Stripe | `pk_test_...` |
+| Variable                             | Descripción                           | Ejemplo                   |
+| ------------------------------------ | ------------------------------------- | ------------------------- |
+| `STRAPI_HOST`                        | URL del servidor Strapi (server-side) | `http://localhost:1337`   |
+| `NEXT_PUBLIC_STRAPI_URL`             | URL de Strapi pública (client-side)   | `https://api.example.com` |
+| `STRAPI_READ_TOKEN`                  | Token de lectura en Strapi            | `abc123...`               |
+| `STRAPI_FULLACCESS_TOKEN`            | Token con acceso completo en Strapi   | `xyz789...`               |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Clave pública de Stripe               | `pk_test_...`             |
 
 ## 🎨 Características de Diseño
 
 ### Componentes UI
+
 - Botones personalizados con animaciones
 - Cards responsivas
 - Inputs validados
@@ -309,12 +333,14 @@ pnpm start
 - Separadores
 
 ### Animaciones
+
 - Transiciones suaves con Motion
 - Efectos de hover
 - Animaciones de carga
 - Transiciones de página
 
 ### Estilos
+
 - **Tailwind CSS 4** para utilidades
 - **Temas consistentes** con colores y espaciado
 - **Tipografía** Montserrat
@@ -371,18 +397,21 @@ pnpm lint             # Ejecutar ESLint
 ## 📝 Validaciones
 
 ### Autenticación
+
 - Email válido y único
 - Contraseña con mínimo 8 caracteres
 - Username único
 - Confirmación de contraseña coincide
 
 ### Reseñas
+
 - Título: 5-100 caracteres
 - Descripción: 10-1000 caracteres
 - Rating: 1-5 estrellas
 - Solo para usuarios autenticados
 
 ### Checkout
+
 - Nombre completo requerido
 - Email válido requerido
 - Dirección válida requerida
@@ -398,12 +427,14 @@ pnpm lint             # Ejecutar ESLint
 ## 🚢 Deployment
 
 ### Verificaciones previas
+
 ```bash
 pnpm lint    # Verificar código
 pnpm build   # Verificar compilación
 ```
 
 ### Plataformas recomendadas
+
 - **Vercel** (recomendado para Next.js)
 - **Netlify**
 - **AWS Amplify**
