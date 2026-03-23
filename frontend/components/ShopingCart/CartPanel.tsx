@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
+import { getImageUrl } from "@/lib/utils/image-url";
 import {
   ShoppingCart,
   X,
@@ -67,7 +68,7 @@ export function CartPanel({ onClose }: { onClose: () => void }) {
                 className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl p-3"
               >
                 <img
-                  src={`${STRAPI_HOST}${item.image.url}`}
+                  src={getImageUrl(item.image.url)}
                   alt={item.name}
                   className="w-14 h-14 object-cover rounded-xl shrink-0"
                 />

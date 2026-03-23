@@ -2,6 +2,7 @@ import { fetchCategories, fetchProducts } from "@/lib/Strapi/Data/product-data";
 import { notFound } from "next/navigation";
 import { MainSectionClient } from "@/components/MainSection/MainSectionClient";
 import { redirect } from "next/navigation";
+import { getImageUrl } from "@/lib/utils/image-url";
 
 const STRAPI_HOST = process.env.STRAPI_HOST;
 
@@ -68,7 +69,7 @@ export default async function CategoryPage({
       <div className="pt-50 md:pt-20"></div>
       <div className="relative h-64 md:h-80 overflow-hidden ">
         <img
-          src={`${STRAPI_HOST}${(currentCategory.image as any)?.url || ""}`}
+          src={getImageUrl((currentCategory.image as any)?.url)}
           alt={currentCategory.name}
           className="w-full h-full object-cover"
         />

@@ -1,5 +1,6 @@
 "use client";
 import { motion, AnimatePresence } from "motion/react";
+import { getImageUrl } from "@/lib/utils/image-url";
 import { Product } from "@/types/product.types";
 import { useState, useEffect } from "react";
 import { Star, ChevronDown } from "lucide-react";
@@ -188,7 +189,7 @@ export default function ProductLayout({ product }: Props) {
         <div className="w-full md:w-1/2 flex items-center justify-center">
           <img
             className="w-full md:h-[55dvh] md:object-contain rounded-4xl"
-            src={`${STRAPI_HOST}${currentImage.url}`}
+            src={getImageUrl(currentImage.url)}
           ></img>
         </div>
 

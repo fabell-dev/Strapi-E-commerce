@@ -6,6 +6,7 @@ import { ProductsGridProps, ProductCardProps } from "@/types/product.types";
 import VariantSelector from "../VariantSelector";
 import AddToCartButton from "../ShopingCart/AddToCartButton";
 import { useCart } from "../ShopingCart/CartContext";
+import { getImageUrl } from "@/lib/utils/image-url";
 
 interface FlyingItem {
   id: string;
@@ -131,7 +132,7 @@ export function ProductCard({
         <div className="overflow-hidden w-full h-[15vh] md:h-64">
           <Link href={`/product/${product.slug}`} key={product.id}>
             <motion.img
-              src={`${strapiHost}${currentImage.url}`}
+              src={getImageUrl(currentImage.url)}
               alt={product.name}
               className="w-full h-full object-cover"
               whileHover={{ scale: 1.1 }}

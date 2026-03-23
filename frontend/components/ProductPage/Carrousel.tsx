@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getProductsByCategory } from "@/lib/actions/product-actions";
 import Link from "next/link";
 import { ProductGridItem } from "@/types/product.types";
+import { getImageUrl } from "@/lib/utils/image-url";
 
 const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_URL;
 
@@ -125,7 +126,7 @@ export default function ProductsSugestedCarrousel({
               >
                 <div className="w-full h-full bg-gray-200 rounded-xl overflow-hidden ">
                   <img
-                    src={`${STRAPI_HOST}${product.image.url}`}
+                    src={getImageUrl(product.image.url)}
                     alt={product.name}
                     className="w-full h-4/5 object-cover rounded-t-xl"
                   />
