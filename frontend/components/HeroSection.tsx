@@ -10,7 +10,7 @@ const raleway = Raleway({
 });
 interface PageInfo {
   title: string;
-  description: any;
+  description: string;
   imageURL: string;
 }
 
@@ -37,7 +37,7 @@ export default function Hero({ pageInfo }: { pageInfo: PageInfo }) {
             {title}
           </h1>
           <div className="text-sm sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl max-w-2xl text-gray-600 ">
-            <BlocksRenderer content={description} />
+            <p>{description} </p>
           </div>
           <ButtonAnimated
             text="Start Shoping"

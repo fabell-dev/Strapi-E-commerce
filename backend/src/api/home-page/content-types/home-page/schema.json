@@ -24,15 +24,6 @@
       },
       "required": true
     },
-    "description": {
-      "type": "blocks",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "required": true
-    },
     "image": {
       "type": "media",
       "pluginOptions": {
@@ -45,6 +36,14 @@
         "images",
         "files"
       ]
+    },
+    "description": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     }
   }
 }
