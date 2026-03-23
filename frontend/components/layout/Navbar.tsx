@@ -20,8 +20,6 @@ type Props = {
 };
 
 export default function Navbar({ categories }: Props) {
-  console.log(categories);
-
   const router = useRouter();
 
   const handleHeroClick = (e: React.MouseEvent<HTMLAnchorElement>) => {

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import LayoutWrapper from "@/components/layout/LayoutWrapper";
+import NavbarServer from "@/components/layout/NavbarServer";
 import { getPageInfo } from "@/lib/Strapi/Data/page-metadata";
-import { fetchCategories } from "@/lib/Strapi/Data/product-data";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -15,7 +15,6 @@ import { UserProvider } from "./providers";
 import { CartProvider } from "@/components/ShopingCart/CartContext";
 
 const { Page_Title, Page_Description } = await getPageInfo();
-const categories = await fetchCategories();
 
 export const metadata: Metadata = {
   title: `${Page_Title}` || "E-Commerce Store",
@@ -33,7 +32,7 @@ export default async function RootLayout({
       <body className="text-black bg-amber-50 flex flex-col min-h-screen">
         <CartProvider>
           <UserProvider user={user}>
-            <LayoutWrapper categories={categories}>{children}</LayoutWrapper>
+            <LayoutWrapper navbar={<NavbarServer />}>{children}</LayoutWrapper>
           </UserProvider>
         </CartProvider>
       </body>
