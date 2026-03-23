@@ -45,7 +45,6 @@ export default async function CategoryPage({
 
   //Se hace fetch de todas las categorias
   const categories = await fetchCategories();
-  console.log(categories);
 
   //Se busca la categoria actual comparandolas con todas las categorias disponibles
   const currentCategory = categories.find(

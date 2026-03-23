@@ -2,7 +2,8 @@ que en las categorias cuando no haya productos para mostrar muestre algun tipo d
 mejorar probalemente el manejo de imagenes
 hacer whithlist
 que cuando cambies una variante y entres al producto estes en esa variante
-
+validaciones de review estan dando por culo
+categories dando por culo
 
 manejar ordenes y shiping
 mejorar checkout

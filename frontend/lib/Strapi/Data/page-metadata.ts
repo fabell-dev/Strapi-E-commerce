@@ -18,5 +18,5 @@ export const getPageInfo = unstable_cache(
     }
   },
   ["page-info"],
-  { revalidate: 60 },
+  { revalidate: 3600 },
 );
