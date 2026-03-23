@@ -1,5 +1,5 @@
 # 🛍️ Strapi E-Commerce Frontend
-![Descripción](public/Ecommerce.png)
+![Descripción](frontend/public/Ecommerce.png)
 
 Una aplicación de e-commerce moderna y completa construida con **Next.js 16**, **React 19**, **TypeScript** y **Strapi CMS**. Incluye funcionalidades avanzadas como carrito de compras, pagos con Stripe, sistema de órdenes, reseñas de productos y más.
 
