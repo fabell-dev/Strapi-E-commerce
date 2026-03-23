@@ -119,7 +119,7 @@ export const fetchProducts = unstable_cache(
     }
   },
   ["products"],
-  { revalidate: 120 }, // Revalidar cada 2 minutos
+  { revalidate: 3600 }, // Revalidar cada 2 minutos
 );
 
 //--------- Función para obtener un producto por slug
