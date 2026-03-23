@@ -13,6 +13,7 @@ import { Package, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Order } from "@/types/orders.types";
 import { getOrders } from "@/lib/actions/orders-actions";
+import { getImageUrl } from "@/lib/utils/image-url";
 
 const statusConfig = {
   pending: {
@@ -123,10 +124,7 @@ export default function Orders() {
                           className="w-10 h-10 md:w-12 md:h-12 rounded-lg border-2 border-white bg-gray-100 overflow-hidden"
                         >
                           <img
-                            src={`${
-                              process.env.NEXT_PUBLIC_STRAPI_URL ||
-                              "http://localhost:1337"
-                            }${item.image.url}`}
+                            src={getImageUrl(item.image.url)}
                             alt={item.name}
                             className="w-full h-full object-cover"
                           />

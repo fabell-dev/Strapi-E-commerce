@@ -19,6 +19,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Order } from "@/types/orders.types";
 import { getOrderById } from "@/lib/actions/orders-actions";
+import { getImageUrl } from "@/lib/utils/image-url";
 
 const statusConfig = {
   pending: {
@@ -182,10 +183,7 @@ export default function OrderDetail() {
                     <div className="flex gap-3 md:gap-4">
                       <div className="w-16 h-16 md:w-20 md:h-20 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
                         <img
-                          src={`${
-                            process.env.NEXT_PUBLIC_STRAPI_URL ||
-                            "http://localhost:1337"
-                          }${item.image.url}`}
+                          src={getImageUrl(item.image.url)}
                           alt={item.name}
                           className="w-full h-full object-cover"
                         />
