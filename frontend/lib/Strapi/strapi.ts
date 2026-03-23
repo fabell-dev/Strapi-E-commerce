@@ -2,33 +2,83 @@ import { cookies } from "next/headers";
 import { getAuthToken } from "../actions/get-auth-token";
 
 // Usar STRAPI_HOST en servidor, NEXT_PUBLIC_STRAPI_URL en cliente
-const STRAPI_HOST =
-  typeof window === "undefined"
-    ? process.env.STRAPI_HOST || process.env.NEXT_PUBLIC_STRAPI_URL
-    : process.env.NEXT_PUBLIC_STRAPI_URL;
+const getStrapiHost = () => {
+  if (typeof window === "undefined") {
+    // Server-side
+    const host = process.env.STRAPI_HOST || process.env.NEXT_PUBLIC_STRAPI_URL;
+    if (!host) {
+      throw new Error(
+        "STRAPI_HOST or NEXT_PUBLIC_STRAPI_URL environment variable is not set"
+      );
+    }
+    return host;
+  }
+  // Client-side
+  return process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+};
 
+const STRAPI_HOST = getStrapiHost();
 const { STRAPI_READ_TOKEN, STRAPI_FULLACCESS_TOKEN } = process.env;
 
 //Queries
 
 export function queryRead(url: string) {
+  if (!STRAPI_HOST) {
+    throw new Error("STRAPI_HOST is not configured");
+  }
+  if (!STRAPI_READ_TOKEN) {
+    throw new Error("STRAPI_READ_TOKEN is not configured");
+  }
   return fetch(`${STRAPI_HOST}/api/${url}`, {
     headers: { Authorization: `Bearer ${STRAPI_READ_TOKEN}` },
-  }).then((res) => res.json());
+  }).then((res) => {
+    if (!res.ok) {
+      throw new Error(
+        `Strapi API error: ${res.status} ${res.statusText} from ${STRAPI_HOST}/api/${url}`
+      );
+    }
+    return res.json();
+  });
 }
 
 //Query con el token del usuario
 export async function queryAutenticatedUser(url: string) {
+  if (!STRAPI_HOST) {
+    throw new Error("STRAPI_HOST is not configured");
+  }
   const token = await getAuthToken();
+  if (!token) {
+    throw new Error("No authentication token available");
+  }
   return fetch(`${STRAPI_HOST}/api/${url}`, {
     headers: { Authorization: `Bearer ${token}` },
-  }).then((res) => res.json());
+  }).then((res) => {
+    if (!res.ok) {
+      throw new Error(
+        `Strapi API error: ${res.status} ${res.statusText}`
+      );
+    }
+    return res.json();
+  });
 }
 
 export function queryFullControl(url: string) {
+  if (!STRAPI_HOST) {
+    throw new Error("STRAPI_HOST is not configured");
+  }
+  if (!STRAPI_FULLACCESS_TOKEN) {
+    throw new Error("STRAPI_FULLACCESS_TOKEN is not configured");
+  }
   return fetch(`${STRAPI_HOST}/api/${url}`, {
     headers: { Authorization: `Bearer ${STRAPI_FULLACCESS_TOKEN}` },
-  }).then((res) => res.json());
+  }).then((res) => {
+    if (!res.ok) {
+      throw new Error(
+        `Strapi API error: ${res.status} ${res.statusText}`
+      );
+    }
+    return res.json();
+  });
 }
 
 //--------Autentication-------
@@ -40,6 +90,9 @@ export async function getToken() {
 
 export async function getCurrentUser() {
   try {
+    if (!STRAPI_HOST) {
+      throw new Error("STRAPI_HOST is not configured");
+    }
     const token = await getToken();
 
     if (!token) return null;
@@ -50,7 +103,10 @@ export async function getCurrentUser() {
       },
     });
 
-    if (!response.ok) return null;
+    if (!response.ok) {
+      console.error(`Failed to fetch current user: ${response.status}`);
+      return null;
+    }
 
     return await response.json();
   } catch (error) {
