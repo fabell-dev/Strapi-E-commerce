@@ -123,7 +123,7 @@ export const fetchProducts = unstable_cache(
       };
     }
   },
-  ["products"],
+  ["products", `${page || 1}`, `${pageSize || 25}`, categoryName || "all"],
   { revalidate: 3600 }, // Revalidar cada 2 minutos
 );
 

@@ -1,4 +1,8 @@
-import { fetchCategories, fetchProducts, fetchCategoriesDirect } from "@/lib/Strapi/Data/product-data";
+import {
+  fetchCategories,
+  fetchProducts,
+  fetchCategoriesDirect,
+} from "@/lib/Strapi/Data/product-data";
 import { notFound } from "next/navigation";
 import { MainSectionClient } from "@/components/MainSection/MainSectionClient";
 import { redirect } from "next/navigation";
