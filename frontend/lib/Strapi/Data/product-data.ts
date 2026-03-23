@@ -3,38 +3,43 @@ import { queryRead } from "@/lib/Strapi/strapi";
 import qs from "qs";
 import { Product, FetchProductsResult } from "@/types/product.types";
 
+//--------- Función directa para obtener Categorias (sin caché, para generateStaticParams)
+export async function fetchCategoriesDirect() {
+  try {
+    const queryOptions = qs.stringify({
+      fields: ["name", "description"],
+      populate: {
+        image: {
+          fields: ["url", "name"],
+        },
+      },
+    });
+
+    const res = await queryRead(`product-categories?${queryOptions}`);
+
+    if (!res.data || !Array.isArray(res.data)) {
+      console.warn(
+        "[fetchCategoriesDirect] No categories data or invalid format from Strapi",
+        res,
+      );
+      return [];
+    }
+
+    return res.data.map((item: Record<string, unknown>) => ({
+      name: item.name,
+      description: item.description,
+      image: item.image,
+    }));
+  } catch (error) {
+    console.error("[fetchCategoriesDirect] Error fetching categories:", error);
+    return [];
+  }
+}
+
 //--------- Función para obtener Categorias
 export const fetchCategories = unstable_cache(
   async () => {
-    try {
-      const queryOptions = qs.stringify({
-        fields: ["name", "description"],
-        populate: {
-          image: {
-            fields: ["url", "name"],
-          },
-        },
-      });
-
-      const res = await queryRead(`product-categories?${queryOptions}`);
-
-      if (!res.data || !Array.isArray(res.data)) {
-        console.warn(
-          "[fetchCategories] No categories data or invalid format from Strapi",
-          res,
-        );
-        return [];
-      }
-
-      return res.data.map((item: Record<string, unknown>) => ({
-        name: item.name,
-        description: item.description,
-        image: item.image,
-      }));
-    } catch (error) {
-      console.error("[fetchCategories] Error fetching categories:", error);
-      return [];
-    }
+    return await fetchCategoriesDirect();
   },
   ["categories"],
   { revalidate: 3600 },

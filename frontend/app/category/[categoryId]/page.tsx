@@ -1,4 +1,4 @@
-import { fetchCategories, fetchProducts } from "@/lib/Strapi/Data/product-data";
+import { fetchCategories, fetchProducts, fetchCategoriesDirect } from "@/lib/Strapi/Data/product-data";
 import { notFound } from "next/navigation";
 import { MainSectionClient } from "@/components/MainSection/MainSectionClient";
 import { redirect } from "next/navigation";
@@ -8,7 +8,12 @@ const STRAPI_HOST = process.env.STRAPI_HOST;
 
 //Se generan los params depende de las categorias disponibles desde STRAPI
 export async function generateStaticParams() {
-  const categories = await fetchCategories();
+  const categories = await fetchCategoriesDirect();
+
+  if (!categories || categories.length === 0) {
+    console.warn("[generateStaticParams] No categories returned");
+    return [];
+  }
 
   return categories.map(
     (category: { name: string; description: string; image: unknown }) => ({

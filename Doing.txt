@@ -4,6 +4,7 @@ hacer whithlist
 que cuando cambies una variante y entres al producto estes en esa variante
 validaciones de review estan dando por culo
 categories dando por culo
+errorcito nuevo por los params de 9 no carga
 
 manejar ordenes y shiping
 mejorar checkout
