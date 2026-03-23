@@ -1,11 +1,11 @@
 import { cookies } from "next/headers";
 import { getAuthToken } from "../actions/get-auth-token";
 
-// En servidor (SSR), usar localhost; en cliente, usar la IP
+// Usar STRAPI_HOST en servidor, NEXT_PUBLIC_STRAPI_URL en cliente
 const STRAPI_HOST =
   typeof window === "undefined"
-    ? "http://localhost:1337" // Server-side
-    : process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+    ? process.env.STRAPI_HOST || process.env.NEXT_PUBLIC_STRAPI_URL
+    : process.env.NEXT_PUBLIC_STRAPI_URL;
 
 const { STRAPI_READ_TOKEN, STRAPI_FULLACCESS_TOKEN } = process.env;
 
