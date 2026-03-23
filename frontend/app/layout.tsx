@@ -19,8 +19,8 @@ const { Page_Title, Page_Description, logo } = await getPageInfo();
 const categories = await fetchCategories();
 
 export const metadata: Metadata = {
-  title: `${Page_Title}`,
-  description: `${Page_Description}`,
+  title: `${Page_Title}` || "E-Commerce Store",
+  description: `${Page_Description} ` || "A web made with Nextjs and Strapi",
   icons: {
     icon: logo,
     apple: logo, // Para Apple
