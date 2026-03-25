@@ -1,8 +1,9 @@
 "use client";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
 import { SortSelector } from "./SortSelector";
 import ProductsGrid from "./ProductsGrid";
 import PaginationGrid from "./PaginationGrid";
+import { SkeletonProductsGrid } from "./SkeletonProductCard";
 import { ProductGridItem } from "@/types/product.types";
 import { useRouter } from "next/navigation";
 
@@ -85,7 +86,12 @@ export function MainSectionClient({
           onSortChange={setSortBy}
           currentSort={sortBy}
         />
-        <ProductsGrid products={sortedProducts} strapiHost={strapiHost} />
+
+        <Suspense
+          fallback={<SkeletonProductsGrid pageSize={sortedProducts.length} />}
+        >
+          <ProductsGrid products={sortedProducts} strapiHost={strapiHost} />
+        </Suspense>
         {pagination.pageCount > 1 && (
           <PaginationGrid
             currentpage={currentPage}
