@@ -9,20 +9,37 @@ import { redirect } from "next/navigation";
 
 const STRAPI_HOST = process.env.STRAPI_HOST;
 
+// Estrategia: ISR (Incremental Static Regeneration)
+// - dynamicParams=true permite generar rutas on-demand si no existen
+// - revalidate=3600 regenera cada 1 hora
+export const dynamicParams = true;
+export const revalidate = 3600;
+
 //Se generan los params depende de las categorias disponibles desde STRAPI
 export async function generateStaticParams() {
-  const categories = await fetchCategoriesDirect();
+  try {
+    const categories = await fetchCategoriesDirect();
 
-  if (!categories || categories.length === 0) {
-    console.warn("[generateStaticParams] No categories returned");
+    if (!categories || categories.length === 0) {
+      console.warn(
+        "[generateStaticParams] No categories returned. Build will proceed with ISR on-demand generation.",
+      );
+      return [];
+    }
+
+    return categories.map(
+      (category: { name: string; description: string; image: unknown }) => ({
+        categoryId: category.name.toLowerCase().replace(/\s+/g, "-"),
+      }),
+    );
+  } catch (error) {
+    console.warn(
+      "[generateStaticParams] Error fetching categories from Strapi. ISR will generate routes on-demand:",
+      error instanceof Error ? error.message : error,
+    );
+    // Retornar array vacío permite que ISR genere rutas cuando se visiten
     return [];
   }
-
-  return categories.map(
-    (category: { name: string; description: string; image: unknown }) => ({
-      categoryId: category.name.toLowerCase().replace(/\s+/g, "-"),
-    }),
-  );
 }
 
 //Se renderiza la pagina dinamicamente

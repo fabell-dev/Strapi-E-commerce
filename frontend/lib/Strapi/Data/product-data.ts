@@ -21,10 +21,13 @@ export async function fetchCategoriesDirect() {
     if (!res.data || !Array.isArray(res.data)) {
       console.warn(
         "[fetchCategoriesDirect] No categories data or invalid format from Strapi",
-        res,
       );
       return [];
     }
+
+    console.log(
+      `[fetchCategoriesDirect] Successfully fetched ${res.data.length} categories from Strapi`,
+    );
 
     return res.data.map((item: Record<string, unknown>) => ({
       name: item.name,
@@ -32,7 +35,11 @@ export async function fetchCategoriesDirect() {
       image: item.image,
     }));
   } catch (error) {
-    console.error("[fetchCategoriesDirect] Error fetching categories:", error);
+    // Log advertencia pero no lanzar error - permite ISR on-demand
+    console.warn(
+      "[fetchCategoriesDirect] Failed to fetch categories from Strapi. This is normal during SSG builds without access to Strapi.",
+      error instanceof Error ? error.message : error,
+    );
     return [];
   }
 }
