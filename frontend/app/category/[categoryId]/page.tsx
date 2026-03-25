@@ -4,8 +4,8 @@ import {
 } from "@/lib/Strapi/Data/product-data";
 import { notFound } from "next/navigation";
 import MainSection from "@/components/MainSection/MainSection";
+import CategoryBanner from "@/components/CategoryBanner";
 import { redirect } from "next/navigation";
-import { getImageUrl } from "@/lib/utils/image-url";
 
 const STRAPI_HOST = process.env.STRAPI_HOST;
 
@@ -56,25 +56,11 @@ export default async function CategoryPage({
   return (
     <>
       <div className="pt-50 md:pt-20"></div>
-      <div className="relative h-64 md:h-80 overflow-hidden ">
-        <img
-          src={getImageUrl((currentCategory.image as any)?.url)}
-          alt={currentCategory.name}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-linear-to-r from-black/70 to-black/40 flex items-center">
-          <div className="container mx-auto px-4">
-            <div className="max-w-2xl text-white">
-              <h1 className="text-4xl md:text-5xl mb-4">
-                {currentCategory.name}
-              </h1>
-              <p className="text-lg md:text-xl opacity-90">
-                {currentCategory.description}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <CategoryBanner
+        image={(currentCategory.image as any)?.url}
+        name={currentCategory.name}
+        description={currentCategory.description}
+      />
       <MainSection
         searchParams={searchParams}
         category={currentCategory.name}
