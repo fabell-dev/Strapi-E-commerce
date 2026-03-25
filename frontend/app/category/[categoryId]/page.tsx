@@ -1,10 +1,9 @@
 import {
   fetchCategories,
-  fetchProducts,
   fetchCategoriesDirect,
 } from "@/lib/Strapi/Data/product-data";
 import { notFound } from "next/navigation";
-import { MainSectionClient } from "@/components/MainSection/MainSectionClient";
+import MainSection from "@/components/MainSection/MainSection";
 import { redirect } from "next/navigation";
 import { getImageUrl } from "@/lib/utils/image-url";
 
@@ -40,22 +39,11 @@ export default async function CategoryPage({
     redirect("?page=1&pageSize=9");
   }
 
-  //Se extrae la categoria desde los params
   const { categoryId } = await params;
   const paramData = await searchParams;
-  const page = parseInt(
-    Array.isArray(paramData.page) ? paramData.page[0] : paramData.page || "1",
-  );
-  const pageSize = parseInt(
-    Array.isArray(paramData.pageSize)
-      ? paramData.pageSize[0]
-      : paramData.pageSize || "12",
-  );
 
-  //Se hace fetch de todas las categorias
   const categories = await fetchCategories();
 
-  //Se busca la categoria actual comparandolas con todas las categorias disponibles
   const currentCategory = categories.find(
     (cat: { name: string; description: string; image: unknown }) =>
       cat.name.toLowerCase().replace(/\s+/g, "-") === categoryId,
@@ -64,13 +52,6 @@ export default async function CategoryPage({
   if (!currentCategory) {
     notFound();
   }
-
-  //Se le pasa la categoria actual a la funcion que ejecuta la query
-  const { data: productsByCategory, pagination } = await fetchProducts(
-    page,
-    pageSize,
-    currentCategory.name,
-  );
 
   return (
     <>
@@ -94,13 +75,10 @@ export default async function CategoryPage({
           </div>
         </div>
       </div>
-      <div className="">
-        <MainSectionClient
-          pagination={pagination}
-          products={productsByCategory}
-          strapiHost={STRAPI_HOST}
-        />
-      </div>
+      <MainSection
+        searchParams={searchParams}
+        category={currentCategory.name}
+      />
     </>
   );
 }

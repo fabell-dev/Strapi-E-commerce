@@ -1,13 +1,18 @@
 import { fetchProducts } from "@/lib/Strapi/Data/product-data";
 import { MainSectionClient } from "./MainSectionClient";
+import ProductsGridServer from "./ProductsGridServer";
+import { SkeletonProductsGrid } from "./SkeletonProductCard";
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 
 const STRAPI_HOST = process.env.STRAPI_HOST;
 
 export default async function MainSection({
   searchParams,
+  category,
 }: {
   searchParams: Promise<Record<string, string | string[]>>;
+  category?: string;
 }) {
   const params = await searchParams;
 
@@ -22,13 +27,21 @@ export default async function MainSection({
     Array.isArray(params.pageSize) ? params.pageSize[0] : params.pageSize,
   );
 
-  const { data: products, pagination } = await fetchProducts(page, pageSize);
+  const { data: products, pagination } = await fetchProducts(
+    page,
+    pageSize,
+    category,
+  );
 
   return (
     <MainSectionClient
       pagination={pagination}
       products={products}
       strapiHost={STRAPI_HOST}
-    />
+    >
+      <Suspense fallback={<SkeletonProductsGrid pageSize={products.length} />}>
+        <ProductsGridServer products={products} strapiHost={STRAPI_HOST} />
+      </Suspense>
+    </MainSectionClient>
   );
 }

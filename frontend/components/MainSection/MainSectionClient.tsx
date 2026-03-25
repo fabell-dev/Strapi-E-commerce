@@ -1,9 +1,8 @@
 "use client";
-import { useState, useMemo, useEffect, Suspense } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { SortSelector } from "./SortSelector";
 import ProductsGrid from "./ProductsGrid";
 import PaginationGrid from "./PaginationGrid";
-import { SkeletonProductsGrid } from "./SkeletonProductCard";
 import { ProductGridItem } from "@/types/product.types";
 import { useRouter } from "next/navigation";
 
@@ -18,6 +17,7 @@ interface MainSectionClientProps {
   pagination: PaginationData;
   products: ProductGridItem[];
   strapiHost?: string;
+  children?: React.ReactNode;
 }
 
 type SortOption = "name-asc" | "name-desc" | "price-low" | "price-high";
@@ -26,6 +26,7 @@ export function MainSectionClient({
   pagination,
   products,
   strapiHost,
+  children,
 }: MainSectionClientProps) {
   const router = useRouter();
   //Pagination
@@ -86,12 +87,7 @@ export function MainSectionClient({
           onSortChange={setSortBy}
           currentSort={sortBy}
         />
-
-        <Suspense
-          fallback={<SkeletonProductsGrid pageSize={sortedProducts.length} />}
-        >
-          <ProductsGrid products={sortedProducts} strapiHost={strapiHost} />
-        </Suspense>
+        {children}
         {pagination.pageCount > 1 && (
           <PaginationGrid
             currentpage={currentPage}
