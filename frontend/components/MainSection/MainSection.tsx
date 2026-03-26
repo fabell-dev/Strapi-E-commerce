@@ -17,7 +17,7 @@ export default async function MainSection({
   const params = await searchParams;
 
   if (!params.page || !params.pageSize) {
-    redirect("?page=1&pageSize=9");
+    redirect("?page=1&pageSize=8");
   }
 
   const page = parseInt(

@@ -53,7 +53,7 @@ export default async function CategoryPage({
   const paramsPagination = await searchParams;
 
   if (!paramsPagination.page || !paramsPagination.pageSize) {
-    redirect("?page=1&pageSize=9");
+    redirect("?page=1&pageSize=8");
   }
 
   const { categoryId } = await params;
