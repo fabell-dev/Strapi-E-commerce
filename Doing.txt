@@ -1,13 +1,11 @@
 que en las categorias cuando no haya productos para mostrar muestre algun tipo de algo
 mejorar probalemente el manejo de imagenes
 hacer whithlist
-que cuando cambies una variante y entres al producto estes en esa variante
-
-manejar ordenes y shiping
 mejorar checkout
-esqueletos quizas animacion para tiempos de carga
+
 
 quizas:
+manejar ordenes y shiping
 integrar sales (por categoria estaria guapo o a todo el catalogo)
 implementar forgot password y login google quizas
 meter google y confirmacion de email
