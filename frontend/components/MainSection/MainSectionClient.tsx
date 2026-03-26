@@ -69,7 +69,7 @@ export function MainSectionClient({
   // Adjust page size based on screen width
   useEffect(() => {
     const width = window.innerWidth;
-    const newPageSize = width < 640 ? 4 : width < 1024 ? 6 : 9;
+    const newPageSize = width < 640 ? 4 : width < 1024 ? 6 : 8;
 
     if (newPageSize !== pagination.pageSize) {
       router.push(`?page=1&pageSize=${newPageSize}`);

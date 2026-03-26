@@ -36,7 +36,7 @@ export default function Navbar({ categories }: Props) {
       <div className="flex items-center justify-evenly max-w-80 w-full md:w-auto ">
         <Link
           className="font-bold text-sm md:text-xl "
-          href="/?page=1&pageSize=9"
+          href="/?page=1&pageSize=8"
           onClick={handleHeroClick}
         >
           <span className="block md:hidden">Your Little Store</span>
