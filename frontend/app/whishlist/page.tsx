@@ -11,7 +11,7 @@ export default async function page({
 }) {
   const paramsPagination = await searchParams;
   if (!paramsPagination.page || !paramsPagination.pageSize) {
-    redirect("?page=1&pageSize=9");
+    redirect("?page=1&pageSize=8");
   }
   const paramData = await searchParams;
   const page = parseInt(
