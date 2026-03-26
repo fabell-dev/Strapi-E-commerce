@@ -35,14 +35,13 @@ export default function ReviewForm({ productID }: Props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-   
   useEffect(() => {
     if (formState.success) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setRating(0);
-       
+
       setTitle("");
-       
+
       setDescription("");
     }
   }, [formState.success]);
