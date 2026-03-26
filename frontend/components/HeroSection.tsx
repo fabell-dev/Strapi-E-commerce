@@ -1,7 +1,7 @@
 "use client";
 
 import { Raleway } from "next/font/google";
-import { motion } from "motion/react";
+import { motion, easeOut } from "motion/react";
 import ButtonAnimated from "./ui/(me)ButtonAnimated";
 
 const raleway = Raleway({
@@ -21,7 +21,7 @@ const containerVariants = {
     opacity: 1,
     transition: {
       duration: 0.5,
-      ease: "easeOut",
+      ease: easeOut,
     },
   },
 };
@@ -33,7 +33,7 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.4,
-      ease: "easeOut",
+      ease: easeOut,
     },
   },
 };
@@ -45,7 +45,7 @@ const imageVariants = {
     opacity: 1,
     transition: {
       duration: 0.8,
-      ease: "easeOut",
+      ease: easeOut,
     },
   },
 };

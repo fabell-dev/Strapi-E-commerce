@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, easeOut } from "motion/react";
 import { getImageUrl } from "@/lib/utils/image-url";
 
 interface CategoryBannerProps {
@@ -16,7 +16,7 @@ const imageVariants = {
     opacity: 1,
     transition: {
       duration: 0.8,
-      ease: "ease-out",
+      ease: easeOut,
     },
   },
 };
@@ -28,7 +28,7 @@ const contentVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: "ease-out",
+      ease: easeOut,
       delay: 0.2,
     },
   },

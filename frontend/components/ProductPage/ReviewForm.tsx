@@ -5,7 +5,7 @@ import { UserContext } from "@/app/providers";
 import { sendReviewAction } from "@/lib/actions/review-actions";
 import { type ReviewFormState } from "@/lib/validations/validationsReview";
 import { Star, CheckCircle } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, easeInOut } from "motion/react";
 
 type Props = {
   productID: number;
@@ -122,7 +122,7 @@ export default function ReviewForm({ productID }: Props) {
               transition={{
                 backgroundColor: { duration: 0.5 },
                 scale: formState.success
-                  ? { duration: 0.6, ease: "easeInOut" }
+                  ? { duration: 0.6, ease: easeInOut }
                   : { duration: 0 },
               }}
               whileHover={!formState.success ? { scale: 1.05, y: -1 } : {}}

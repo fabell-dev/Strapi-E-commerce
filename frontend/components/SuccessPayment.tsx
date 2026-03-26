@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, easeOut, easeInOut } from "motion/react";
 import { CheckCircle2, Home, Receipt } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -62,7 +62,7 @@ export function SuccessPayment({ cardLast4 = "****", orderId = "" }: props) {
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        transition={{ duration: 0.5, ease: easeOut }}
         className="bg-white rounded-2xl shadow-xl max-w-sm w-full p-5 sm:p-8 relative z-10"
       >
         {/* Success icon with animation */}
@@ -87,7 +87,7 @@ export function SuccessPayment({ cardLast4 = "****", orderId = "" }: props) {
               transition={{
                 duration: 2,
                 repeat: Infinity,
-                ease: "easeInOut",
+                ease: easeInOut,
               }}
             />
             <CheckCircle2
@@ -175,7 +175,7 @@ export function SuccessPayment({ cardLast4 = "****", orderId = "" }: props) {
           transition={{
             duration: 3,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: easeInOut,
           }}
         />
         <motion.div
@@ -187,7 +187,7 @@ export function SuccessPayment({ cardLast4 = "****", orderId = "" }: props) {
           transition={{
             duration: 4,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: easeInOut,
             delay: 1,
           }}
         />
@@ -222,7 +222,7 @@ export function SuccessPayment({ cardLast4 = "****", orderId = "" }: props) {
                 }}
                 transition={{
                   duration: 1.5,
-                  ease: "easeOut",
+                  ease: easeOut,
                 }}
               />
             ))}
